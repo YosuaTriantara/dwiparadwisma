@@ -1,0 +1,7 @@
+.next/
+node_modules/
+tsconfig.tsbuildinfo
+design.md
+panduan-implementasi.md
+.env
+.env.local

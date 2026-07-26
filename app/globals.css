@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #1f5b45;
+  --color-primary-dark: #00432f;
+  --color-accent-red: #b3363c;
+  --color-accent-orange: #f39a2e;
+  --color-ink: #121c2a;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
