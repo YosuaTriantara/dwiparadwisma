@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <rect width="600" height="600" fill="#E6E1BC"/>
+  <!-- Lanyard Graphic Art -->
+  <g transform="translate(180, 50)">
+    <!-- Loop strap -->
+    <path d="M120 20 C180 80, 160 220, 125 280 L115 280 C80 220, 60 80, 120 20" fill="#141210" stroke="#3A362B" stroke-width="2"/>
+    <!-- Lanyard pattern text on strap -->
+    <text transform="translate(142, 160) rotate(70)" font-family="Georgia, serif" font-size="9" font-weight="bold" fill="#D9D3A1" letter-spacing="2">LKBB BRAMASTA 4.0</text>
+    <text transform="translate(98, 160) rotate(-70)" font-family="Georgia, serif" font-size="9" font-weight="bold" fill="#D9D3A1" letter-spacing="2">DWIPARA DWISMA</text>
+
+    <!-- Metal Buckle / Stopper -->
+    <rect x="105" y="275" width="30" height="20" fill="#3A362B" rx="3"/>
+    <circle cx="120" cy="305" r="8" fill="none" stroke="#24201C" stroke-width="3"/>
+    <!-- Lobster Clasp Hook -->
+    <path d="M115 315 L125 315 L125 340 L115 340 Z" fill="#6B6548"/>
+
+    <!-- Acrylic Card Holder -->
+    <rect x="60" y="340" width="120" height="170" fill="#D9D3A1" stroke="#141210" stroke-width="2.5" rx="6"/>
+    <!-- Card inside -->
+    <rect x="70" y="355" width="100" height="145" fill="#141210" rx="3"/>
+    <text x="120" y="380" font-family="Georgia, serif" font-size="8" font-weight="bold" fill="#D9D3A1" text-anchor="middle" letter-spacing="2">OFFICIAL PASS</text>
+    <line x1="85" y1="388" x2="155" y2="388" stroke="#D9D3A1" stroke-width="1"/>
+    <text x="120" y="415" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#F4F1DC" text-anchor="middle">BRAMASTA 4.0</text>
+    <rect x="85" y="430" width="70" height="40" fill="#24201C" rx="2"/>
+    <text x="120" y="455" font-family="Georgia, serif" font-size="8" fill="#B5AD73" text-anchor="middle">2027</text>
+  </g>
+  <!-- Label Tag -->
+  <rect x="220" y="540" width="160" height="28" fill="#141210" rx="3"/>
+  <text x="300" y="558" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#E6E1BC" text-anchor="middle" letter-spacing="2">LANYARD &amp; ID CASE</text>
+</svg>
+

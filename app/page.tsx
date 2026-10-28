@@ -7,6 +7,7 @@ import AboutSection from "@/components/sections/AboutSection";
 import PrestasiGallery from "@/components/sections/PrestasiGallery";
 import ImmersiveTransition2 from "@/components/sections/ImmersiveTransition2";
 import JejakTimeline from "@/components/sections/JejakTimeline";
+import BramastaTeaserSection from "@/components/sections/BramastaTeaserSection";
 import CtaSection from "@/components/sections/CtaSection";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
         <PrestasiGallery />
         <ImmersiveTransition2 />
         <JejakTimeline />
+        <BramastaTeaserSection />
         <CtaSection />
       </main>
       <Footer />

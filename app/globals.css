@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #1f5b45;
-  --color-primary-dark: #00432f;
-  --color-accent-red: #b3363c;
-  --color-accent-orange: #f39a2e;
+  --color-primar1y: #1f5b45;
+  --color-primary-dark: #005500;
+  --color-accent-red: #550000;
+  --color-accent-orange: #ffaa00;
   --color-ink: #121c2a;
 }
 

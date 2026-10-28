@@ -1,15 +1,16 @@
 import Link from "next/link";
 
 const navLinks = [
-  { label: "BERANDA", href: "#hero" },
-  { label: "TENTANG", href: "#tentang" },
-  { label: "PRESTASI", href: "#prestasi" },
-  { label: "ALUMNI", href: "#alumni" },
+  { label: "BERANDA", href: "/#hero" },
+  { label: "TENTANG", href: "/#tentang" },
+  { label: "PRESTASI", href: "/#prestasi" },
+  { label: "JEJAK", href: "/#jejak" },
+  { label: "LKBB BRAMASTA 4.0", href: "/lkbb-bramasta-4" },
 ];
 
 const contactLinks = [
-  { label: "INSTAGRAM", href: "#" },
-  { label: "YOUTUBE", href: "#" },
+  { label: "INSTAGRAM", href: "https://instagram.com/paskibradwissma" },
+  { label: "TIKTOK", href: "https://tiktok.com/@dwipara_" },
   { label: "EMAIL KAMI", href: "mailto:dwipara@sman2mengwi.sch.id" },
 ];
 
@@ -58,7 +59,7 @@ function TiktokIcon() {
   return (
     <svg width="16" height="18" viewBox="0 0 24 24" fill="none">
       <path
-        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"
+        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76c-.41 0-.81-.02-1.2-.07z"
         fill="white"
       />
     </svg>
@@ -67,42 +68,52 @@ function TiktokIcon() {
 
 export default function Footer() {
   return (
-    <footer className="bg-primary border-t-[6px] border-accent-red">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-8 lg:py-10">
-        {/* ── Main row ── */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 lg:gap-8">
-          {/* Left — Brand + Social */}
-          <div className="flex flex-col gap-3">
+    <footer className="bg-primary text-white">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 pt-8 pb-4">
+        {/* ── Top row ── */}
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-8 pb-12 border-b border-white/10">
+          {/* Left — Logo + School info */}
+          <div className="flex flex-col gap-4 max-w-sm">
             <div>
-              <p className="text-white font-bold text-2xl lg:text-3xl tracking-[-0.05em] uppercase leading-none">
+              <div className="text-accent-red font-extrabold text-2xl tracking-[-0.05em] uppercase leading-none">
                 DWIPARA
-              </p>
-              <p className="text-white/50 text-[10px] font-bold tracking-[0.35em] uppercase mt-0.5">
-                SMA NEGERI 2 MENGWI
-              </p>
+              </div>
+              <div className="text-white/60 text-[10px] font-bold tracking-[0.4em] uppercase mt-0.5">
+                PASKIBRA SMAN 2 MENGWI
+              </div>
             </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="#"
+
+            <p className="text-white/60 text-xs leading-5">
+              Wadah pengembangan diri melalui kedisiplinan Paskibraka.
+              Membentuk generasi berkarakter, tangguh, dan berprestasi sejak
+              2003.
+            </p>
+
+            <div className="text-white/40 text-[11px] leading-4">
+              <p>SMA Negeri 2 Mengwi</p>
+              <p>Kabupaten Badung, Bali</p>
+            </div>
+
+            {/* Social icons */}
+            <div className="flex items-center gap-4 pt-1">
+              <a
+                href="https://instagram.com/paskibradwissma"
+                target="_blank"
+                rel="noreferrer"
                 aria-label="Instagram"
                 className="hover:opacity-70 transition-opacity"
               >
                 <InstagramIcon />
-              </Link>
-              <Link
-                href="#"
-                aria-label="Youtube"
-                className="hover:opacity-70 transition-opacity"
-              >
-                <YoutubeIcon />
-              </Link>
-              <Link
-                href="#"
+              </a>
+              <a
+                href="https://tiktok.com/@dwipara_"
+                target="_blank"
+                rel="noreferrer"
                 aria-label="TikTok"
                 className="hover:opacity-70 transition-opacity"
               >
                 <TiktokIcon />
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -135,13 +146,15 @@ export default function Footer() {
                 KONTAK
               </span>
               {contactLinks.map((link) => (
-                <Link
+                <a
                   key={link.label}
                   href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noreferrer" : undefined}
                   className="text-white/80 text-[11px] font-bold uppercase hover:text-accent-orange transition-colors"
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
@@ -150,7 +163,7 @@ export default function Footer() {
         {/* ── Copyright bar ── */}
         <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
           <p className="text-white/30 text-[10px] font-bold tracking-[0.1em] uppercase">
-            © 2026 DWIPARA DWISMA · @yosua_triantara
+            © 2026 DWIPARA DWISMA · Pasukan Bendera SMAN 2 Mengwi
           </p>
         </div>
       </div>

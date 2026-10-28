@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <rect width="600" height="600" fill="#E6E1BC"/>
+  <!-- Header -->
+  <text x="300" y="60" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="#141210" text-anchor="middle" letter-spacing="2">SIZE CHART KAOS RESMI</text>
+  <text x="300" y="85" font-family="Georgia, serif" font-size="12" font-style="italic" fill="#6B6548" text-anchor="middle">Standar Ukuran Reguler Unisex (Satuan Centimeter)</text>
+  <line x1="60" y1="105" x2="540" y2="105" stroke="#141210" stroke-width="2"/>
+
+  <!-- Table Header -->
+  <rect x="60" y="125" width="480" height="40" fill="#141210"/>
+  <text x="120" y="150" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#E6E1BC" text-anchor="middle">UKURAN</text>
+  <text x="240" y="150" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#E6E1BC" text-anchor="middle">LEBAR DADA (A)</text>
+  <text x="370" y="150" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#E6E1BC" text-anchor="middle">PANJANG BADAN (B)</text>
+  <text x="480" y="150" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#E6E1BC" text-anchor="middle">LENGAN</text>
+
+  <!-- Table Rows -->
+  <!-- S -->
+  <rect x="60" y="165" width="480" height="35" fill="#D9D3A1"/>
+  <text x="120" y="188" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#141210" text-anchor="middle">S</text>
+  <text x="240" y="188" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">47 cm</text>
+  <text x="370" y="188" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">67 cm</text>
+  <text x="480" y="188" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">20 cm</text>
+
+  <!-- M -->
+  <rect x="60" y="200" width="480" height="35" fill="#E6E1BC"/>
+  <text x="120" y="223" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#141210" text-anchor="middle">M</text>
+  <text x="240" y="223" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">50 cm</text>
+  <text x="370" y="223" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">70 cm</text>
+  <text x="480" y="223" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">22 cm</text>
+
+  <!-- L -->
+  <rect x="60" y="235" width="480" height="35" fill="#D9D3A1"/>
+  <text x="120" y="258" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#141210" text-anchor="middle">L</text>
+  <text x="240" y="258" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">53 cm</text>
+  <text x="370" y="258" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">73 cm</text>
+  <text x="480" y="258" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">23 cm</text>
+
+  <!-- XL -->
+  <rect x="60" y="270" width="480" height="35" fill="#E6E1BC"/>
+  <text x="120" y="293" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#141210" text-anchor="middle">XL</text>
+  <text x="240" y="293" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">56 cm</text>
+  <text x="370" y="293" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">75 cm</text>
+  <text x="480" y="293" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">24 cm</text>
+
+  <!-- XXL -->
+  <rect x="60" y="305" width="480" height="35" fill="#D9D3A1"/>
+  <text x="120" y="328" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#141210" text-anchor="middle">XXL</text>
+  <text x="240" y="328" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">59 cm</text>
+  <text x="370" y="328" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">77 cm</text>
+  <text x="480" y="328" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">25 cm</text>
+
+  <!-- 3XL -->
+  <rect x="60" y="340" width="480" height="35" fill="#E6E1BC"/>
+  <text x="120" y="363" font-family="Georgia, serif" font-size="13" font-weight="bold" fill="#141210" text-anchor="middle">3XL</text>
+  <text x="240" y="363" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">62 cm</text>
+  <text x="370" y="363" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">80 cm</text>
+  <text x="480" y="363" font-family="Georgia, serif" font-size="13" fill="#141210" text-anchor="middle">26 cm</text>
+
+  <!-- Illustration Diagram Box -->
+  <rect x="60" y="400" width="480" height="150" fill="#D9D3A1" stroke="#141210" stroke-width="1.5"/>
+  <text x="80" y="430" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#141210">PETUNJUK PENGUKURAN:</text>
+  <text x="80" y="455" font-family="Georgia, serif" font-size="11" fill="#3A362B">• Lebar Dada (A): Diukur mendatar dari bawah ketiak kiri ke ketiak kanan.</text>
+  <text x="80" y="475" font-family="Georgia, serif" font-size="11" fill="#3A362B">• Panjang Badan (B): Diukur lurus dari titik pundak tertinggi ke ujung bawah baju.</text>
+  <text x="80" y="495" font-family="Georgia, serif" font-size="11" fill="#3A362B">• Toleransi ukuran konveksi: ± 1 - 2 cm.</text>
+  <text x="80" y="525" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#141210">• Bahan: Cotton Combed 24s Premium Soft Reactive (Tidak Gerah saat Lapangan).</text>
+</svg>
+

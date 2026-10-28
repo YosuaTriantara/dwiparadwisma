@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <rect width="600" height="600" fill="#E6E1BC"/>
+  <!-- T-Shirt Silhouette -->
+  <g transform="translate(100, 70)">
+    <!-- Body -->
+    <path d="M120 20 C160 50, 240 50, 280 20 L350 70 L390 140 L330 170 L310 130 L310 440 L90 440 L90 130 L70 170 L10 140 L50 70 Z" fill="#141210" stroke="#24201C" stroke-width="3"/>
+    <!-- Collar Back -->
+    <path d="M120 20 C160 35, 240 35, 280 20 C250 25, 150 25, 120 20 Z" fill="#24201C"/>
+    <!-- Back Graphic Art -->
+    <g transform="translate(200, 150)" text-anchor="middle">
+      <circle cx="0" cy="60" r="75" fill="none" stroke="#D9D3A1" stroke-width="1.5" stroke-dasharray="4,4"/>
+      <text y="45" font-family="Georgia, serif" font-size="12" font-style="italic" fill="#D9D3A1">Mencari sang pejuang</text>
+      <text y="65" font-family="Georgia, serif" font-size="12" font-style="italic" fill="#D9D3A1">dan sang pemenang</text>
+      <line x1="-40" y1="80" x2="40" y2="80" stroke="#D9D3A1" stroke-width="1.5"/>
+      <text y="98" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#F4F1DC" letter-spacing="4">2027</text>
+      <text y="180" font-family="Georgia, serif" font-size="10" font-weight="bold" fill="#B5AD73" letter-spacing="3">DWISMA PASKIBRA CORPS</text>
+    </g>
+  </g>
+  <!-- Label Tag -->
+  <rect x="220" y="525" width="160" height="28" fill="#141210" rx="3"/>
+  <text x="300" y="543" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#E6E1BC" text-anchor="middle" letter-spacing="2">TAMPAK BELAKANG</text>
+</svg>
+

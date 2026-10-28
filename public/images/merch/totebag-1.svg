@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <rect width="600" height="600" fill="#E6E1BC"/>
+  <!-- Totebag Illustration -->
+  <g transform="translate(150, 60)">
+    <!-- Handles -->
+    <path d="M70 160 C70 40, 230 40, 230 160" fill="none" stroke="#24201C" stroke-width="20" stroke-linecap="round"/>
+    <!-- Bag Body Canvas -->
+    <path d="M20 160 L280 160 L260 460 L40 460 Z" fill="#D9D3A1" stroke="#141210" stroke-width="3"/>
+    <!-- Bottom Gusset Shadow -->
+    <polygon points="40,460 260,460 270,470 30,470" fill="#B5AD73"/>
+    <!-- Print Graphics on Bag -->
+    <g transform="translate(150, 300)" text-anchor="middle">
+      <rect x="-100" y="-80" width="200" height="150" fill="none" stroke="#141210" stroke-width="2"/>
+      <text y="-50" font-family="Georgia, serif" font-size="10" font-weight="bold" fill="#141210" letter-spacing="3">DWIPARA DWISMA</text>
+      <line x1="-80" y1="-40" x2="80" y2="-40" stroke="#141210" stroke-width="1"/>
+      <text y="-10" font-family="Georgia, serif" font-size="16" font-weight="bold" fill="#141210" letter-spacing="1">LKBB BRAMASTA 4.0</text>
+      <text y="10" font-family="Georgia, serif" font-size="9" fill="#3A362B" letter-spacing="1">BARISAN PASKIBRA DEWATA</text>
+      <line x1="-60" y1="20" x2="60" y2="20" stroke="#141210" stroke-width="1"/>
+      <text y="40" font-family="Georgia, serif" font-size="14" font-weight="bold" fill="#141210" letter-spacing="2">2027</text>
+    </g>
+  </g>
+  <!-- Label Tag -->
+  <rect x="220" y="540" width="160" height="28" fill="#141210" rx="3"/>
+  <text x="300" y="558" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#E6E1BC" text-anchor="middle" letter-spacing="2">TOTEBAG KANVAS</text>
+</svg>
+

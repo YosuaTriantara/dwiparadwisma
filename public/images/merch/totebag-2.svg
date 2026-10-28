@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <rect width="600" height="600" fill="#E6E1BC"/>
+  <!-- Header -->
+  <text x="300" y="70" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="#141210" text-anchor="middle" letter-spacing="2">SPESIFIKASI TOTEBAG KANVAS</text>
+  <line x1="80" y1="90" x2="520" y2="90" stroke="#141210" stroke-width="1.5"/>
+
+  <!-- Diagram Box -->
+  <g transform="translate(180, 110)">
+    <!-- Bag Silhouette with Measurement arrows -->
+    <rect x="30" y="80" width="180" height="220" fill="#D9D3A1" stroke="#141210" stroke-width="2"/>
+    <path d="M70 80 C70 10, 170 10, 170 80" fill="none" stroke="#24201C" stroke-width="10"/>
+
+    <!-- Width arrow -->
+    <line x1="30" y1="320" x2="210" y2="320" stroke="#141210" stroke-width="1.5"/>
+    <polygon points="30,320 38,316 38,324" fill="#141210"/>
+    <polygon points="210,320 202,316 202,324" fill="#141210"/>
+    <text x="120" y="340" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#141210" text-anchor="middle">Lebar: 35 cm</text>
+
+    <!-- Height arrow -->
+    <line x1="230" y1="80" x2="230" y2="300" stroke="#141210" stroke-width="1.5"/>
+    <polygon points="230,80 226,88 234,88" fill="#141210"/>
+    <polygon points="230,300 226,292 234,292" fill="#141210"/>
+    <text x="270" y="195" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#141210" text-anchor="middle">Tinggi: 40 cm</text>
+  </g>
+
+  <!-- Spec details -->
+  <rect x="60" y="465" width="480" height="95" fill="#D9D3A1" stroke="#141210" stroke-width="1.5"/>
+  <text x="80" y="492" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#141210">• Bahan: Kanvas Twill 12 oz Premium Natural</text>
+  <text x="80" y="515" font-family="Georgia, serif" font-size="12" fill="#3A362B">• Penutup: Resleting Besi YKK + Saku Rahasia di Bagian Dalam</text>
+  <text x="80" y="538" font-family="Georgia, serif" font-size="12" fill="#3A362B">• Panjang Tali: 60 cm (Nyaman disandang di bahu saat membawa perlengkapan)</text>
+</svg>
+

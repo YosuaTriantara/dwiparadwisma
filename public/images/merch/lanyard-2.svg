@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <rect width="600" height="600" fill="#E6E1BC"/>
+  <!-- Header -->
+  <text x="300" y="70" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="#141210" text-anchor="middle" letter-spacing="2">DETAIL LANYARD &amp; ID CARD</text>
+  <line x1="80" y1="90" x2="520" y2="90" stroke="#141210" stroke-width="1.5"/>
+
+  <!-- Visual Specification Diagram -->
+  <g transform="translate(150, 110)">
+    <!-- Acrylic Holder diagram with dimensions -->
+    <rect x="70" y="50" width="160" height="230" fill="#D9D3A1" stroke="#141210" stroke-width="2.5" rx="6"/>
+    <text x="150" y="170" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#141210" text-anchor="middle">Ukuran Kartu: B2</text>
+    <text x="150" y="195" font-family="Georgia, serif" font-size="11" fill="#3A362B" text-anchor="middle">(7,5 cm x 11 cm)</text>
+
+    <!-- Width arrow -->
+    <line x1="70" y1="300" x2="230" y2="300" stroke="#141210" stroke-width="1.5"/>
+    <polygon points="70,300 78,296 78,304" fill="#141210"/>
+    <polygon points="230,300 222,296 222,304" fill="#141210"/>
+    <text x="150" y="325" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#141210" text-anchor="middle">Lebar: 8 cm</text>
+  </g>
+
+  <!-- Spec details -->
+  <rect x="60" y="465" width="480" height="95" fill="#D9D3A1" stroke="#141210" stroke-width="1.5"/>
+  <text x="80" y="492" font-family="Georgia, serif" font-size="12" font-weight="bold" fill="#141210">• Tali Lanyard: Tissue Poliester Halus 2 cm x 90 cm (Print Bolak-Balik)</text>
+  <text x="80" y="515" font-family="Georgia, serif" font-size="12" fill="#3A362B">• Aksesoris: Stopper Plastik Hitam + Cantolan Besi Putar Anti Karat</text>
+  <text x="80" y="538" font-family="Georgia, serif" font-size="12" fill="#3A362B">• Tempat Kartu: Hard Case Akrilik Bening Transparan (Muat Kartu Pelajar &amp; ID Panitia)</text>
+</svg>
+
