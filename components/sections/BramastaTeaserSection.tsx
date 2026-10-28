@@ -14,7 +14,7 @@ export default function BramastaTeaserSection() {
                 COMING SOON
               </span>
               <span className="text-[11px] font-bold uppercase tracking-widest text-[#3A362B]">
-                EDISI RESMI KE-IV · 2027
+                BRAMASTA 4.0 · 2027
               </span>
             </div>
             <span className="text-xs italic text-[#6B6548] hidden sm:inline">
@@ -32,10 +32,10 @@ export default function BramastaTeaserSection() {
                 LKBB BRAMASTA 4.0
               </h2>
               <p className="text-[#3A362B] text-xs sm:text-sm font-medium italic leading-relaxed">
-                &ldquo;Mencari sang pejuang dan sang pemenang — panggung pembuktian ketegasan formasi dan wibawa komando Paskibra terbaik Bali.&rdquo;
+                &ldquo;Mencari sang pejuang dan sang pemenang.&rdquo;
               </p>
               <p className="text-xs sm:text-sm text-[#3A362B]/90 leading-relaxed mt-1">
-                Setelah kesuksesan edisi sebelumnya, Dwipara Dwisma kembali membuka arena kompetisi ketangkasan baris-berbaris bagi jenjang SMP dan SMA/SMK se-Bali. Dapatkan informasi resmi mengenai jadwal, dewan juri, kuota slot, dan panduan administrasi.
+                Setelah kesuksesan edisi sebelumnya, Dwipara Dwisma kembali membuka arena kompetisi ketangkasan baris-berbaris bagi jenjang SD, SMP dan SMA/SMK se-Bali (open). Dapatkan informasi resmi mengenai jadwal, dewan juri, kuota slot, dan panduan administrasi.
               </p>
 
               {/* Action Buttons */}
@@ -66,9 +66,6 @@ export default function BramastaTeaserSection() {
                   className="object-cover filter grayscale contrast-105 brightness-95 sepia-[0.35]"
                 />
               </div>
-              <span className="block text-right text-[10px] text-[#6B6548] italic mt-1.5">
-                Dokumentasi: Gelora Kejuaraan LKBB Bramasta Dwipara
-              </span>
             </div>
           </div>
         </div>
