@@ -275,7 +275,7 @@ export default function BramastaRegistrationPage() {
         photo_url: photoUrl,
       });
 
-      setSuccessMessage(`Personil ${memberName} berhasil didaftarkan ke roster!`);
+      setSuccessMessage(`Personil ${memberName} berhasil didaftarkan ke tim!`);
       setMemberName("");
       setMemberNisn("");
       setMemberPosition("");
@@ -292,15 +292,15 @@ export default function BramastaRegistrationPage() {
 
   // Handle Hapus Anggota
   async function handleDeleteMember(memberId: string) {
-    if (!myTeam || !confirm("Hapus personil ini dari susunan peleton?")) return;
+    if (!myTeam || !confirm("Hapus anggota ini dari susunan tim?")) return;
     setLoading(true);
     try {
       await deleteTeamMember(myTeam.id, memberId);
       const refreshed = await getTeamDetail(myTeam.id);
       setMyTeam(refreshed);
-      setSuccessMessage("Personil berhasil dihapus dari roster.");
+      setSuccessMessage("Anggota berhasil dihapus dari tim.");
     } catch (err: any) {
-      setErrorMessage(err.message || "Gagal menghapus personil");
+      setErrorMessage(err.message || "Gagal menghapus anggota tim");
     } finally {
       setLoading(false);
     }
@@ -309,15 +309,15 @@ export default function BramastaRegistrationPage() {
   // Handle Kunci / Buka Roster
   async function handleSubmitRoster() {
     if (!myTeam) return;
-    if (!confirm("Kunci berkas roster peleton sekarang? Setelah dikunci, data akan diajukan ke panitia & dewan juri.")) return;
+    if (!confirm("Kunci berkas anggota tim sekarang? Setelah dikunci, data akan diajukan ke panitia & dewan juri.")) return;
     setLoading(true);
     try {
       await submitTeamRoster(myTeam.id);
       const refreshed = await getTeamDetail(myTeam.id);
       setMyTeam(refreshed);
-      setSuccessMessage("Roster resmi berhasil dikunci dan diajukan ke panitia!");
+      setSuccessMessage("Anggota tim berhasil dikunci dan diajukan ke panitia!");
     } catch (err: any) {
-      setErrorMessage(err.message || "Gagal mengajukan roster tim");
+      setErrorMessage(err.message || "Gagal mengajukan anggota tim");
     } finally {
       setLoading(false);
     }
@@ -330,9 +330,9 @@ export default function BramastaRegistrationPage() {
       await unsubmitTeamRoster(myTeam.id);
       const refreshed = await getTeamDetail(myTeam.id);
       setMyTeam(refreshed);
-      setSuccessMessage("Kuncian roster dibuka. Anda dapat mengedit kembali susunan anggota.");
+      setSuccessMessage("Kuncian anggota tim dibuka. Anda dapat mengedit kembali susunan anggota.");
     } catch (err: any) {
-      setErrorMessage(err.message || "Gagal membuka kuncian roster");
+      setErrorMessage(err.message || "Gagal membuka kuncian anggota tim");
     } finally {
       setLoading(false);
     }
@@ -378,11 +378,11 @@ export default function BramastaRegistrationPage() {
         </div>
 
         <span className="font-bodoni font-bold text-[11px] sm:text-xs uppercase tracking-widest text-bramasta-ink-mute block">
-          PORTAL RESMI PELETON LKBB BRAMASTA 4.0
+          REGISTRASI TIM LKBB BRAMASTA 4.0
         </span>
 
         <h1 className="font-bodoni font-bold text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight text-bramasta-ink mt-0.5">
-          {myTeam ? "Dashboard Kontingen Peleton" : "Pendaftaran & Akun Peleton"}
+          {myTeam ? "Dashboard Kontingen Tim" : "Pendaftaran & Akun Tim"}
         </h1>
 
         <div className="w-full max-w-sm mx-auto my-2" aria-hidden="true">
@@ -421,24 +421,21 @@ export default function BramastaRegistrationPage() {
               PENDAFTARAN SATU PINTU (3 LANGKAH CEPAT)
             </span>
             <h2 className="font-bodoni font-bold text-xl sm:text-2xl uppercase text-bramasta-ink mb-2">
-              Daftarkan Satuan Peleton Anda
+              Daftarkan Satuan Tim Anda
             </h2>
-            <p className="font-bodoni text-xs sm:text-sm text-bramasta-ink-soft max-w-md mx-auto mb-5 leading-relaxed">
-              Pendaftaran peleton, kontak pembina, dan verifikasi biaya terintegrasi dalam 1 formulir ringkas. Draf Anda tersimpan otomatis sehingga tidak akan hilang.
-            </p>
 
             <button
               type="button"
               onClick={() => setIsWizardOpen(true)}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-bramasta-ink text-white font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink/90 transition-colors shadow-sm cursor-pointer"
+              className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.1em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm cursor-pointer active:translate-y-px"
             >
-              <span>Mulai Pendaftaran Peleton</span>
+              <span>Mulai Pendaftaran Tim</span>
               <ChevronRight className="w-4 h-4" />
             </button>
 
             <div className="mt-5 pt-3 border-t border-bramasta-ink/20 flex items-center justify-center gap-2">
               <span className="text-xs font-bodoni text-bramasta-ink-soft">
-                Sudah pernah mendaftarkan akun pembina?
+                Sudah pernah mendaftarkan akun?
               </span>
               <button
                 type="button"
@@ -454,7 +451,7 @@ export default function BramastaRegistrationPage() {
           {isLoginTab && (
             <div className="bg-paper border-2 border-bramasta-ink p-4 sm:p-6 shadow-sm max-w-md mx-auto">
               <h3 className="font-bodoni font-bold text-base uppercase text-bramasta-ink mb-1 text-center">
-                Masuk ke Akun Pembina
+                Masuk ke Akun 
               </h3>
               <p className="text-xs font-bodoni text-bramasta-ink-soft mb-3.5 text-center">
                 Gunakan akun Google atau email yang Anda daftarkan untuk mengakses dashboard tim.
@@ -638,7 +635,7 @@ export default function BramastaRegistrationPage() {
                       Bukti Pembayaran Telah Diunggah
                     </span>
                     <span className="text-[11px] font-bodoni text-bramasta-ink-soft">
-                      Menunggu verifikasi admin panitia sebelum pengesahan nomor urut tampil.
+                      Menunggu verifikasi admin panitia 
                     </span>
                   </div>
                 </div>
@@ -701,11 +698,11 @@ export default function BramastaRegistrationPage() {
               <div className="flex items-center gap-2 mb-1">
                 <Plus className="w-4 h-4 text-bramasta-ink" />
                 <h3 className="font-bodoni font-bold text-sm sm:text-base uppercase tracking-wider text-bramasta-ink">
-                  Tambah Personil Peleton
+                  Tambah Personil Tim
                 </h3>
               </div>
               <p className="font-bodoni text-xs text-bramasta-ink-soft mb-3.5">
-                Masukkan identitas siswa peleton. Komposisi wajib memuat 1 Komandan Peleton (Danton) dan pasukan inti.
+                Masukkan identitas anggota tim
               </p>
 
               <form onSubmit={handleAddMember} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -725,15 +722,15 @@ export default function BramastaRegistrationPage() {
 
                 <div>
                   <label className="font-bodoni font-bold text-xs uppercase block text-bramasta-ink mb-1">
-                    Peran di Peleton
+                    Peran di Tim
                   </label>
                   <select
                     value={memberRole}
                     onChange={(e) => setMemberRole(e.target.value as RoleInTeam)}
                     className="w-full p-2 bg-paper-light border border-bramasta-ink font-bodoni text-xs sm:text-sm text-bramasta-ink focus:outline-none focus:ring-1 focus:ring-bramasta-ink"
                   >
-                    <option value="leader">Komandan Peleton (Danton)</option>
-                    <option value="member">Anggota Peleton (Pasukan)</option>
+                    <option value="leader">Komandan Tim (Danton)</option>
+                    <option value="member">Anggota Tim (Pasukan)</option>
                     <option value="official">Official / Cadangan</option>
                   </select>
                 </div>
@@ -766,7 +763,7 @@ export default function BramastaRegistrationPage() {
 
                 <div>
                   <label className="font-bodoni font-bold text-xs uppercase block text-bramasta-ink mb-1">
-                    Pas Foto Berseragam
+                    Pas Foto 
                   </label>
                   <input
                     type="file"
@@ -794,7 +791,7 @@ export default function BramastaRegistrationPage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
               <h3 className="font-bodoni font-bold text-sm sm:text-base uppercase text-bramasta-ink flex items-center gap-2">
                 <Users className="w-4 h-4" />
-                <span>Susunan Roster Peleton ({currentMemberCount} / {maxMembers})</span>
+                <span>Susunan Anggota Tim ({currentMemberCount} / {maxMembers})</span>
               </h3>
               {isLocked ? (
                 <span className="text-xs font-bodoni uppercase font-bold text-white bg-[#8C1D18] px-2.5 py-0.5">
@@ -802,7 +799,7 @@ export default function BramastaRegistrationPage() {
                 </span>
               ) : (
                 <span className="text-xs font-bodoni text-bramasta-ink-soft">
-                  Minimal {minMembers} personil untuk penguncian resmi
+                  Minimal {minMembers} anggota tim untuk penguncian
                 </span>
               )}
             </div>
@@ -824,7 +821,7 @@ export default function BramastaRegistrationPage() {
                   {(!myTeam.members || myTeam.members.length === 0) ? (
                     <tr>
                       <td colSpan={7} className="p-4 text-center text-bramasta-ink-mute italic">
-                        Belum ada personil yang didaftarkan. Gunakan formulir di atas untuk mengisi susunan peleton.
+                        Belum ada anggota tim yang didaftarkan. Gunakan formulir di atas untuk mengisi susunan tim.
                       </td>
                     </tr>
                   ) : (
@@ -885,11 +882,11 @@ export default function BramastaRegistrationPage() {
               <div className="text-xs font-bodoni text-bramasta-ink-soft max-w-md">
                 {isLocked ? (
                   <p>
-                    Roster telah dikunci untuk verifikasi teknis dewan juri. Bila perlu perbaikan darurat sebelum Technical Meeting, klik buka kuncian.
+                    Anggota tim telah dikunci untuk verifikasi teknis dewan juri. Bila perlu perbaikan darurat sebelum Technical Meeting, klik buka kuncian.
                   </p>
                 ) : (
                   <p>
-                    Pastikan susunan danton dan pasukan telah lengkap. Kuota minimal peleton adalah {minMembers} orang.
+                    Pastikan susunan danton dan pasukan telah lengkap. Kuota minimal tim adalah {minMembers} orang.
                   </p>
                 )}
               </div>
@@ -902,7 +899,7 @@ export default function BramastaRegistrationPage() {
                     disabled={loading}
                     className="w-full sm:w-auto px-5 py-2.5 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink hover:text-white transition-colors cursor-pointer"
                   >
-                    Buka Kuncian Roster (Revisi)
+                    Buka Kuncian Anggota tim (Revisi)
                   </button>
                 ) : (
                   <button
@@ -911,7 +908,7 @@ export default function BramastaRegistrationPage() {
                     disabled={loading || !isQuotaFulfilled}
                     className="w-full sm:w-auto px-6 py-3 bg-[#1E562A] text-white font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-[#164220] transition-colors shadow-sm disabled:opacity-40 cursor-pointer"
                   >
-                    Kunci & Ajukan Berkas Roster &rarr;
+                    Kunci & Ajukan Berkas Anggota tim &rarr;
                   </button>
                 )}
               </div>

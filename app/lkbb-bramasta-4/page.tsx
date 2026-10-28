@@ -52,7 +52,7 @@ export default async function BramastaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-[1152px] mx-auto flex flex-col gap-2 sm:gap-3">
+      <div className="max-w-[1152px] mx-auto flex flex-col gap-6 sm:gap-8 md:gap-12">
         {/* Masthead Koran & Hero Utama */}
         <EventMasthead event={event} />
 

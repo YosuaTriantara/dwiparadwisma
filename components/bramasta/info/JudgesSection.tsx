@@ -33,13 +33,13 @@ export function JudgesSection({ judges = [] }: JudgesSectionProps) {
   }, [selectedJudge]);
 
   return (
-    <section id="juri" className="my-1 sm:my-2 scroll-mt-20">
-      <div className="border-2 border-bramasta-ink bg-paper-light p-4 sm:p-5">
-        <div className="text-center mb-2 sm:mb-3">
-          <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-widest text-bramasta-ink-mute">
+    <section id="juri" className="scroll-mt-20">
+      <div className="border-2 border-bramasta-ink bg-paper-light rounded-md p-4 sm:p-6 shadow-[3px_3px_0px_#141210]">
+        <div className="text-center mb-3 sm:mb-5">
+          <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute">
             DEWAN JURI
           </span>
-          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-0.5">
+          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-1">
             Dewan Juri Resmi Perlombaan
           </h2>
           <p className="font-bodoni text-sm sm:text-base text-bramasta-ink-soft max-w-lg mx-auto mt-1 leading-relaxed">
@@ -47,28 +47,28 @@ export function JudgesSection({ judges = [] }: JudgesSectionProps) {
           </p>
         </div>
 
-        <NewsRule variant="thin" className="my-2" />
+        <NewsRule variant="thin" className="my-2.5" />
 
         {judges.length === 0 ? (
-          <div className="bg-paper border border-bramasta-ink/30 p-4 sm:p-5 text-center">
+          <div className="bg-paper border border-bramasta-ink/30 rounded-md p-5 text-center">
             <p className="font-bodoni text-xs sm:text-sm text-bramasta-ink-soft max-w-md mx-auto leading-relaxed">
               Daftar dewan juri sedang dalam proses konfirmasi panitia di sistem EVORA.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4 mt-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
             {judges.map((judge) => {
               const photoSrc = judge.avatar_url || judge.photo_url;
               return (
                 <div
                   key={judge.id}
                   onClick={() => setSelectedJudge(judge)}
-                  className="bg-paper border-2 border-bramasta-ink p-3 sm:p-3.5 flex flex-col justify-between cursor-pointer hover:shadow-[3px_3px_0px_#141210] transition-all group"
+                  className="bg-paper border-2 border-bramasta-ink rounded-md p-4 flex flex-col justify-between cursor-pointer hover:shadow-[3px_3px_0px_#141210] transition-all group"
                   title="Klik untuk melihat foto & informasi lengkap"
                 >
                   <div className="flex flex-col items-center text-center">
                     {/* Foto / Avatar Juri */}
-                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 border-2 border-bramasta-ink bg-paper-dark overflow-hidden mb-2.5 shadow-sm group-hover:scale-105 transition-transform">
+                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 border-2 border-bramasta-ink bg-paper-dark rounded-sm overflow-hidden mb-3 shadow-xs group-hover:scale-105 transition-transform">
                       {photoSrc ? (
                         <Image
                           src={photoSrc}

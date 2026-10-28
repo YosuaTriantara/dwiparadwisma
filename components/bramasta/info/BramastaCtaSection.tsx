@@ -30,28 +30,27 @@ export function BramastaCtaSection({ organizerInfo }: BramastaCtaSectionProps = 
   };
 
   return (
-    <section className="my-2 sm:my-3">
-      <div className="bg-paper-light text-bramasta-ink border-2 border-bramasta-ink p-4 sm:p-6 text-center shadow-[3px_3px_0px_#141210]">
-        <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider text-bramasta-ink-mute block mb-1.5">
+    <section>
+      <div className="bg-paper-light text-bramasta-ink border-2 border-bramasta-ink rounded-md p-6 sm:p-8 md:p-10 text-center shadow-[3px_3px_0px_#141210]">
+        <span className="font-bodoni font-bold text-xs uppercase tracking-wider text-bramasta-ink-mute block mb-2">
           PANGGUNG KEHORMATAN MENANTI ANDA
         </span>
 
-        <h2 className="font-bodoni font-bold text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight text-bramasta-ink mb-2">
+        <h2 className="font-bodoni font-bold text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight text-bramasta-ink mb-2 sm:mb-3">
           Siap Jadi Sang Pemenang?
         </h2>
 
-        <p className="font-bodoni text-sm sm:text-base text-bramasta-ink max-w-lg mx-auto mb-5 leading-relaxed">
-          Amankan kuota sekolah Anda!.
-          Bergabunglah bersama puluhan tim terbaik di LKBB Bramasta 4.0.
+        <p className="font-bodoni text-sm sm:text-base text-bramasta-ink max-w-lg mx-auto mb-6 leading-relaxed">
+          Amankan kuota sekolah Anda sekarang! Bergabunglah bersama puluhan tim terbaik se-Bali di LKBB Bramasta 4.0.
         </p>
 
-        <NewsRule variant="thin" className="max-w-xs mx-auto border-t-bramasta-ink/20 my-4" />
+        <NewsRule variant="thin" className="max-w-xs mx-auto border-t-bramasta-ink/20 my-5" />
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-lg mx-auto">
           <Link
             href="/lkbb-bramasta-4/daftar"
             onClick={handleDaftarClick}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 bg-bramasta-ink text-white font-bodoni font-bold text-sm sm:text-base uppercase tracking-wider hover:bg-bramasta-ink/90 transition-colors shadow-sm text-center cursor-pointer"
+            className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.1em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm text-center cursor-pointer active:translate-y-px"
           >
             <span>Daftar Tim Sekarang</span>
             <ArrowRight className="w-4 h-4" />
@@ -60,7 +59,7 @@ export function BramastaCtaSection({ organizerInfo }: BramastaCtaSectionProps = 
             href={waLink}
             target="_blank"
             rel="noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-bramasta-ink text-bramasta-ink font-bodoni font-bold text-sm sm:text-base uppercase tracking-wider hover:bg-bramasta-ink hover:text-white transition-colors text-center"
+            className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3.5 border-2 border-bramasta-ink text-bramasta-ink font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink hover:text-white rounded-md transition-colors text-center cursor-pointer"
           >
             <MessageCircle className="w-4 h-4" />
             <span>Hubungi Panitia</span>

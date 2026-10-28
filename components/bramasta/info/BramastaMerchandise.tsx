@@ -152,14 +152,14 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
   )}`;
 
   return (
-    <section id="merchandise" className="my-1 sm:my-2 scroll-mt-20">
-      <div className="border-2 border-bramasta-ink bg-paper-light p-4 sm:p-5">
+    <section id="merchandise" className="scroll-mt-20">
+      <div className="border-2 border-bramasta-ink bg-paper-light rounded-md p-4 sm:p-6 shadow-[3px_3px_0px_#141210]">
         {/* Header Section */}
-        <div className="text-center mb-2 sm:mb-3">
-          <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-widest text-bramasta-ink-mute">
+        <div className="text-center mb-3 sm:mb-5">
+          <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute">
             WARTA CENDERAMATA 
           </span>
-          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-0.5">
+          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-1">
             Official Merchandise LKBB Bramasta 4.0
           </h2>
           <p className="font-bodoni text-sm sm:text-base text-bramasta-ink-soft max-w-lg mx-auto mt-1 leading-relaxed">
@@ -167,10 +167,10 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
           </p>
         </div>
 
-        <NewsRule variant="thin" className="my-2" />
+        <NewsRule variant="thin" className="my-2.5" />
 
         {/* Spotlight Showcase 1 Produk (Baju/Kaos Resmi) */}
-        <div className="bg-paper border-2 border-bramasta-ink p-4 sm:p-6 shadow-[3px_3px_0px_#141210] mt-3">
+        <div className="bg-paper border-2 border-bramasta-ink rounded-md p-4 sm:p-6 shadow-[3px_3px_0px_#141210] mt-3">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-8 items-center">
             {/* Sisi Kiri: Preview Gambar Produk (Bisa Diklik untuk Modal) */}
             <div className="md:col-span-5 flex flex-col items-center">
@@ -280,12 +280,12 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
               </div>
 
               {/* Dua Tombol Aksi */}
-              <div className="flex flex-col sm:flex-row gap-2.5 pt-3 border-t border-bramasta-ink/20">
+              <div className="flex flex-col sm:flex-row gap-2.5 pt-3.5 border-t border-bramasta-ink/20">
                 <a
                   href={waLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 py-2.5 sm:py-3 bg-bramasta-ink text-white font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink/90 transition-colors shadow-sm text-center"
+                  className="flex-1 min-h-[48px] flex items-center justify-center gap-2 py-3 px-5 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.1em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm text-center"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>Beli via WhatsApp</span>
@@ -293,7 +293,7 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
                 <button
                   type="button"
                   onClick={openModal}
-                  className="sm:w-auto px-4 py-2.5 sm:py-3 border-2 border-bramasta-ink text-bramasta-ink bg-paper-light font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink hover:text-white transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="sm:w-auto min-h-[48px] px-5 py-3 border-2 border-bramasta-ink text-bramasta-ink bg-paper-light font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink hover:text-white transition-colors rounded-md flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Eye className="w-4 h-4" />
                   <span>Detail & Ukuran</span>
@@ -310,11 +310,11 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-black/70 backdrop-blur-xs animate-in fade-in duration-150"
+          className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-black/75 backdrop-blur-xs animate-in fade-in duration-150"
           onClick={closeModal}
         >
           <div
-            className="bg-paper-light border-2 sm:border-3 border-bramasta-ink p-3.5 sm:p-5 shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-150"
+            className="bg-paper-light border-2 sm:border-3 border-bramasta-ink rounded-xl p-4 sm:p-6 shadow-[4px_4px_0px_#141210] max-w-lg w-full max-h-[90vh] overflow-y-auto relative animate-in zoom-in-95 duration-150"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header Modal & Tombol Close */}

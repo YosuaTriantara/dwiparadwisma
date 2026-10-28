@@ -30,13 +30,13 @@ export default async function BramastaLayout({
 
   return (
     <div
-      className={`${fontBlackletter.variable} ${fontBodoni.variable} bg-paper text-bramasta-ink min-h-screen font-bodoni selection:bg-bramasta-accent selection:text-[#F4F1DC] flex flex-col p-2 sm:p-3 md:p-4`}
+      className={`${fontBlackletter.variable} ${fontBodoni.variable} bg-paper text-bramasta-ink min-h-screen font-bodoni selection:bg-bramasta-accent selection:text-[#F4F1DC] flex flex-col p-0 sm:p-2 md:p-4`}
     >
-      {/* Bingkai Ganda Surat Kabar (Double Border Frame per design_bramasta.md) */}
-      <div className="flex-1 flex flex-col border-[3px] border-bramasta-ink p-1 sm:p-1.5 bg-paper max-w-[1200px] mx-auto w-full shadow-xl">
-        <div className="flex-1 flex flex-col border border-bramasta-ink bg-paper">
+      {/* Bingkai Ganda Surat Kabar (Dioptimasi: Single Edge di Mobile, Frame Penuh di Tablet/Desktop) */}
+      <div className="flex-1 flex flex-col border-y-0 sm:border-2 md:border-[3px] border-bramasta-ink sm:p-1 md:p-1.5 bg-paper max-w-[1200px] mx-auto w-full shadow-none sm:shadow-xl">
+        <div className="flex-1 flex flex-col border-0 sm:border border-bramasta-ink bg-paper">
           <BramastaNavbar />
-          <main className="flex-1 px-3 sm:px-6 md:px-8 py-2 sm:py-3">
+          <main className="flex-1 px-3 sm:px-6 md:px-8 py-3 sm:py-5 md:py-6">
             {children}
           </main>
           <BramastaFooter organizerInfo={event?.organizer_info} />

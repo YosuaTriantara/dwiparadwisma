@@ -88,26 +88,26 @@ export function EventTimeline({ event }: EventTimelineProps) {
   }
 
   return (
-    <section id="agenda" className="my-1 sm:my-2 scroll-mt-20">
-      <div className="bg-paper-light border-2 border-bramasta-ink p-4 sm:p-5">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-1.5">
+    <section id="agenda" className="scroll-mt-20">
+      <div className="bg-paper-light border-2 border-bramasta-ink rounded-md p-4 sm:p-6 md:p-7 shadow-[3px_3px_0px_#141210]">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2 sm:mb-3">
           <div>
-            <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-widest text-bramasta-ink-mute">
+            <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute">
               WARTA AGENDA RESMI KOMPETISI
             </span>
             <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-0.5">
               Linimasa & Jadwal Pelaksanaan
             </h2>
           </div>
-          <span className="text-xs sm:text-sm font-bodoni text-bramasta-ink border border-bramasta-ink px-2.5 py-1 uppercase font-bold tracking-wider">
+          <span className="text-xs sm:text-sm font-bodoni text-bramasta-ink border border-bramasta-ink rounded-sm px-2.5 py-1 uppercase font-bold tracking-wider">
             Jadwal Kegiatan 
           </span>
         </div>
 
-        <NewsRule variant="thin" className="my-2" />
+        <NewsRule variant="thin" className="my-2.5" />
 
         {timelineItems.length === 0 ? (
-          <div className="bg-paper border border-bramasta-ink/40 p-4 text-center">
+          <div className="bg-paper border border-bramasta-ink/40 rounded-md p-5 text-center">
             <p className="font-bodoni text-xs sm:text-sm text-bramasta-ink-soft max-w-md mx-auto leading-relaxed">
               Jadwal pelaksanaan belum diatur oleh panitia di sistem EVORA.
             </p>
@@ -120,28 +120,28 @@ export function EventTimeline({ event }: EventTimelineProps) {
                 : timelineItems.length >= 4
                 ? "lg:grid-cols-4"
                 : "lg:grid-cols-2"
-            } gap-3.5 sm:gap-4`}
+            } gap-4 sm:gap-5`}
           >
             {timelineItems.map((item) => (
               <div
                 key={item.stage}
-                className="flex flex-col border-2 border-bramasta-ink bg-paper p-3.5 relative shadow-sm"
+                className="flex flex-col border-2 border-bramasta-ink bg-paper p-4 rounded-md relative shadow-xs"
               >
-                <div className="flex justify-between items-center mb-1.5">
-                  <span className="font-bodoni font-bold text-xl text-bramasta-ink">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-bodoni font-bold text-xl sm:text-2xl text-bramasta-ink">
                     {item.stage}
                   </span>
-                  <span className="text-xs font-bold uppercase tracking-wider bg-bramasta-ink text-white px-2.5 py-0.5">
+                  <span className="text-[11px] font-bodoni font-bold uppercase tracking-wider bg-bramasta-ink text-white px-2.5 py-0.5 rounded-sm">
                     {item.badge}
                   </span>
                 </div>
-                <h3 className="font-bodoni font-bold text-base uppercase text-bramasta-ink mb-1">
+                <h3 className="font-bodoni font-bold text-base sm:text-lg uppercase text-bramasta-ink mb-1">
                   {item.title}
                 </h3>
                 <p className="font-bodoni font-bold text-sm sm:text-base text-bramasta-ink mb-2">
                   {item.dateRange}
                 </p>
-                <NewsRule variant="thin" className="my-1 border-t-bramasta-ink/20" />
+                <NewsRule variant="thin" className="my-1.5 border-t-bramasta-ink/20" />
                 {item.desc && (
                   <p className="font-bodoni text-xs sm:text-sm text-bramasta-ink leading-relaxed mt-1">
                     {item.desc}

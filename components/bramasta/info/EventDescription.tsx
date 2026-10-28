@@ -8,9 +8,9 @@ interface EventDescriptionProps {
 
 export function EventDescription({ event }: EventDescriptionProps) {
   return (
-    <section id="deskripsi" className="my-1 sm:my-2 scroll-mt-20">
+    <section id="deskripsi" className="scroll-mt-20">
       {/* ── 1. Hero Photo Full-Width (Foto Podium Bramasta 3.0) ── */}
-      <div className="w-full border-2 border-bramasta-ink bg-paper-dark relative aspect-[16/10] sm:aspect-[16/9] lg:aspect-[2.1/1] overflow-hidden mb-5 sm:mb-6">
+      <div className="w-full border-2 border-bramasta-ink rounded-md bg-paper-dark relative aspect-[16/10] sm:aspect-[16/9] lg:aspect-[2.1/1] overflow-hidden mb-6 sm:mb-8 shadow-xs">
         <Image
           src="/images/bramasta-hero.jpg"
           alt="Para Juara LKBB Bramasta berdiri di podium kehormatan bersama panitia Dwipara Dwisma"
@@ -23,11 +23,11 @@ export function EventDescription({ event }: EventDescriptionProps) {
 
       {/* ── Warta Resmi jika API EVORA Menyediakan event.description ── */}
       {event?.description && (
-        <div className="mb-4 sm:mb-5 p-3.5 sm:p-4 bg-paper-light border-2 border-bramasta-ink shadow-[2px_2px_0px_#141210]">
-          <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-widest text-bramasta-ink-mute block mb-1">
+        <div className="mb-6 sm:mb-8 p-4 sm:p-5 bg-paper-light border-2 border-bramasta-ink rounded-md shadow-[3px_3px_0px_#141210]">
+          <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute block mb-1">
             WARTA RESMI PANITIA 
           </span>
-          <p className="font-bodoni text-sm sm:text-base text-bramasta-ink leading-relaxed text-justify">
+          <p className="font-bodoni text-sm sm:text-base text-bramasta-ink leading-relaxed text-left lg:text-justify">
             {event.description}
           </p>
         </div>
@@ -37,14 +37,14 @@ export function EventDescription({ event }: EventDescriptionProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-start">
         {/* ── Kolom Kiri: BRAMASTA - BUKAN SEKEDAR LOMBA BIASA ── */}
         <div className="flex flex-col">
-          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-wider text-bramasta-ink pb-1.5 border-b-2 border-bramasta-ink mb-3 sm:mb-4">
+          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-wider text-bramasta-ink pb-2 border-b-2 border-bramasta-ink mb-4 sm:mb-5">
             BRAMASTA - BUKAN SEKEDAR LOMBA BIASA
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
             {/* Sub-kiri: Foto dokumentasi + Kutipan tebal */}
-            <div className="md:col-span-5 flex flex-col gap-2">
-              <div className="relative aspect-[4/3] border-2 border-bramasta-ink overflow-hidden bg-paper-dark">
+            <div className="md:col-span-5 flex flex-col gap-2.5">
+              <div className="relative aspect-[4/3] border-2 border-bramasta-ink rounded-sm overflow-hidden bg-paper-dark shadow-xs">
                 <Image
                   src="/images/bramasta-article-1.jpg"
                   alt="Dokumentasi Penyerahan Piala LKBB Bramasta"
@@ -53,13 +53,13 @@ export function EventDescription({ event }: EventDescriptionProps) {
                   className="object-cover filter grayscale contrast-105 brightness-95 sepia-[0.35]"
                 />
               </div>
-              <p className="font-bodoni font-bold text-sm sm:text-base text-bramasta-ink leading-snug text-justify">
+              <p className="font-bodoni font-bold text-sm sm:text-base text-bramasta-ink leading-snug text-left">
                 BRAMASTA bukan sekadar perlombaan baris-berbaris. Ia adalah panggung tempat disiplin bertemu semangat, kekompakan bertemu perjuangan, dan generasi muda membuktikan bahwa prestasi lahir dari proses yang tidak pernah mudah.
               </p>
             </div>
 
             {/* Sub-kanan: 3 Paragraf Narasi Artikel */}
-            <div className="md:col-span-7 flex flex-col gap-3 font-bodoni text-sm sm:text-[15px] lg:text-base text-bramasta-ink leading-relaxed text-justify">
+            <div className="md:col-span-7 flex flex-col gap-3 font-bodoni text-sm sm:text-[15px] lg:text-base text-bramasta-ink leading-relaxed text-left lg:text-justify">
               <p>
                 Bagi Paskibra SMAN 2 Mengwi, penyelenggaraan BRAMASTA menjadi bagian dari upaya menghadirkan kegiatan yang mampu mempertemukan para pelajar dan insan paskibra dalam suasana kompetitif yang sehat. Ajang ini juga menjadi ruang untuk bertukar pengalaman, memperluas persaudaraan antarpelajar, serta memperkuat budaya disiplin dan sportivitas.
               </p>
@@ -74,8 +74,8 @@ export function EventDescription({ event }: EventDescriptionProps) {
         </div>
 
         {/* ── Kolom Kanan: PERJALANAN LKBB BRAMASTA (Dengan Border Pembatas di Desktop) ── */}
-        <div className="flex flex-col lg:border-l lg:border-bramasta-ink/40 lg:pl-8 pt-4 lg:pt-0 border-t lg:border-t-0 border-bramasta-ink/30">
-          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-wider text-bramasta-ink pb-1.5 border-b-2 border-bramasta-ink mb-3 sm:mb-4">
+        <div className="flex flex-col lg:border-l lg:border-bramasta-ink/40 lg:pl-8 pt-6 lg:pt-0 border-t lg:border-t-0 border-bramasta-ink/30">
+          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-wider text-bramasta-ink pb-2 border-b-2 border-bramasta-ink mb-4 sm:mb-5">
             PERJALANAN LKBB BRAMASTA
           </h2>
 

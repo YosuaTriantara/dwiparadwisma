@@ -140,11 +140,11 @@ export function AdministrationGuide({ event }: AdministrationGuideProps) {
   const documents = apiDocs.length > 0 ? apiDocs : DEFAULT_DOCUMENTS;
 
   return (
-    <section id="administrasi" className="my-1 sm:my-2 scroll-mt-20">
-      <div className="bg-paper-light border-2 border-bramasta-ink p-4 sm:p-5">
+    <section id="administrasi" className="scroll-mt-20">
+      <div className="bg-paper-light border-2 border-bramasta-ink rounded-md p-4 sm:p-6 shadow-[3px_3px_0px_#141210]">
         {/* Header Section */}
-        <div className="text-center mb-2 sm:mb-3">
-          <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-widest text-bramasta-ink-mute">
+        <div className="text-center mb-3 sm:mb-5">
+          <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute">
             PEDOMAN PESERTA & SYARAT BERKAS RESMI
           </span>
           <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-1">
@@ -159,7 +159,7 @@ export function AdministrationGuide({ event }: AdministrationGuideProps) {
 
         {/* 1. Panel Biaya & Metode Pembayaran */}
         {hasFeeData && (
-          <div className="border-2 border-bramasta-ink bg-paper p-4 sm:p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 shadow-sm">
+          <div className="border-2 border-bramasta-ink bg-paper rounded-md p-4 sm:p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 sm:mb-5 shadow-xs">
             <div>
               <span className="font-bodoni font-semibold text-xs sm:text-sm uppercase tracking-wider text-bramasta-ink-soft block">
                 Biaya Pendaftaran per Tim

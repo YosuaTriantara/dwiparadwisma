@@ -295,11 +295,11 @@ export function RegistrationWizardModal({
       return;
     }
     if (!schoolName.trim()) {
-      setErrorMessage("Silakan masukkan nama asal sekolah / instansi pangkalan Anda.");
+      setErrorMessage("Silakan masukkan asal sekolah / instansi Anda.");
       return;
     }
     if (!teamName.trim()) {
-      setErrorMessage("Silakan masukkan nama satuan peleton / tim Anda.");
+      setErrorMessage("Silakan masukkan nama tim Anda.");
       return;
     }
     setStep(2);
@@ -311,7 +311,7 @@ export function RegistrationWizardModal({
     setErrorMessage(null);
 
     if (!coachPhone.trim()) {
-      setErrorMessage("Silakan isi nomor WhatsApp pembina yang aktif untuk koordinasi panitia.");
+      setErrorMessage("Silakan isi nomor WhatsApp yang aktif");
       return;
     }
 
@@ -350,7 +350,7 @@ export function RegistrationWizardModal({
 
     // Kasus 2: Pendaftaran Akun Baru (Wajib Validasi Password)
     if (!coachName.trim()) {
-      setErrorMessage("Silakan isi nama lengkap pembina / pelatih peleton.");
+      setErrorMessage("Silakan isi nama lengkap pembina / pelatih tim.");
       return;
     }
 
@@ -385,7 +385,7 @@ export function RegistrationWizardModal({
       setLoggedInUser(loginRes.user);
       setStep(3);
     } catch (err: any) {
-      setErrorMessage(err.message || "Gagal memproses pembuatan akun pembina.");
+      setErrorMessage(err.message || "Gagal memproses pembuatan akun");
     } finally {
       setLoading(false);
     }
@@ -494,11 +494,8 @@ export function RegistrationWizardModal({
           <div className="flex items-center justify-between gap-3 mb-2.5">
             <div>
               <span className="font-bodoni font-bold text-[11px] sm:text-xs uppercase tracking-[0.18em] text-bramasta-ink-mute block">
-                PENDAFTARAN RESMI EVORA
+                PENDAFTARAN TIM 
               </span>
-              <h2 id="wizard-title" className="font-bodoni font-bold text-lg sm:text-xl uppercase tracking-tight text-bramasta-ink leading-tight mt-0.5">
-                Formulir Pendaftaran Peleton
-              </h2>
             </div>
             <button
               type="button"
@@ -573,7 +570,7 @@ export function RegistrationWizardModal({
 
         {/* ── KONTEN STEP BY STEP ── */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-          {/* ───────────────── LANGKAH 1: KATEGORI & PELETON ───────────────── */}
+          {/* ───────────────── LANGKAH 1: KATEGORI & TIM ───────────────── */}
           {step === 1 && (
             <form onSubmit={handleNextStep1} className="space-y-4">
               <div>
@@ -582,7 +579,7 @@ export function RegistrationWizardModal({
                 </label>
                 {categories.length === 0 ? (
                   <div className="p-3 bg-paper border border-bramasta-ink rounded-md text-xs sm:text-sm font-bodoni text-bramasta-ink-soft text-center">
-                    Memuat kategori lomba dari EVORA Engine...
+                    Memuat kategori lomba...
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 gap-2.5">
@@ -604,7 +601,7 @@ export function RegistrationWizardModal({
                               {c.name}
                             </span>
                             <span className="text-xs sm:text-sm font-bodoni text-bramasta-ink-soft block mt-0.5">
-                              Personil: {c.min_team_members} – {c.max_team_members} orang (termasuk danton)
+                              Anggota: {c.min_team_members} – {c.max_team_members} orang (termasuk danton)
                             </span>
                           </div>
                           <span
@@ -626,7 +623,7 @@ export function RegistrationWizardModal({
               {/* 2. Nama Asal Sekolah / Pangkalan */}
               <div>
                 <label className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider block text-bramasta-ink mb-1.5">
-                  2. Nama Asal Sekolah / Pangkalan
+                  2. Nama Asal Sekolah / instansi
                 </label>
                 <input
                   type="text"
@@ -637,14 +634,14 @@ export function RegistrationWizardModal({
                   className="w-full min-h-[48px] p-3 bg-paper border-2 border-bramasta-ink rounded-sm font-bodoni text-base text-bramasta-ink placeholder:text-bramasta-ink-mute/70 focus:outline-none focus:ring-2 focus:ring-bramasta-accent focus:border-bramasta-accent focus:bg-paper-light shadow-xs"
                 />
                 <span className="text-xs font-bodoni text-bramasta-ink-soft mt-1 block">
-                  Nama sekolah atau institusi resmi yang mengutus kontingen.
+                  Nama sekolah atau institusi
                 </span>
               </div>
 
               {/* 3. Nama Satuan Peleton / Tim */}
               <div>
                 <label className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider block text-bramasta-ink mb-1.5">
-                  3. Nama Satuan Peleton / Nama Tim
+                  3. Nama Tim
                 </label>
                 <input
                   type="text"
@@ -655,14 +652,14 @@ export function RegistrationWizardModal({
                   className="w-full min-h-[48px] p-3 bg-paper border-2 border-bramasta-ink rounded-sm font-bodoni text-base text-bramasta-ink placeholder:text-bramasta-ink-mute/70 focus:outline-none focus:ring-2 focus:ring-bramasta-accent focus:border-bramasta-accent focus:bg-paper-light shadow-xs"
                 />
                 <span className="text-xs font-bodoni text-bramasta-ink-soft mt-1 block">
-                  Nama barisan atau sebutan peleton yang akan berlaga di arena lomba.
+                  Nama tim yang akan berlomba.
                 </span>
               </div>
 
               {/* 4. Logo Tim / Lambang Sekolah */}
               <div>
                 <label className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider block text-bramasta-ink mb-1.5">
-                  4. Logo Tim / Lambang Sekolah <span className="text-bramasta-ink-soft font-normal">(Opsional)</span>
+                  4. Logo Tim / Sekolah <span className="text-bramasta-ink-soft font-normal">(Opsional)</span>
                 </label>
                 <div className="border-2 border-dashed border-bramasta-ink/50 hover:border-bramasta-accent rounded-md p-3.5 sm:p-4 bg-paper hover:bg-paper-light transition-colors text-center relative">
                   {logoPreview ? (
@@ -677,7 +674,7 @@ export function RegistrationWizardModal({
                           {logoFile?.name || "Logo Terpilih"}
                         </p>
                         <span className="text-xs font-bodoni text-bramasta-ink-soft block">
-                          Logo berhasil dilampirkan
+                          Logo berhasil ditambahkan
                         </span>
                         <button
                           type="button"
@@ -695,10 +692,10 @@ export function RegistrationWizardModal({
                     <div>
                       <Upload className="w-5 h-5 mx-auto mb-1 text-bramasta-ink/70" />
                       <span className="font-bodoni font-bold text-xs uppercase text-bramasta-ink block mb-0.5">
-                        Unggah Lambang / Logo Tim
+                        Unggah Logo Tim
                       </span>
                       <span className="font-bodoni text-xs text-bramasta-ink-soft block mb-2.5">
-                        Format PNG, JPG, atau JPEG (Maks. 5 MB)
+                        Format PNG, JPG, atau JPEG (Maks. 1 MB)
                       </span>
                       <label className="inline-block min-h-[44px] px-4 py-2.5 border-2 border-bramasta-ink bg-paper font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-white rounded-md transition-colors cursor-pointer shadow-xs">
                         <span>Pilih File Logo</span>
@@ -719,7 +716,7 @@ export function RegistrationWizardModal({
                   type="submit"
                   className="w-full min-h-[48px] py-3.5 px-6 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.1em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm flex items-center justify-center gap-2 cursor-pointer active:translate-y-px"
                 >
-                  <span>Lanjut ke Data Pembina</span>
+                  <span>Lanjut ke Data Pembina / Official</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -736,7 +733,7 @@ export function RegistrationWizardModal({
                     <div className="flex items-center gap-2 text-[#2F6B3F]">
                       <ShieldCheck className="w-5 h-5 shrink-0" />
                       <span className="font-bodoni font-bold text-xs uppercase tracking-wider">
-                        Akun Pembina Terhubung
+                        Akun Terhubung
                       </span>
                     </div>
                     <button
@@ -763,7 +760,7 @@ export function RegistrationWizardModal({
 
                   <div>
                     <label className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider block text-bramasta-ink mb-1.5">
-                      Nomor WhatsApp Pembina (Untuk TM & Verifikasi Panitia)
+                      Nomor WhatsApp 
                     </label>
                     <input
                       type="tel"
@@ -856,7 +853,7 @@ export function RegistrationWizardModal({
 
                     <div>
                       <label className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider block text-bramasta-ink mb-1.5">
-                        Nomor WhatsApp Pembina (Untuk TM & Koordinasi)
+                        Nomor WhatsApp 
                       </label>
                       <input
                         type="tel"
@@ -989,7 +986,7 @@ export function RegistrationWizardModal({
               <div className="border-2 border-bramasta-ink bg-paper rounded-md p-3.5 sm:p-4 shadow-xs">
                 <div className="flex justify-between items-center mb-1.5">
                   <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider text-bramasta-ink-soft">
-                    Biaya Pendaftaran Peleton
+                    Biaya Pendaftaran
                   </span>
                   <span className="font-bodoni font-bold text-xl sm:text-2xl text-bramasta-ink">
                     {feeFormatted}
@@ -1026,7 +1023,7 @@ export function RegistrationWizardModal({
               {/* Upload Bukti Pembayaran */}
               <div>
                 <label className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider block text-bramasta-ink mb-1.5">
-                  Unggah Bukti Transfer / Slip Pembayaran <span className="text-bramasta-ink-soft font-normal">(Opsional)</span>
+                  Unggah Bukti Transfer <span className="text-bramasta-ink-soft font-normal">(Opsional)</span>
                 </label>
                 <div className="border-2 border-dashed border-bramasta-ink/50 hover:border-bramasta-accent rounded-md bg-paper p-3.5 sm:p-4 text-center transition-colors">
                   <input
@@ -1036,7 +1033,7 @@ export function RegistrationWizardModal({
                     className="w-full text-xs sm:text-sm font-bodoni cursor-pointer"
                   />
                   <span className="text-xs font-bodoni text-bramasta-ink-mute block mt-1.5">
-                    Format: JPG / PNG (Bisa difoto langsung dari ponsel)
+                    Format: JPG / PNG (Maks. 1 MB)
                   </span>
 
                   {paymentProofPreview && (
