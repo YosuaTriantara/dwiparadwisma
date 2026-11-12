@@ -114,7 +114,7 @@ export function BramastaNavbar() {
             onClick={handleDaftarClick}
             className="flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 py-2 border-2 border-bramasta-ink bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink-soft rounded-md transition-colors shadow-sm whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
           >
-            <span>Daftar Tim</span>
+            <span>Daftar</span>
             <ArrowRight className="w-4 h-4 shrink-0" />
           </Link>
 

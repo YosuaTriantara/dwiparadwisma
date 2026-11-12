@@ -35,11 +35,6 @@ export function EventMasthead({ event }: EventMastheadProps) {
         >
           {isOpen ? "PENDAFTARAN RESMI DIBUKA" : "COMING SOON"}
         </span>
-        {!event && (
-          <span className="text-xs font-bodoni uppercase tracking-wider bg-paper-dark border border-bramasta-ink px-2.5 py-1 font-bold text-bramasta-ink shadow-xs rounded-sm">
-            Menunggu Rilis EVORA
-          </span>
-        )}
       </div>
 
       {/* ── Main Headline H1: LKBB BRAMASTA 4.0 ── */}
