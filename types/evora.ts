@@ -48,6 +48,8 @@ export interface EvoraDocument {
   download_url?: string;
 }
 
+export type TeamType = "school" | "club";
+
 export interface EvoraEvent {
   id: string;
   name: string;
@@ -55,6 +57,10 @@ export interface EvoraEvent {
   description: string;
   banner_url?: string;
   registration_status: "upcoming" | "registration_open" | "registration_closed" | "ongoing" | "completed" | "draft" | string;
+  max_teams_per_user?: number;
+  allowed_team_types?: TeamType[];
+  max_coaches_per_team?: number | null;
+  max_officials_per_team?: number | null;
   registration_start_date?: string | null;
   registration_end_date?: string | null;
   technical_meeting_date?: string | null;
@@ -104,13 +110,15 @@ export type TeamStatus =
   | "roster_rejected"
   | "verified";
 
-export type RoleInTeam = "leader" | "member" | "official";
+export type RoleInTeam = "leader" | "member" | "coach" | "official";
 
 export interface EvoraTeamMember {
   id: string;
   team_id: string;
   full_name: string;
   role_in_team: RoleInTeam;
+  birth_place?: string;
+  birth_date?: string;
   position_label?: string;
   nisn?: string;
   photo_url?: string;
@@ -122,6 +130,8 @@ export interface EvoraTeamMember {
 export interface EvoraTeam {
   id: string;
   team_name: string;
+  team_type?: TeamType | null;
+  institution_name?: string | null;
   school_name?: string | null;
   school?: string | null;
   status: TeamStatus;
@@ -141,6 +151,9 @@ export interface EvoraTeam {
     id: string;
     name: string;
     registration_status: string;
+    allowed_team_types?: TeamType[];
+    max_coaches_per_team?: number | null;
+    max_officials_per_team?: number | null;
   };
   members?: EvoraTeamMember[];
 }

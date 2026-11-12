@@ -4,6 +4,8 @@ import type { EvoraTeamMember, RoleInTeam } from "@/types/evora";
 export interface CreateMemberPayload {
   full_name: string;
   role_in_team: RoleInTeam;
+  birth_place: string;
+  birth_date: string;
   position_label?: string;
   nisn?: string;
   photo_url?: string;

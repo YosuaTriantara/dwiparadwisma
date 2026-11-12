@@ -30,13 +30,21 @@ export default async function BramastaLayout({
 
   return (
     <div
-      className={`${fontBlackletter.variable} ${fontBodoni.variable} bg-paper text-bramasta-ink min-h-screen font-bodoni selection:bg-bramasta-accent selection:text-[#F4F1DC] flex flex-col p-0 sm:p-2 md:p-4`}
+      style={{ colorScheme: "light" }}
+      className={`${fontBlackletter.variable} ${fontBodoni.variable} bg-paper text-bramasta-ink min-h-screen font-bodoni selection:bg-bramasta-accent selection:text-[#F4F1DC] flex flex-col p-0 sm:p-2 md:p-4 overflow-x-clip`}
     >
+      <a
+        href="#konten"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2.5 focus:bg-bramasta-accent focus:text-bramasta-accent-on focus:font-bold focus:text-sm focus:rounded-md focus:shadow-lg"
+      >
+        Lewati ke konten utama
+      </a>
+
       {/* Bingkai Ganda Surat Kabar (Dioptimasi: Single Edge di Mobile, Frame Penuh di Tablet/Desktop) */}
       <div className="flex-1 flex flex-col border-y-0 sm:border-2 md:border-[3px] border-bramasta-ink sm:p-1 md:p-1.5 bg-paper max-w-[1200px] mx-auto w-full shadow-none sm:shadow-xl">
         <div className="flex-1 flex flex-col border-0 sm:border border-bramasta-ink bg-paper">
           <BramastaNavbar />
-          <main className="flex-1 px-3 sm:px-6 md:px-8 py-3 sm:py-5 md:py-6">
+          <main id="konten" className="flex-1 px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6">
             {children}
           </main>
           <BramastaFooter organizerInfo={event?.organizer_info} />

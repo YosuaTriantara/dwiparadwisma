@@ -17,6 +17,17 @@ export const EVORA_EVENT_SLUG =
 
 const TOKEN_KEY = "evora_auth_token";
 const USER_KEY = "evora_user_data";
+export const EVORA_AUTH_EVENT = "evora-auth-changed";
+
+export class EvoraApiError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "EvoraApiError";
+    this.status = status;
+  }
+}
 
 export function getStoredToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -31,6 +42,7 @@ export function setStoredToken(token: string | null) {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
   }
+  window.dispatchEvent(new Event(EVORA_AUTH_EVENT));
 }
 
 export function getStoredUser(): any | null {
@@ -100,7 +112,7 @@ export async function evoraRequest<T>(
     if (!res.ok) {
       const errorMsg =
         data?.error || data?.message || `Request gagal dengan status ${res.status}`;
-      throw new Error(errorMsg);
+      throw new EvoraApiError(errorMsg, res.status);
     }
 
     // Mendukung baik format direct payload maupun { data: ... }

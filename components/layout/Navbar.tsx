@@ -44,7 +44,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-stretch gap-8 xl:gap-10">
+        <div className="hidden lg:flex items-stretch gap-6 xl:gap-9">
           {NAV_LINKS.map((link) => {
             const isActive = active === link.label;
             return (
@@ -72,10 +72,14 @@ export default function Navbar() {
         {/* CTA + Hamburger */}
         <div className="flex items-center gap-4">
           <Link
-            href="/#daftar"
-            className="hidden sm:block bg-primary text-white text-[12px] uppercase tracking-[0.1em] px-8 py-3 hover:bg-primary-dark transition-colors"
+            href="/lkbb-bramasta-4"
+            className="hidden sm:inline-flex items-center gap-2 bg-accent-orange text-ink font-extrabold text-[11px] uppercase tracking-[0.08em] px-5 py-2.5 border-2 border-ink shadow-[3px_3px_0px_#121C2A] hover:bg-amber-400 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap"
           >
-            DAFTAR
+            <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-red opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-red" />
+            </span>
+            <span>DAFTAR LKBB BRAMASTA 4.0</span>
           </Link>
 
           {/* Hamburger */}
@@ -129,11 +133,15 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="/#daftar"
-            className="block text-center bg-primary text-white text-xs uppercase tracking-[0.1em] px-8 py-3 mt-4 hover:bg-primary-dark transition-colors"
+            href="/lkbb-bramasta-4"
+            className="flex items-center justify-center gap-2 text-center bg-accent-orange text-ink font-extrabold text-xs uppercase tracking-[0.08em] px-6 py-3.5 mt-4 border-2 border-ink shadow-[3px_3px_0px_#121C2A] hover:bg-amber-400 transition-colors"
             onClick={() => setMenuOpen(false)}
           >
-            DAFTAR
+            <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-red opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-red" />
+            </span>
+            <span>DAFTAR LKBB BRAMASTA 4.0</span>
           </Link>
         </div>
       </div>

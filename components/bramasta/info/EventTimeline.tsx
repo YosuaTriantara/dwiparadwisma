@@ -88,62 +88,71 @@ export function EventTimeline({ event }: EventTimelineProps) {
   }
 
   return (
-    <section id="agenda" className="scroll-mt-20">
+    <section id="agenda" aria-labelledby="agenda-title" className="scroll-mt-20">
       <div className="bg-paper-light border-2 border-bramasta-ink rounded-md p-4 sm:p-6 md:p-7 shadow-[3px_3px_0px_#141210]">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2 sm:mb-3">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2.5 mb-3 sm:mb-4">
           <div>
-            <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute">
+            <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block">
               WARTA AGENDA RESMI KOMPETISI
             </span>
-            <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-0.5">
-              Linimasa & Jadwal Pelaksanaan
+            <h2
+              id="agenda-title"
+              className="font-bodoni font-bold text-[26px] sm:text-[32px] lg:text-[38px] uppercase tracking-tight text-bramasta-ink leading-[1.12] mt-1"
+            >
+             Agenda Penting
             </h2>
           </div>
-          <span className="text-xs sm:text-sm font-bodoni text-bramasta-ink border border-bramasta-ink rounded-sm px-2.5 py-1 uppercase font-bold tracking-wider">
-            Jadwal Kegiatan 
+          <span className="hidden sm:inline-block text-xs font-bodoni text-bramasta-ink bg-paper border border-bramasta-ink rounded-sm px-3 py-1 uppercase font-bold tracking-[0.14em] shrink-0">
+            Jadwal Kegiatan
           </span>
         </div>
 
-        <NewsRule variant="thin" className="my-2.5" />
+        <NewsRule variant="std" className="my-3" />
 
         {timelineItems.length === 0 ? (
-          <div className="bg-paper border border-bramasta-ink/40 rounded-md p-5 text-center">
-            <p className="font-bodoni text-xs sm:text-sm text-bramasta-ink-soft max-w-md mx-auto leading-relaxed">
+          <div className="bg-paper border border-bramasta-ink/40 rounded-md p-5 text-left sm:text-center">
+            <p className="font-bodoni text-base text-bramasta-ink-soft max-w-md sm:mx-auto leading-[1.65] text-justify sm:text-center hyphens-auto">
               Jadwal pelaksanaan belum diatur oleh panitia di sistem EVORA.
             </p>
           </div>
         ) : (
           <div
-            className={`grid grid-cols-1 sm:grid-cols-2 ${
+            className={`relative pl-5 border-l-2 border-bramasta-ink space-y-4 sm:space-y-0 sm:pl-0 sm:border-l-0 sm:grid sm:grid-cols-2 ${
               timelineItems.length === 3
                 ? "lg:grid-cols-3"
                 : timelineItems.length >= 4
                 ? "lg:grid-cols-4"
                 : "lg:grid-cols-2"
-            } gap-4 sm:gap-5`}
+            } sm:gap-5 mt-4`}
           >
             {timelineItems.map((item) => (
               <div
                 key={item.stage}
                 className="flex flex-col border-2 border-bramasta-ink bg-paper p-4 rounded-md relative shadow-xs"
               >
-                <div className="flex justify-between items-center mb-2">
-                  <span className="font-bodoni font-bold text-xl sm:text-2xl text-bramasta-ink">
+                {/* Titik penanda timeline vertikal pada tampilan mobile */}
+                <span
+                  aria-hidden="true"
+                  className="sm:hidden absolute -left-[27px] top-5 w-3 h-3 rounded-full bg-bramasta-accent border-2 border-paper-light"
+                />
+
+                <div className="flex justify-between items-center mb-2.5">
+                  <span className="font-bodoni font-bold text-2xl text-bramasta-ink lining-nums">
                     {item.stage}
                   </span>
-                  <span className="text-[11px] font-bodoni font-bold uppercase tracking-wider bg-bramasta-ink text-white px-2.5 py-0.5 rounded-sm">
+                  <span className="text-xs font-bodoni font-bold uppercase tracking-wider bg-bramasta-ink text-[#F4F1DC] px-2.5 py-0.5 rounded-sm lining-nums">
                     {item.badge}
                   </span>
                 </div>
-                <h3 className="font-bodoni font-bold text-base sm:text-lg uppercase text-bramasta-ink mb-1">
+                <h3 className="font-bodoni font-bold text-xl uppercase tracking-[0.02em] text-bramasta-ink leading-[1.2] mb-1">
                   {item.title}
                 </h3>
-                <p className="font-bodoni font-bold text-sm sm:text-base text-bramasta-ink mb-2">
+                <p className="font-bodoni font-bold text-base text-bramasta-accent lining-nums mb-2">
                   {item.dateRange}
                 </p>
-                <NewsRule variant="thin" className="my-1.5 border-t-bramasta-ink/20" />
+                <NewsRule variant="thin" className="my-1.5 border-t-bramasta-ink/25" />
                 {item.desc && (
-                  <p className="font-bodoni text-xs sm:text-sm text-bramasta-ink leading-relaxed mt-1">
+                  <p className="font-bodoni text-base text-bramasta-ink-soft leading-[1.6] text-justify hyphens-auto mt-1.5 oldstyle-nums">
                     {item.desc}
                   </p>
                 )}

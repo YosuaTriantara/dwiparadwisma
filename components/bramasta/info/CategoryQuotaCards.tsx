@@ -36,29 +36,32 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
   const hasCategories = categories && categories.length > 0;
 
   return (
-    <section id="kategori" className="scroll-mt-20">
-      <div className="text-center mb-3 sm:mb-5">
-        <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute">
-          KATEGORI PERLOMBAAN 
+    <section id="kategori" aria-labelledby="kategori-title" className="scroll-mt-20">
+      <div className="text-left sm:text-center mb-4 sm:mb-6">
+        <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block">
+          KATEGORI PERLOMBAAN
         </span>
-        <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-1">
-          Kategori Perlombaan & Kuota Tim
+        <h2
+          id="kategori-title"
+          className="font-bodoni font-bold text-[26px] sm:text-[32px] lg:text-[38px] uppercase tracking-tight text-bramasta-ink leading-[1.12] mt-1"
+        >
+          Kategori & Kuota Tim
         </h2>
-        <p className="font-bodoni text-sm sm:text-base text-bramasta-ink-soft max-w-lg mx-auto mt-1 leading-relaxed">
-          Slot tim terbatas, pastikan Anda tidak kehabisan kuota dengan segera melakukan pendaftaran.
+        <p className="font-bodoni text-base sm:text-[17px] text-bramasta-ink-soft max-w-xl sm:mx-auto mt-2 leading-[1.65] text-justify sm:text-center hyphens-auto">
+          Slot terbatas, pastikan Anda tidak kehabisan kuota 
         </p>
       </div>
 
       {!hasCategories ? (
         /* Empty State: Kategori belum diisi di EVORA API */
-        <div className="bg-paper-light border-2 border-bramasta-ink rounded-md p-5 sm:p-6 text-center shadow-[3px_3px_0px_#141210]">
-          <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute block mb-1">
-            KATEGORI & ALOKASI KUOTA
+        <div className="bg-paper-light border-2 border-bramasta-ink rounded-md p-5 sm:p-6 text-left sm:text-center shadow-[3px_3px_0px_#141210]">
+          <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block mb-1">
+            KATEGORI & KUOTA
           </span>
-          <h3 className="font-bodoni font-bold text-lg sm:text-xl uppercase tracking-tight text-bramasta-ink mb-1.5">
+          <h3 className="font-bodoni font-bold text-xl sm:text-2xl uppercase tracking-[0.02em] text-bramasta-ink leading-[1.2] mb-2">
             COMING SOON
           </h3>
-          <p className="font-bodoni text-sm sm:text-base text-bramasta-ink-soft max-w-md mx-auto leading-relaxed">
+          <p className="font-bodoni text-base text-bramasta-ink-soft max-w-md sm:mx-auto leading-[1.65] text-justify sm:text-center hyphens-auto">
             Pengumuman kategori lomba dan kuota slot tim akan dibuka bersamaan dengan pengumuman resmi panitia.
           </p>
         </div>
@@ -78,42 +81,42 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
                 className="bg-paper-light border-2 border-bramasta-ink rounded-md p-4 sm:p-6 flex flex-col justify-between relative shadow-[3px_3px_0px_#141210]"
               >
                 <div>
-                  <div className="flex justify-between items-start gap-4 mb-2.5">
-                    <span className="font-bodoni font-bold text-xs uppercase tracking-wider px-2.5 py-0.5 bg-bramasta-ink text-white rounded-sm">
+                  <div className="flex flex-wrap justify-between items-center gap-2 mb-3">
+                    <span className="font-bodoni font-bold text-xs uppercase tracking-wider px-2.5 py-1 bg-bramasta-ink text-[#F4F1DC] rounded-sm lining-nums">
                       Kategori 0{idx + 1}
                     </span>
                     <span
-                      className={`font-bodoni font-bold text-xs uppercase px-2.5 py-0.5 border border-bramasta-ink rounded-sm ${
+                      className={`font-bodoni font-bold text-xs uppercase px-2.5 py-1 border border-bramasta-ink rounded-sm lining-nums ${
                         isFull
-                          ? "bg-[#9B2C2C] text-white"
-                          : "bg-paper text-bramasta-ink font-bold"
+                          ? "bg-[#9B2C2C] text-[#F4F1DC]"
+                          : "bg-paper text-bramasta-ink"
                       }`}
                     >
                       {isFull ? "KUOTA PENUH" : `${remaining} SLOT TERSISA`}
                     </span>
                   </div>
 
-                  <h3 className="font-bodoni font-bold text-lg sm:text-xl uppercase text-bramasta-ink mb-2 leading-snug">
+                  <h3 className="font-bodoni font-bold text-xl sm:text-2xl uppercase tracking-[0.02em] text-bramasta-ink mb-2 leading-[1.2]">
                     {cat.name}
                   </h3>
 
-                  <NewsRule variant="thin" className="my-2.5" />
+                  <NewsRule variant="std" className="my-2.5" />
 
                   {/* Info Roster & Kuota */}
-                  <div className="space-y-2 font-bodoni text-xs sm:text-sm text-bramasta-ink mb-5">
-                    <div className="flex justify-between py-1.5 border-b border-bramasta-ink/20">
-                      <span className="text-bramasta-ink-soft">Personil tim:</span>
+                  <div className="space-y-1 font-bodoni text-sm sm:text-base text-bramasta-ink mb-5 lining-nums">
+                    <div className="flex flex-wrap justify-between items-baseline gap-x-3 gap-y-0.5 py-2 border-b border-bramasta-ink/20">
+                      <span className="text-bramasta-ink-soft">Pasukan:</span>
                       <span className="font-bold text-bramasta-ink">
-                        {cat.min_team_members} – {cat.max_team_members} Orang (Termasuk Danton)
+                        {cat.min_team_members} – {cat.max_team_members} Orang (Danton + Pasukan)
                       </span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-bramasta-ink/20">
+                    <div className="flex flex-wrap justify-between items-baseline gap-x-3 gap-y-0.5 py-2 border-b border-bramasta-ink/20">
                       <span className="text-bramasta-ink-soft">Alokasi Total Kuota:</span>
                       <span className="font-bold text-bramasta-ink">
-                        {cat.slot_count} Tim Sekolah
+                        {cat.slot_count} Tim
                       </span>
                     </div>
-                    <div className="flex justify-between py-1.5 border-b border-bramasta-ink/20">
+                    <div className="flex flex-wrap justify-between items-baseline gap-x-3 gap-y-0.5 py-2 border-b border-bramasta-ink/20">
                       <span className="text-bramasta-ink-soft">Slot Terisi Saat Ini:</span>
                       <span className="font-bold text-bramasta-ink">
                         {cat.slot_taken} Tim ({percentTaken}%)
@@ -123,13 +126,13 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
 
                   {/* Progress Bar Kuota */}
                   <div className="mb-5">
-                    <div className="w-full h-2.5 bg-paper border border-bramasta-ink rounded-xs overflow-hidden">
+                    <div className="w-full h-2.5 bg-paper border border-bramasta-ink rounded-sm overflow-hidden">
                       <div
                         className="h-full bg-bramasta-accent transition-all duration-500"
                         style={{ width: `${percentTaken}%` }}
                       />
                     </div>
-                    <span className="text-xs font-bodoni font-bold text-bramasta-ink mt-1.5 block text-right">
+                    <span className="text-xs sm:text-sm font-bodoni font-bold text-bramasta-ink mt-1.5 block text-right lining-nums">
                       Terisi {cat.slot_taken} dari {cat.slot_count} kuota
                     </span>
                   </div>
@@ -140,7 +143,7 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
                   {isFull ? (
                     <button
                       disabled
-                      className="w-full min-h-[48px] py-3.5 bg-paper-dark text-bramasta-ink-mute font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.1em] border-2 border-bramasta-ink/40 rounded-md cursor-not-allowed"
+                      className="w-full min-h-[48px] py-3.5 bg-paper-dark text-bramasta-ink-mute font-bodoni font-bold text-sm uppercase tracking-[0.1em] border-2 border-bramasta-ink/40 rounded-md cursor-not-allowed"
                     >
                       Pendaftaran Ditutup
                     </button>
@@ -151,7 +154,7 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
                         setSelectedCatForModal(cat.id);
                         setIsModalOpen(true);
                       }}
-                      className="w-full min-h-[48px] block text-center py-3.5 px-6 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.1em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm cursor-pointer active:translate-y-px"
+                      className="w-full min-h-[48px] block text-center py-3.5 px-6 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-sm uppercase tracking-[0.1em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm cursor-pointer active:translate-y-px focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
                     >
                       Daftar di Kategori Ini &rarr;
                     </button>

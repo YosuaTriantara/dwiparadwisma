@@ -32,7 +32,7 @@ sequenceDiagram
     EVORA-->>Mitra: Return JWT access_token
 
     Note over Peserta,Mitra: 3. Reservasi & Pendaftaran Tim
-    Peserta->>Mitra: Input Nama Tim & Kategori
+    Peserta->>Mitra: Input Jenis Tim (Sekolah/Club), Nama Sekolah/Club, Nama Tim, & Kategori
     Mitra->>EVORA: POST /events/{id}/teams (Bearer Token)
     EVORA-->>Mitra: Tim terdaftar (Status: submitted)
 
@@ -190,6 +190,10 @@ Mengambil metadata event, jadwal pelaksanaan, status pendaftaran, dan spanduk (b
     "description": "Kompetisi futsal tingkat perguruan tinggi se-Indonesia.",
     "banner_url": "https://ik.imagekit.io/evora/events/banner_futsal.jpg",
     "registration_status": "registration_open",
+    "max_teams_per_user": 3,
+    "allowed_team_types": ["school", "club"],
+    "max_coaches_per_team": 2,
+    "max_officials_per_team": 2,
     "registration_start_date": "2026-10-01",
     "registration_end_date": "2026-11-15",
     "technical_meeting_date": "2026-11-20",
@@ -201,6 +205,9 @@ Mengambil metadata event, jadwal pelaksanaan, status pendaftaran, dan spanduk (b
     "is_listed": false
   }
   ```
+  > **Keterangan `allowed_team_types`, `max_coaches_per_team`, dan `max_officials_per_team`**:
+  > * `allowed_team_types`: Array berisi `"school"` (Sekolah) dan/atau `"club"` (Club). Gunakan field ini di frontend mitra untuk menampilkan pilihan **Jenis Tim**. Jika hanya berisi satu nilai (misal `["school"]`), otomatis pilih nilai tersebut, dan sesuaikan label input asal peserta (`"school"` menjadi **Nama Sekolah**, `"club"` menjadi **Nama Club**).
+  > * `max_coaches_per_team` & `max_officials_per_team` (`number | null`): Batas maksimal jumlah **Pelatih (`coach`)** dan **Official (`official`)** per tim pada event ini. Nilai `null` berarti tidak dibatasi, `0` berarti peran tersebut tidak diizinkan.
 
 ---
 
@@ -275,12 +282,19 @@ Membuat tim baru dan mengamankan 1 kuota slot pada kategori lomba yang dipilih.
   {
     "category_id": "c71a33df-b4a8-4b77-a8fe-b620021cfa5a",
     "team_name": "Garuda Juara FC",
+    "team_type": "club",
+    "institution_name": "Garuda Muda Club",
     "logo_url": "https://ik.imagekit.io/.../logo_tim.png",
     "coach_name": "Indra Wijaya",
     "coach_phone": "081234567890",
     "payment_proof_url": "https://ik.imagekit.io/.../bukti_transfer.jpg"
   }
   ```
+  > **Ketentuan Field Jenis & Asal Tim**:
+  > * `team_type` (`"school"` | `"club"`, opsional jika event hanya mengizinkan satu jenis tim; otomatis memakai jenis pertama yang diizinkan di `allowed_team_types`).
+  > * `institution_name` (**Wajib**, min. 2 karakter, maks. 150 karakter): Diisi dengan **Nama Sekolah** jika `team_type` bernilai `"school"`, atau **Nama Club** jika `team_type` bernilai `"club"`.
+  > * `team_name` tetap disimpan terpisah dari `institution_name` sehingga platform mitra bebas menentukan cara menampilkannya di UI maupun papan e-voting.
+
 * **Response Success (`201 Created`)**:
   ```json
   {
@@ -290,8 +304,8 @@ Membuat tim baru dan mengamankan 1 kuota slot pada kategori lomba yang dipilih.
   }
   ```
 * **Error Response**:
-  * `409 Conflict`: Kuota kategori telah penuh, atau user sudah memiliki tim terdaftar di kategori yang sama.
-  * `400 Bad Request`: Format payload tidak valid.
+  * `409 Conflict`: Kuota kategori telah penuh, batas `max_teams_per_user` terlampaui, nama tim sudah dipakai di event yang sama, atau `team_type` tidak diizinkan oleh konfigurasi `allowed_team_types` event.
+  * `400 Bad Request`: Format payload tidak valid (termasuk `institution_name` kosong atau kurang dari 2 karakter).
 
 ---
 
@@ -307,6 +321,8 @@ Digunakan untuk menampilkan halaman **"Tim Saya"** atau dashboard partisipasi di
     {
       "id": "848bbdc0-3fa6-4076-9c4c-ff4e81dc0ec3",
       "team_name": "Garuda Juara FC",
+      "team_type": "club",
+      "institution_name": "Garuda Muda Club",
       "status": "submitted",
       "logo_url": "https://ik.imagekit.io/.../logo_tim.png",
       "created_at": "2026-10-27T10:00:00.000Z",
@@ -319,7 +335,8 @@ Digunakan untuk menampilkan halaman **"Tim Saya"** atau dashboard partisipasi di
       "event": {
         "id": "e30e137c-f12b-426c-94d7-402cf896c21e",
         "name": "Turnamen Futsal Mahasiswa Nasional 2026",
-        "registration_status": "registration_open"
+        "registration_status": "registration_open",
+        "allowed_team_types": ["school", "club"]
       }
     }
   ]
@@ -336,6 +353,8 @@ Digunakan untuk menampilkan halaman **"Tim Saya"** atau dashboard partisipasi di
   {
     "id": "848bbdc0-3fa6-4076-9c4c-ff4e81dc0ec3",
     "team_name": "Garuda Juara FC",
+    "team_type": "club",
+    "institution_name": "Garuda Muda Club",
     "status": "submitted",
     "coach_name": "Indra Wijaya",
     "coach_phone": "081234567890",
@@ -346,6 +365,8 @@ Digunakan untuk menampilkan halaman **"Tim Saya"** atau dashboard partisipasi di
         "full_name": "Budi Santoso",
         "role_in_team": "leader",
         "position_label": "Kapten / Flank",
+        "birth_place": "Bandung",
+        "birth_date": "2008-05-12T00:00:00.000Z",
         "nisn": "0051234567",
         "photo_url": "https://ik.imagekit.io/.../budi.jpg",
         "phone": "081234567890",
@@ -357,8 +378,8 @@ Digunakan untuk menampilkan halaman **"Tim Saya"** atau dashboard partisipasi di
 
 ---
 
-### 6.4 Mengubah Nama Tim (Saat Tahap Revisi)
-Hanya dapat dilakukan jika tim berstatus `registration_rejected`.
+### 6.4 Mengubah Identitas Tim (Saat Tahap Revisi)
+Hanya dapat dilakukan jika tim berstatus `registration_rejected`. Mendukung revisi nama tim (`team_name`), jenis tim (`team_type`), serta nama sekolah atau club (`institution_name`).
 
 * **Method**: `PATCH`
 * **Endpoint**: `/teams/:id`
@@ -366,9 +387,12 @@ Hanya dapat dilakukan jika tim berstatus `registration_rejected`.
 * **Request Body**:
   ```json
   {
-    "team_name": "Garuda Juara Sejati FC"
+    "team_name": "Garuda Juara Sejati FC",
+    "team_type": "club",
+    "institution_name": "Garuda Muda Club Indonesia"
   }
   ```
+  > Field `team_type` dan `institution_name` bersifat opsional saat revisi jika tidak ingin diubah. Jika `team_type` dikirim, nilainya harus termasuk dalam `allowed_team_types` event terkait.
 
 ---
 
@@ -385,6 +409,8 @@ Hanya pemilik tim (`registered_by`) yang berhak memodifikasi anggota tim milikny
   {
     "full_name": "Rizky Ramadhan",
     "role_in_team": "member",
+    "birth_place": "Surabaya",
+    "birth_date": "2008-08-17",
     "position_label": "Kiper / Penjaga Gawang",
     "nisn": "0059876543",
     "photo_url": "https://ik.imagekit.io/.../rizky.jpg",
@@ -392,10 +418,17 @@ Hanya pemilik tim (`registered_by`) yang berhak memodifikasi anggota tim milikny
     "email": "rizky@example.com"
   }
   ```
+  > **Ketentuan Field Tempat & Tanggal Lahir**:
+  > * `birth_place` (**Wajib** untuk semua peran): Tempat lahir anggota tim (string tidak kosong).
+  > * `birth_date` (**Wajib** untuk semua peran): Tanggal lahir dengan format `YYYY-MM-DD` (tahun minimal `1940`, tidak boleh tanggal di masa depan).
+  >
   > **Nilai Valid `role_in_team`**:
-  > * `"leader"` ➔ Kapten / Ketua Tim
-  > * `"member"` ➔ Anggota / Atlet
-  > * `"official"` ➔ Manajer / Medis / Pelatih Pendamping
+  > * `"leader"` ➔ Kapten / Danton / Ketua Tim *(dihitung ke dalam kuota kategori)*
+  > * `"member"` ➔ Anggota Utama / Atlet *(dihitung ke dalam kuota kategori)*
+  > * `"coach"` ➔ Pelatih *(di luar batas kuota `min_team_members` / `max_team_members`, tetapi tunduk pada batas `max_coaches_per_team` event)*
+  > * `"official"` ➔ Official / Pembina / Manajer *(di luar batas kuota `min_team_members` / `max_team_members`, tetapi tunduk pada batas `max_officials_per_team` event)*
+  >
+  > > Jika jumlah `coach` atau `official` sudah mencapai batas maksimal event (atau diset `0`), endpoint `POST /teams/:id/members` dan perubahan peran pada `PATCH /teams/:id/members/:memberId` akan mengembalikan `400 Bad Request`.
 
 * **Response Success (`201 Created`)**:
   ```json
@@ -404,6 +437,8 @@ Hanya pemilik tim (`registered_by`) yang berhak memodifikasi anggota tim milikny
     "team_id": "848bbdc0-3fa6-4076-9c4c-ff4e81dc0ec3",
     "full_name": "Rizky Ramadhan",
     "role_in_team": "member",
+    "birth_place": "Surabaya",
+    "birth_date": "2008-08-17T00:00:00.000Z",
     "position_label": "Kiper / Penjaga Gawang",
     "created_at": "2026-10-27T10:15:00.000Z"
   }
@@ -415,10 +450,12 @@ Hanya pemilik tim (`registered_by`) yang berhak memodifikasi anggota tim milikny
 * **Method**: `PATCH`
 * **Endpoint**: `/teams/:id/members/:memberId`
 * **Autentikasi**: `Authorization: Bearer <access_token>`
-* **Request Body** *(hanya kirim field yang ingin diubah)*:
+* **Request Body** *(hanya kirim field yang ingin diubah; jika mengirim `birth_place` tidak boleh kosong dan `birth_date` harus berformat `YYYY-MM-DD`)*:
   ```json
   {
     "full_name": "Rizky Ramadhan Putra",
+    "birth_place": "Sidoarjo",
+    "birth_date": "2008-08-18",
     "position_label": "Anchor"
   }
   ```
@@ -440,7 +477,7 @@ Hanya pemilik tim (`registered_by`) yang berhak memodifikasi anggota tim milikny
 ---
 
 ### 7.4 Mengunci & Mengirimkan Pengajuan Roster (Submit Roster)
-Dipanggil saat seluruh kuota minimum anggota telah terpenuhi (`members.length >= min_team_members`). Status tim akan beralih ke `roster_submitted` dan form terkunci untuk menunggu verifikasi panitia.
+Dipanggil saat seluruh kuota anggota inti telah terpenuhi (`min_team_members <= jumlah(leader + member) <= max_team_members`) serta jumlah `coach` dan `official` tidak melebihi batas `max_coaches_per_team` dan `max_officials_per_team` milik event (jika diset). Status tim akan beralih ke `roster_submitted` dan form terkunci untuk menunggu verifikasi panitia.
 
 * **Method**: `POST`
 * **Endpoint**: `/teams/:id/submit-roster`
@@ -456,9 +493,10 @@ Dipanggil saat seluruh kuota minimum anggota telah terpenuhi (`members.length >=
 * **Error Response (`400 Bad Request`)**:
   ```json
   {
-    "error": "Jumlah anggota tim belum memenuhi batas minimum (minimal 5 orang)"
+    "error": "Jumlah pasukan inti (Komandan/Anggota) harus antara 13 dan 16 orang"
   }
   ```
+  > Jika jumlah peran `coach` melebihi `max_coaches_per_team` atau `official` melebihi `max_officials_per_team`, server juga mengembalikan `400 Bad Request`.
 
 ---
 
@@ -486,7 +524,7 @@ Gunakan status di bawah ini untuk menampilkan indikator visual (*badge*) pada UI
 | Status Tim | Arti Status | Aksi yang Diizinkan di UI Mitra |
 | :--- | :--- | :--- |
 | `submitted` | Tim berhasil didaftarkan, slot aman. | Tambah, ubah, dan hapus anggota tim. Tombol "Submit Roster" aktif jika kuota min terpenuhi. |
-| `registration_rejected` | Pendaftaran tim ditolak oleh panitia (misal: nama tim melanggar aturan). | User dapat merevisi nama tim via `PATCH /teams/:id`. |
+| `registration_rejected` | Pendaftaran tim ditolak oleh panitia (misal: nama tim melanggar aturan). | User dapat merevisi nama tim, jenis tim, dan nama sekolah/club via `PATCH /teams/:id`. |
 | `registration_verified` | Pendaftaran awal diverifikasi. | Lanjutkan melengkapi berkas anggota tim. |
 | `roster_submitted` | Berkas anggota telah dikirim lengkap ke panitia. | Form anggota dinonaktifkan (*read-only*). User dapat melakukan *unsubmit* jika perlu revisi sebelum diverifikasi. |
 | `roster_rejected` | Berkas ada yang tidak lengkap / ditolak juri verifikator. | Form anggota aktif kembali untuk diperbaiki dan di-submit ulang. |
@@ -619,14 +657,23 @@ export async function loginWithGoogle(googleIdToken: string) {
 }
 
 // 4. Daftarkan tim baru
-export async function registerTeam(eventSlug: string, categoryId: string, teamName: string, extra?: {
-  logoUrl?: string;
-  coachName?: string;
-  coachPhone?: string;
-}) {
+export async function registerTeam(
+  eventSlug: string,
+  categoryId: string,
+  teamName: string,
+  teamType: 'school' | 'club',
+  institutionName: string,
+  extra?: {
+    logoUrl?: string;
+    coachName?: string;
+    coachPhone?: string;
+  },
+) {
   const response = await evoraApi.post(`/events/${eventSlug}/teams`, {
     category_id: categoryId,
     team_name: teamName,
+    team_type: teamType,
+    institution_name: institutionName,
     logo_url: extra?.logoUrl,
     coach_name: extra?.coachName,
     coach_phone: extra?.coachPhone,
@@ -637,7 +684,9 @@ export async function registerTeam(eventSlug: string, categoryId: string, teamNa
 // 5. Tambah anggota tim
 export async function addTeamMember(teamId: string, memberData: {
   fullName: string;
-  roleInTeam: 'leader' | 'member' | 'official';
+  roleInTeam: 'leader' | 'member' | 'official' | 'coach';
+  birthPlace: string;
+  birthDate: string; // Format YYYY-MM-DD
   positionLabel?: string;
   nisn?: string;
   photoUrl?: string;
@@ -647,6 +696,8 @@ export async function addTeamMember(teamId: string, memberData: {
   const response = await evoraApi.post(`/teams/${teamId}/members`, {
     full_name: memberData.fullName,
     role_in_team: memberData.roleInTeam,
+    birth_place: memberData.birthPlace,
+    birth_date: memberData.birthDate,
     position_label: memberData.positionLabel,
     nisn: memberData.nisn,
     photo_url: memberData.photoUrl,

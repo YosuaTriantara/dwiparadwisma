@@ -1,7 +1,14 @@
 import React from "react";
+import type { TeamStatus } from "@/types/evora";
 
 interface StatusBadgeProps {
-  status: "soon" | "open" | "closed" | "info" | "submitted" | "verified" | "rejected";
+  status:
+    | "soon"
+    | "open"
+    | "closed"
+    | "info"
+    | "rejected"
+    | TeamStatus;
   children?: React.ReactNode;
   className?: string;
 }
@@ -29,15 +36,28 @@ export function StatusBadge({ status, children, className = "" }: StatusBadgePro
       break;
     case "submitted":
       bgStyles = "bg-[#B7791F] text-[#F4F1DC]";
-      defaultText = "BERKAS DIAJUKAN";
+      defaultText = "TIM TERDAFTAR";
+      break;
+    case "registration_verified":
+      bgStyles = "bg-bramasta-accent text-bramasta-accent-on";
+      defaultText = "PENDAFTARAN TERVERIFIKASI";
+      break;
+    case "roster_submitted":
+      bgStyles = "bg-[#B7791F] text-[#F4F1DC]";
+      defaultText = "ROSTER DIAJUKAN";
       break;
     case "verified":
       bgStyles = "bg-[#2F6B3F] text-[#F4F1DC]";
-      defaultText = "TERVERIFIKASI";
+      defaultText = "SAH / TERVERIFIKASI";
       break;
     case "rejected":
+    case "registration_rejected":
       bgStyles = "bg-[#9B2C2C] text-[#F4F1DC]";
-      defaultText = "PERLU REVISI";
+      defaultText = "REVISI IDENTITAS TIM";
+      break;
+    case "roster_rejected":
+      bgStyles = "bg-[#9B2C2C] text-[#F4F1DC]";
+      defaultText = "REVISI ANGGOTA TIM";
       break;
   }
 

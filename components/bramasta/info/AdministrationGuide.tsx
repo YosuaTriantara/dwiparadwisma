@@ -105,171 +105,123 @@ function normalizeDocuments(rawDocs: any): EvoraDocument[] {
 export function AdministrationGuide({ event }: AdministrationGuideProps) {
   const [previewDoc, setPreviewDoc] = useState<EvoraDocument | null>(null);
 
-  // Esc key & body lock scroll
+  // Esc key & body lock scroll safely
   useEffect(() => {
+    if (!previewDoc) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setPreviewDoc(null);
     };
 
-    if (previewDoc) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [previewDoc]);
-
-  const feeNumber = Number(event?.registration_fee);
-  const hasFeeData = Boolean(event?.is_paid && feeNumber > 0);
-
-  const feeFormatted = hasFeeData
-    ? new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-      }).format(feeNumber)
-    : "Bebas Biaya / Belum Diatur";
 
   // Normalisasi berkas dari API EVORA, fallback ke dokumen resmi default jika kosong
   const apiDocs = normalizeDocuments(event?.documents);
   const documents = apiDocs.length > 0 ? apiDocs : DEFAULT_DOCUMENTS;
 
   return (
-    <section id="administrasi" className="scroll-mt-20">
+    <section id="administrasi" aria-labelledby="administrasi-title" className="scroll-mt-20">
       <div className="bg-paper-light border-2 border-bramasta-ink rounded-md p-4 sm:p-6 shadow-[3px_3px_0px_#141210]">
         {/* Header Section */}
-        <div className="text-center mb-3 sm:mb-5">
-          <span className="font-bodoni font-bold text-xs uppercase tracking-widest text-bramasta-ink-mute">
-            PEDOMAN PESERTA & SYARAT BERKAS RESMI
+        <div className="text-left sm:text-center mb-3 sm:mb-5">
+          <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block">
+            PEDOMAN PESERTA 
           </span>
-          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-1">
-            Administrasi, Biaya & Berkas Regulasi
+          <h2
+            id="administrasi-title"
+            className="font-bodoni font-bold text-[26px] sm:text-[32px] lg:text-[38px] uppercase tracking-tight text-bramasta-ink leading-[1.12] mt-1"
+          >
+            Administrasi & Berkas 
           </h2>
-          <p className="font-bodoni text-sm sm:text-base text-bramasta-ink-soft max-w-lg mx-auto mt-1 leading-relaxed">
-            Rincian biaya pendaftaran peleton serta dokumen petunjuk teknis perlombaan resmi LKBB Bramasta 4.0.
+          <p className="font-bodoni text-base sm:text-[17px] text-bramasta-ink-soft max-w-xl sm:mx-auto mt-2 leading-[1.65] text-justify sm:text-center hyphens-auto">
+            Lihat atau unduh dokumen petunjuk teknis LKBB Bramasta 4.0.
           </p>
         </div>
 
-        <NewsRule variant="thin" className="my-2.5" />
+        <NewsRule variant="std" className="my-3.5" />
 
-        {/* 1. Panel Biaya & Metode Pembayaran */}
-        {hasFeeData && (
-          <div className="border-2 border-bramasta-ink bg-paper rounded-md p-4 sm:p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 sm:mb-5 shadow-xs">
-            <div>
-              <span className="font-bodoni font-semibold text-xs sm:text-sm uppercase tracking-wider text-bramasta-ink-soft block">
-                Biaya Pendaftaran per Tim
-              </span>
-              <span className="font-bodoni font-bold text-2xl sm:text-3xl text-bramasta-ink">
-                {feeFormatted}
-              </span>
-            </div>
+        {/* Daftar Berkas & Dokumen Resmi Perlombaan */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {documents.map((doc, idx) => {
+            const isPdf =
+              doc.type?.toLowerCase() === "pdf" ||
+              doc.url.toLowerCase().includes(".pdf");
 
-            <div className="text-left md:text-right border-t md:border-t-0 md:border-l border-bramasta-ink/30 pt-3 md:pt-0 md:pl-5 w-full md:w-auto">
-              <span className="font-bodoni font-semibold text-xs sm:text-sm uppercase tracking-wider text-bramasta-ink-soft block">
-                Metode Pembayaran
-              </span>
-              <span className="font-bodoni font-bold text-sm sm:text-base text-bramasta-ink block">
-                {event?.payment_method === "manual_transfer"
-                  ? "Transfer Bank Manual"
-                  : event?.payment_method || "Transfer Resmi Panitia"}
-              </span>
-              {event?.payment_info?.bank_name && (
-                <span className="font-bodoni font-medium text-xs sm:text-sm text-bramasta-ink block mt-1">
-                  {event.payment_info.bank_name}: {event.payment_info.account_number} (a.n. {event.payment_info.account_holder})
-                </span>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* 2. Panel Berkas & Dokumen Resmi Perlombaan (Daftar Dokumen dari API) */}
-        <div className="mt-2">
-          <div className="flex items-center gap-2 mb-2.5">
-            <FileText className="w-4 h-4 text-bramasta-ink" />
-            <h3 className="font-bodoni font-bold text-sm sm:text-base uppercase tracking-wider text-bramasta-ink">
-              Berkas Regulasi & Formulir Pendaftaran Resmi
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
-            {documents.map((doc, idx) => {
-              const isPdf =
-                doc.type?.toLowerCase() === "pdf" ||
-                doc.url.toLowerCase().includes(".pdf");
-
-              return (
-                <div
-                  key={doc.id || idx}
-                  className="bg-paper border-2 border-bramasta-ink p-3.5 sm:p-4 flex flex-col justify-between shadow-sm relative"
-                >
-                  <div>
-                    {/* Header Item Dokumen */}
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
-                      <div className="flex items-center gap-2">
-                        <span className="p-1.5 bg-paper-dark border border-bramasta-ink text-bramasta-ink">
-                          <FileText className="w-4 h-4" />
-                        </span>
-                        <span className="px-2 py-0.5 bg-bramasta-ink text-white font-bodoni font-bold text-xs uppercase tracking-wider">
-                          {isPdf ? "DOKUMEN PDF" : (doc.type?.toUpperCase() || "BERKAS")}
-                        </span>
-                      </div>
-                      {doc.size && (
-                        <span className="text-xs font-bodoni text-bramasta-ink-mute font-medium">
-                          {doc.size}
-                        </span>
-                      )}
+            return (
+              <div
+                key={doc.id || idx}
+                className="bg-paper border-2 border-bramasta-ink rounded-md p-4 flex flex-col justify-between shadow-sm relative"
+              >
+                <div>
+                  {/* Header Item Dokumen */}
+                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="p-1.5 bg-paper-dark border border-bramasta-ink rounded-sm text-bramasta-ink">
+                        <FileText className="w-4 h-4" />
+                      </span>
+                      <span className="px-2.5 py-0.5 bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs uppercase tracking-wider rounded-sm">
+                        {isPdf ? "DOKUMEN PDF" : (doc.type?.toUpperCase() || "BERKAS")}
+                      </span>
                     </div>
-
-                    <h4 className="font-bodoni font-bold text-sm sm:text-base uppercase text-bramasta-ink leading-snug mt-1 mb-1">
-                      {doc.title}
-                    </h4>
-
-                    {doc.description && (
-                      <p className="font-bodoni text-xs sm:text-sm text-bramasta-ink-soft leading-relaxed mb-3">
-                        {doc.description}
-                      </p>
+                    {doc.size && (
+                      <span className="text-xs sm:text-sm font-bodoni text-bramasta-ink-soft font-bold lining-nums">
+                        {doc.size}
+                      </span>
                     )}
                   </div>
 
-                  {/* Tombol Aksi: Preview Pop-up (tanpa redirect) & Unduh File */}
-                  <div className="flex items-center gap-2 pt-2.5 border-t border-bramasta-ink/20 mt-2">
-                    {isPdf && doc.url && (
-                      <button
-                        type="button"
-                        onClick={() => setPreviewDoc(doc)}
-                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-bramasta-ink text-white font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink/90 transition-colors shadow-xs cursor-pointer text-center"
-                        title="Buka preview dokumen"
-                      >
-                        <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                        <span>Preview</span>
-                      </button>
-                    )}
+                  <h3 className="font-bodoni font-bold text-lg sm:text-xl uppercase tracking-[0.02em] text-bramasta-ink leading-[1.25] mt-1.5 mb-2">
+                    {doc.title}
+                  </h3>
 
-                    {doc.url && (
-                      <a
-                        href={doc.download_url || doc.url}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex items-center justify-center gap-1.5 px-3 py-2 border-2 border-bramasta-ink text-bramasta-ink bg-paper-light font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink hover:text-white transition-colors cursor-pointer text-center ${
-                          isPdf ? "flex-1" : "w-full"
-                        }`}
-                        title="Unduh berkas PDF"
-                      >
-                        <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                        <span>Unduh</span>
-                      </a>
-                    )}
-                  </div>
+                  {doc.description && (
+                    <p className="font-bodoni text-base text-bramasta-ink-soft leading-[1.6] text-justify hyphens-auto mb-3.5 oldstyle-nums">
+                      {doc.description}
+                    </p>
+                  )}
                 </div>
-              );
-            })}
-          </div>
+
+                {/* Tombol Aksi: Preview Pop-up (tanpa redirect) & Unduh File */}
+                <div className="flex items-center gap-2.5 pt-3 border-t border-bramasta-ink/20 mt-2">
+                  {isPdf && doc.url && (
+                    <button
+                      type="button"
+                      onClick={() => setPreviewDoc(doc)}
+                      className="flex-1 min-h-[44px] flex items-center justify-center gap-1.5 px-3 py-2.5 bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink-soft rounded-md transition-colors shadow-xs cursor-pointer text-center"
+                      title="Buka preview dokumen"
+                    >
+                      <Eye className="w-4 h-4 shrink-0" />
+                      <span>Preview</span>
+                    </button>
+                  )}
+
+                  {doc.url && (
+                    <a
+                      href={doc.download_url || doc.url}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`min-h-[44px] flex items-center justify-center gap-1.5 px-3 py-2.5 border-2 border-bramasta-ink text-bramasta-ink bg-paper-light font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors cursor-pointer text-center ${
+                        isPdf ? "flex-1" : "w-full"
+                      }`}
+                      title="Unduh berkas PDF"
+                    >
+                      <Download className="w-4 h-4 shrink-0" />
+                      <span>Unduh</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -279,22 +231,22 @@ export function AdministrationGuide({ event }: AdministrationGuideProps) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="preview-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-xs animate-in fade-in duration-150"
+          className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-bramasta-ink/75 backdrop-blur-xs animate-in fade-in duration-150"
           onClick={() => setPreviewDoc(null)}
         >
           <div
-            className="bg-paper-light border-2 sm:border-3 border-bramasta-ink shadow-[4px_4px_0px_#141210] rounded-xl max-w-4xl w-full h-[88vh] sm:h-[90vh] flex flex-col relative animate-in zoom-in-95 duration-150 overflow-hidden"
+            className="bg-paper-light border-2 sm:border-[3px] border-bramasta-ink shadow-[4px_4px_0px_#141210] rounded-xl max-w-4xl w-full h-[88vh] sm:h-[90vh] flex flex-col relative animate-in zoom-in-95 duration-150 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header Modal Preview Ringkas */}
             <div className="px-3 py-2 sm:px-4 sm:py-2.5 bg-paper border-b-2 border-bramasta-ink flex items-center justify-between gap-2">
               <div className="min-w-0 flex-1">
-                <span className="font-bodoni font-bold text-[11px] sm:text-xs uppercase tracking-wider text-bramasta-ink-mute block">
+                <span className="font-bodoni font-bold text-xs uppercase tracking-wider text-bramasta-accent block">
                   DOKUMEN RESMI (PDF)
                 </span>
                 <h3
                   id="preview-modal-title"
-                  className="font-bodoni font-bold text-xs sm:text-base uppercase text-bramasta-ink truncate"
+                  className="font-bodoni font-bold text-sm sm:text-base uppercase text-bramasta-ink truncate"
                   title={previewDoc.title}
                 >
                   {previewDoc.title}
@@ -308,10 +260,10 @@ export function AdministrationGuide({ event }: AdministrationGuideProps) {
                   download
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-1.5 sm:px-2.5 sm:py-1.5 border border-bramasta-ink bg-paper hover:bg-bramasta-ink hover:text-white transition-colors flex items-center gap-1 text-xs font-bodoni font-bold uppercase"
+                  className="min-w-[44px] min-h-[44px] justify-center p-2 sm:px-3 sm:py-2 border border-bramasta-ink bg-paper hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors flex items-center gap-1.5 text-xs font-bodoni font-bold uppercase focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
                   title="Unduh file PDF"
                 >
-                  <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <Download className="w-4 h-4" />
                   <span className="hidden sm:inline">Unduh</span>
                 </a>
 
@@ -319,43 +271,58 @@ export function AdministrationGuide({ event }: AdministrationGuideProps) {
                   href={previewDoc.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-1.5 sm:px-2.5 sm:py-1.5 border border-bramasta-ink bg-paper hover:bg-bramasta-ink hover:text-white transition-colors flex items-center gap-1 text-xs font-bodoni font-bold uppercase"
+                  className="min-w-[44px] min-h-[44px] justify-center p-2 sm:px-3 sm:py-2 border border-bramasta-ink bg-paper hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors flex items-center gap-1.5 text-xs font-bodoni font-bold uppercase focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
                   title="Buka di tab baru"
                 >
-                  <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <ExternalLink className="w-4 h-4" />
                   <span className="hidden sm:inline">Tab Baru</span>
                 </a>
 
                 <button
                   type="button"
                   onClick={() => setPreviewDoc(null)}
-                  className="p-1.5 sm:p-2 border border-bramasta-ink bg-paper hover:bg-bramasta-ink hover:text-white transition-colors cursor-pointer"
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 border border-bramasta-ink bg-paper hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors cursor-pointer focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
                   aria-label="Tutup preview"
                   title="Tutup preview"
                 >
-                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
+            </div>
+
+            {/* Petunjuk khusus browser ponsel apabila PDF tidak dirender inline */}
+            <div className="sm:hidden px-3 py-2 bg-paper-dark/60 border-b border-bramasta-ink/25 flex items-center justify-between gap-2 text-xs font-bodoni text-bramasta-ink">
+              <span className="leading-snug">
+                Pratinjau tidak muncul di ponsel?
+              </span>
+              <a
+                href={previewDoc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-bramasta-accent underline shrink-0 py-1"
+              >
+                Buka PDF &rarr;
+              </a>
             </div>
 
             {/* Konten PDF Iframe Viewer Maksimal */}
             <div className="flex-1 w-full bg-paper-dark relative overflow-hidden">
               <iframe
                 src={`${previewDoc.url}#toolbar=1&navpanes=0`}
-                className="w-full h-full border-0 bg-white"
+                className="w-full h-full border-0 bg-[#F4F1DC]"
                 title={previewDoc.title}
               />
             </div>
 
             {/* Footer Modal Ringkas 1 Baris */}
-            <div className="px-3 py-1.5 sm:px-4 sm:py-2 bg-paper border-t-2 border-bramasta-ink flex items-center justify-between gap-2">
-              <span className="font-bodoni text-xs text-bramasta-ink-mute truncate">
+            <div className="px-3 py-2 sm:px-4 bg-paper border-t-2 border-bramasta-ink flex items-center justify-between gap-2">
+              <span className="font-bodoni text-xs sm:text-sm text-bramasta-ink-soft truncate lining-nums">
                 {previewDoc.size ? `Ukuran: ${previewDoc.size}` : "Format: PDF Resmi"}
               </span>
               <button
                 type="button"
                 onClick={() => setPreviewDoc(null)}
-                className="px-4 py-1 border border-bramasta-ink bg-bramasta-ink text-white font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink/90 transition-colors cursor-pointer shrink-0"
+                className="min-h-[44px] px-4 py-2 border border-bramasta-ink bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-bramasta-ink-soft rounded-md transition-colors cursor-pointer shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
               >
                 Tutup
               </button>

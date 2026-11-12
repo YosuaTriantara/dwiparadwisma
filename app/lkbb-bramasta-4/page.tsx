@@ -4,6 +4,7 @@ import { EventDescription } from "@/components/bramasta/info/EventDescription";
 import { EventTimeline } from "@/components/bramasta/info/EventTimeline";
 import { CategoryQuotaCards } from "@/components/bramasta/info/CategoryQuotaCards";
 import { JudgesSection } from "@/components/bramasta/info/JudgesSection";
+import { RegistrationFeeSection } from "@/components/bramasta/info/RegistrationFeeSection";
 import { AdministrationGuide } from "@/components/bramasta/info/AdministrationGuide";
 import { BramastaMerchandise } from "@/components/bramasta/info/BramastaMerchandise";
 import { BramastaCtaSection } from "@/components/bramasta/info/BramastaCtaSection";
@@ -52,7 +53,7 @@ export default async function BramastaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-[1152px] mx-auto flex flex-col gap-6 sm:gap-8 md:gap-12">
+      <div className="max-w-[1152px] mx-auto flex flex-col gap-8 sm:gap-10 md:gap-12">
         {/* Masthead Koran & Hero Utama */}
         <EventMasthead event={event} />
 
@@ -70,6 +71,9 @@ export default async function BramastaPage() {
 
         {/* Panel Dewan Juri Resmi */}
         <JudgesSection judges={event?.judges || []} />
+
+        {/* Rincian Biaya & Metode Pembayaran Resmi */}
+        <RegistrationFeeSection event={event} />
 
         {/* Pedoman Administrasi & Syarat Berkas */}
         <AdministrationGuide event={event} />

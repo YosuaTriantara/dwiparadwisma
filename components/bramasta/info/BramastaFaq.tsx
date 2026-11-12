@@ -26,32 +26,35 @@ export function BramastaFaq() {
   ];
 
   return (
-    <section id="faq" className="my-1 sm:my-2 scroll-mt-20">
-      <div className="border-2 border-bramasta-ink bg-paper-light p-4 sm:p-5">
-        <div className="text-center mb-2 sm:mb-3">
-          <span className="font-bodoni font-bold text-[10px] sm:text-xs uppercase tracking-widest text-bramasta-ink-mute">
+    <section id="faq" aria-labelledby="faq-title" className="my-1 sm:my-2 scroll-mt-20">
+      <div className="border-2 border-bramasta-ink bg-paper-light rounded-md p-4 sm:p-6 shadow-[3px_3px_0px_#141210]">
+        <div className="text-left sm:text-center mb-3 sm:mb-4">
+          <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block">
             PERTANYAAN UMUM PESERTA
           </span>
-          <h2 className="font-bodoni font-bold text-lg sm:text-xl lg:text-2xl uppercase tracking-tight text-bramasta-ink mt-0.5">
+          <h2
+            id="faq-title"
+            className="font-bodoni font-bold text-[26px] sm:text-[32px] lg:text-[38px] uppercase tracking-tight text-bramasta-ink leading-[1.12] mt-1"
+          >
             Tanya Jawab Teknis Perlombaan
           </h2>
         </div>
 
-        <NewsRule variant="thin" className="my-2" />
+        <NewsRule variant="std" className="my-3" />
 
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col gap-3">
           {faqs.map((faq, idx) => (
             <details
               key={idx}
-              className="group border-2 border-bramasta-ink bg-paper p-3 sm:p-4 rounded-none transition-all duration-200 open:shadow-[2px_2px_0px_#141210]"
+              className="group border-2 border-bramasta-ink bg-paper p-3.5 sm:p-4 rounded-md transition-all duration-200 open:shadow-[2px_2px_0px_#141210]"
             >
-              <summary className="flex justify-between items-center cursor-pointer font-bodoni font-bold text-xs sm:text-sm text-bramasta-ink uppercase tracking-wide list-none select-none">
+              <summary className="flex justify-between items-center min-h-[44px] cursor-pointer font-bodoni font-bold text-base sm:text-lg text-bramasta-ink uppercase tracking-[0.02em] leading-[1.3] list-none select-none">
                 <span>{faq.q}</span>
-                <span className="text-lg font-bold transition-transform duration-200 group-open:rotate-45 ml-2">
+                <span className="text-xl font-bold transition-transform duration-200 group-open:rotate-45 ml-3 shrink-0">
                   +
                 </span>
               </summary>
-              <div className="mt-2.5 pt-2.5 border-t border-bramasta-ink/20 font-bodoni text-xs text-bramasta-ink-soft leading-relaxed">
+              <div className="mt-2.5 pt-2.5 border-t border-bramasta-ink/20 font-bodoni text-base text-bramasta-ink-soft leading-[1.65] text-justify hyphens-auto oldstyle-nums">
                 {faq.a}
               </div>
             </details>

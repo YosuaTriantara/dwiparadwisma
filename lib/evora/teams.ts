@@ -1,11 +1,11 @@
-import { evoraRequest, EVORA_EVENT_SLUG } from "./client";
-import type { EvoraTeam } from "@/types/evora";
+import { evoraRequest, EVORA_EVENT_SLUG, EvoraApiError } from "./client";
+import type { EvoraTeam, TeamType } from "@/types/evora";
 
 export interface CreateTeamPayload {
   category_id: string;
   team_name: string;
-  school_name?: string;
-  school?: string;
+  team_type?: TeamType;
+  institution_name: string;
   logo_url?: string;
   coach_name?: string;
   coach_phone?: string;
@@ -29,6 +29,9 @@ export async function getMyTeams(): Promise<EvoraTeam[]> {
   try {
     return await evoraRequest<EvoraTeam[]>("/teams/me");
   } catch (err) {
+    if (err instanceof EvoraApiError && err.status === 401) {
+      throw err;
+    }
     return [];
   }
 }
