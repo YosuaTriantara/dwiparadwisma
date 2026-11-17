@@ -89,33 +89,33 @@ export function EventTimeline({ event }: EventTimelineProps) {
 
   return (
     <section id="agenda" aria-labelledby="agenda-title" className="scroll-mt-20">
-      <div className="bg-paper-light border-2 border-bramasta-ink rounded-md p-4 sm:p-6 md:p-7 shadow-[3px_3px_0px_#141210]">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2.5 mb-3 sm:mb-4">
-          <div>
-            <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block">
-              WARTA AGENDA RESMI KOMPETISI
-            </span>
-            <h2
-              id="agenda-title"
-              className="font-bodoni font-bold text-[26px] sm:text-[32px] lg:text-[38px] uppercase tracking-tight text-bramasta-ink leading-[1.12] mt-1"
-            >
-             Agenda Penting
-            </h2>
-          </div>
-          <span className="hidden sm:inline-block text-xs font-bodoni text-bramasta-ink bg-paper border border-bramasta-ink rounded-sm px-3 py-1 uppercase font-bold tracking-[0.14em] shrink-0">
-            Jadwal Kegiatan
+      <div className="bg-paper-light border-2 border-bramasta-ink rounded-md p-4 sm:p-6 shadow-[3px_3px_0px_#141210]">
+        {/* Header Section */}
+        <div className="text-left sm:text-center mb-3 sm:mb-5">
+          <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block">
+            WARTA AGENDA RESMI KOMPETISI
           </span>
+          <h2
+            id="agenda-title"
+            className="font-bodoni font-bold text-[26px] sm:text-[32px] lg:text-[38px] uppercase tracking-tight text-bramasta-ink leading-[1.12] mt-1"
+          >
+            Agenda Penting
+          </h2>
+          <p className="font-bodoni text-base sm:text-[17px] text-bramasta-ink-soft max-w-xl sm:mx-auto mt-2 leading-[1.65] text-justify sm:text-center hyphens-auto">
+            Linimasa dan jadwal pelaksanaan resmi kompetisi
+          </p>
         </div>
 
-        <NewsRule variant="std" className="my-3" />
+        <NewsRule variant="std" className="my-3.5" />
 
         {timelineItems.length === 0 ? (
+          /* Empty State: Jadwal agenda belum diisi di EVORA API */
           <div className="bg-paper border border-bramasta-ink/30 rounded-md p-5 text-left sm:text-center">
             <h3 className="font-bodoni font-bold text-xl sm:text-2xl uppercase tracking-[0.02em] text-bramasta-ink leading-[1.2] mb-2">
               COMING SOON
             </h3>
             <p className="font-bodoni text-base text-bramasta-ink-soft max-w-md sm:mx-auto leading-[1.65] text-justify sm:text-center hyphens-auto">
-              Jadwal pelaksanaan belum diatur oleh panitia di sistem EVORA.
+              Pengumuman jadwal linimasa dan agenda resmi pelaksanaan lomba akan dibuka bersamaan dengan pengumuman resmi panitia.
             </p>
           </div>
         ) : (

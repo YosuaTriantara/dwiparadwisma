@@ -58,8 +58,8 @@ export function BramastaNavbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-paper/95 backdrop-blur-sm border-b-4 border-bramasta-ink">
-      <div className="max-w-[1152px] mx-auto px-3 sm:px-6 py-2 flex items-center justify-between gap-2 sm:gap-4">
+    <header className="sticky top-0 z-50 bg-paper/95 backdrop-blur-sm border-b-4 border-bramasta-ink w-full">
+      <div className="w-full max-w-[1152px] mx-auto px-2.5 sm:px-4 lg:px-6 py-2 flex items-center justify-between gap-1.5 sm:gap-3 lg:gap-4">
         {/* Sisi Kiri: Tombol Kembali ke Halaman Sebelumnya (Hanya Ikon <-) */}
         <button
           type="button"
@@ -74,7 +74,7 @@ export function BramastaNavbar() {
         {/* Menu Navigasi Tengah: Satu Baris Penuh Bersih */}
         <nav
           aria-label="Navigasi utama"
-          className="hidden lg:flex items-center gap-4 xl:gap-6 text-xs sm:text-sm uppercase tracking-wider font-bodoni font-bold text-bramasta-ink whitespace-nowrap"
+          className="hidden lg:flex items-center gap-2 xl:gap-5 text-xs xl:text-sm uppercase tracking-wide xl:tracking-wider font-bodoni font-bold text-bramasta-ink whitespace-nowrap min-w-0"
         >
           {NAV_LINKS.map((item) => (
             <Link
@@ -92,27 +92,29 @@ export function BramastaNavbar() {
           {isLoggedIn ? (
             <Link
               href="/lkbb-bramasta-4/daftar"
-              className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-2.5 sm:px-3.5 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+              className="inline-flex items-center justify-center gap-1.5 min-h-[44px] min-w-[44px] px-2.5 sm:px-3 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
               title="Buka Dashboard Kontingen Tim"
+              aria-label="Buka Dashboard Kontingen Tim"
             >
               <ShieldCheck className="w-4 h-4 shrink-0" />
-              <span>Dashboard</span>
+              <span className="hidden sm:inline">Dashboard</span>
             </Link>
           ) : (
             <Link
               href="/lkbb-bramasta-4/daftar?mode=login"
-              className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-2.5 sm:px-3.5 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+              className="inline-flex items-center justify-center gap-1.5 min-h-[44px] min-w-[44px] px-2.5 sm:px-3 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
               title="Masuk bagi peserta atau tim yang sudah terdaftar"
+              aria-label="Masuk Akun Peserta"
             >
               <LogIn className="w-4 h-4 shrink-0" />
-              <span>Masuk</span>
+              <span className="hidden sm:inline">Masuk</span>
             </Link>
           )}
 
           <Link
             href="/lkbb-bramasta-4/daftar"
             onClick={handleDaftarClick}
-            className="flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 py-2 border-2 border-bramasta-ink bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink-soft rounded-md transition-colors shadow-sm whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+            className="flex items-center justify-center gap-1.5 min-h-[44px] px-2.5 sm:px-3.5 py-2 border-2 border-bramasta-ink bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink-soft rounded-md transition-colors shadow-sm whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
           >
             <span>Daftar</span>
             <ArrowRight className="w-4 h-4 shrink-0" />
