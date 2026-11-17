@@ -113,6 +113,7 @@ export function BramastaWelcomeModal({
             fill
             priority
             sizes="(max-width: 640px) 100vw, 600px"
+            unoptimized={visualBannerSrc.startsWith("http")}
             onError={() => setImageError(true)}
             className="object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500 ease-out"
           />
