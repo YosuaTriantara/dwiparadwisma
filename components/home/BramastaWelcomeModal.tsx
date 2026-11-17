@@ -92,7 +92,7 @@ export function BramastaWelcomeModal({
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-lg md:max-w-xl max-h-[min(92dvh,720px)] flex flex-col bg-paper-light border-2 border-bramasta-ink rounded-lg shadow-[6px_6px_0px_#141210] overflow-hidden my-auto animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-lg md:max-w-xl max-h-[min(92dvh,760px)] flex flex-col bg-paper-light border-2 border-bramasta-ink rounded-lg shadow-[6px_6px_0px_#141210] overflow-hidden my-auto animate-in zoom-in-95 duration-200">
         {/* Tombol Tutup (X) - 44x44px touch target dengan kontras tinggi */}
         <button
           type="button"
@@ -106,56 +106,60 @@ export function BramastaWelcomeModal({
         {/* ── VISUAL BANNER RESMI (Dapat diklik untuk langsung menuju pendaftaran) ── */}
         <div
           onClick={handleGuideToBramasta}
-          className="group relative w-full h-36 sm:h-48 md:h-52 bg-paper-dark border-b-2 border-bramasta-ink shrink-0 overflow-hidden cursor-pointer"
+          className="group relative w-full bg-paper-dark border-b-2 border-bramasta-ink shrink-0 overflow-hidden cursor-pointer"
           title="Klik banner untuk melihat detail & panduan pendaftaran"
         >
           {isRemoteUrl ? (
-            /* Gambar eksternal (ImageKit) dimuat langsung secara native tanpa melewati proxy internal _next/image */
-            <img
-              src={visualBannerSrc}
-              alt={eventName || "Banner Resmi LKBB Bramasta 4.0"}
-              onError={() => setImageError(true)}
-              className="w-full h-full object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500 ease-out"
-            />
-          ) : (
-            /* Gambar lokal internal menggunakan Next.js Image component */
-            <Image
-              src={visualBannerSrc}
-              alt={eventName || "Banner Resmi LKBB Bramasta 4.0"}
-              fill
-              priority
-              sizes="(max-width: 640px) 100vw, 600px"
-              className="object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500 ease-out"
-            />
-          )}
-
-          {/* Vignette Gelap & Aksen Tekstur Vintage */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/25 pointer-events-none" />
-
-          {/* Label Header Warta di Atas Banner */}
-          <div className="absolute top-3 left-3 sm:top-3.5 sm:left-4 z-10 flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-xs border border-white/20 rounded text-paper-light">
-            <span className="font-bodoni font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#d6b258]">
-              Warta Resmi Kompetisi
-            </span>
-          </div>
-
-          {/* Info Banner di Bagian Bawah Gambar */}
-          <div className="absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-4 sm:right-4 z-10 flex items-end justify-between gap-2">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 mb-1 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.14em] rounded shadow-xs">
-                <Award className="w-3 h-3 shrink-0" />
-                <span>LKBB Bramasta 4.0</span>
-              </div>
-              <p className="font-bodoni text-xs sm:text-sm text-paper-light/95 font-medium tracking-wide drop-shadow-sm">
-                Barisan Semangat Paskibra Dewata se-Bali
-              </p>
+            /* Menampilkan banner resmi EVORA/ImageKit secara proporsional penuh (Full Aspect Ratio tanpa terpotong) */
+            <div className="relative w-full bg-[#141210] flex items-center justify-center overflow-hidden">
+              <img
+                src={visualBannerSrc}
+                alt={eventName || "Banner Resmi LKBB Bramasta 4.0"}
+                onError={() => setImageError(true)}
+                className="w-full h-auto max-h-[300px] sm:max-h-[360px] object-contain block group-hover:scale-[1.01] transition-transform duration-300 ease-out"
+              />
             </div>
+          ) : (
+            /* Fallback foto dokumentasi podium jika belum ada banner resmi dari API */
+            <div className="relative w-full h-36 sm:h-48 md:h-52 bg-paper-dark overflow-hidden">
+              <Image
+                src={visualBannerSrc}
+                alt={eventName || "Banner Resmi LKBB Bramasta 4.0"}
+                fill
+                priority
+                sizes="(max-width: 640px) 100vw, 600px"
+                className="object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500 ease-out"
+              />
 
-            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bodoni font-bold text-[#d6b258] underline underline-offset-2 shrink-0 group-hover:translate-x-0.5 transition-transform">
-              <span>Buka Info</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </span>
-          </div>
+              {/* Vignette Gelap & Aksen Tekstur Vintage khusus fallback */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/25 pointer-events-none" />
+
+              {/* Label Header Warta di Atas Banner */}
+              <div className="absolute top-3 left-3 sm:top-3.5 sm:left-4 z-10 flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-xs border border-white/20 rounded text-paper-light">
+                <span className="font-bodoni font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#d6b258]">
+                  Warta Resmi Kompetisi
+                </span>
+              </div>
+
+              {/* Info Banner di Bagian Bawah Gambar */}
+              <div className="absolute bottom-3 left-3 right-3 sm:bottom-3.5 sm:left-4 sm:right-4 z-10 flex items-end justify-between gap-2">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 mb-1 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.14em] rounded shadow-xs">
+                    <Award className="w-3 h-3 shrink-0" />
+                    <span>LKBB Bramasta 4.0</span>
+                  </div>
+                  <p className="font-bodoni text-xs sm:text-sm text-paper-light/95 font-medium tracking-wide drop-shadow-sm">
+                    Barisan Semangat Paskibra Dewata se-Bali
+                  </p>
+                </div>
+
+                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bodoni font-bold text-[#d6b258] underline underline-offset-2 shrink-0 group-hover:translate-x-0.5 transition-transform">
+                  <span>Buka Info</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Isi Modal: scrollable secara internal jika layar ponsel sangat pendek */}
