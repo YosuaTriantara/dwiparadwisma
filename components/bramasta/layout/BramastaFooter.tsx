@@ -96,7 +96,7 @@ export function BramastaFooter({ organizerInfo }: BramastaFooterProps = {}) {
             &copy; 2026-2027 LKBB Bramasta 4.0 · Dwipara Dwisma. All rights reserved.
           </span>
           <span className="uppercase tracking-wider">
-            Powered by EVORA Engine
+            Powered by EVORA
           </span>
         </div>
       </div>
