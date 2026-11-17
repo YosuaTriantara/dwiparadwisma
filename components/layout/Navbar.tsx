@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-[6px] border-b border-primary/10">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-16 py-5 flex items-center justify-between">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-4 sm:py-5 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/#hero" className="flex-shrink-0" onClick={() => setActive("HOME")}>
           <div className="text-accent-red font-extrabold text-2xl tracking-[-0.05em] uppercase leading-none">
@@ -44,7 +44,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-stretch gap-6 xl:gap-9">
+        <div className="hidden lg:flex items-stretch gap-4 xl:gap-8">
           {NAV_LINKS.map((link) => {
             const isActive = active === link.label;
             return (
@@ -70,16 +70,17 @@ export default function Navbar() {
         </div>
 
         {/* CTA + Hamburger */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
           <Link
             href="/lkbb-bramasta-4"
-            className="hidden sm:inline-flex items-center gap-2 bg-accent-orange text-ink font-extrabold text-[11px] uppercase tracking-[0.08em] px-5 py-2.5 border-2 border-ink shadow-[3px_3px_0px_#121C2A] hover:bg-amber-400 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap"
+            className="hidden sm:inline-flex items-center gap-2 bg-accent-orange text-ink font-extrabold text-[10px] xl:text-[11px] uppercase tracking-[0.08em] px-3.5 xl:px-5 py-2.5 border-2 border-ink shadow-[3px_3px_0px_#121C2A] hover:bg-amber-400 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap shrink-0"
           >
             <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-red opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-red" />
             </span>
-            <span>DAFTAR LKBB BRAMASTA 4.0</span>
+            <span className="hidden xl:inline">DAFTAR LKBB BRAMASTA 4.0</span>
+            <span className="inline xl:hidden">BRAMASTA 4.0</span>
           </Link>
 
           {/* Hamburger */}
