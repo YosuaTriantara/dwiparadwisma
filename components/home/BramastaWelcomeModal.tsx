@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { X, ArrowRight, Compass, Sparkles, Award } from "lucide-react";
+import { X, ArrowRight, Compass, Award } from "lucide-react";
 import { startBramastaTour } from "@/lib/tour/tourStorage";
 
 interface BramastaWelcomeModalProps {
@@ -92,7 +92,7 @@ export function BramastaWelcomeModal({
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-lg md:max-w-xl max-h-[min(92dvh,760px)] flex flex-col bg-paper-light border-2 border-bramasta-ink rounded-lg shadow-[6px_6px_0px_#141210] overflow-hidden my-auto animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-lg md:max-w-xl max-h-[min(94dvh,760px)] flex flex-col bg-paper-light border-2 border-bramasta-ink rounded-lg shadow-[6px_6px_0px_#141210] overflow-hidden my-auto animate-in zoom-in-95 duration-200">
         {/* Tombol Tutup (X) - 44x44px touch target dengan kontras tinggi */}
         <button
           type="button"
@@ -162,47 +162,75 @@ export function BramastaWelcomeModal({
           )}
         </div>
 
-        {/* Isi Modal: scrollable secara internal jika layar ponsel sangat pendek */}
-        <div className="p-4 sm:p-6 md:p-7 text-bramasta-ink overflow-y-auto overscroll-contain flex-1">
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2">
-            <span className="inline-block px-2 py-0.5 text-[10px] sm:text-[11px] font-bodoni font-bold uppercase tracking-wider bg-bramasta-accent text-bramasta-accent-on rounded">
-              Pendaftaran Dibuka
-            </span>
-            <span className="text-[11px] sm:text-xs font-bodoni text-bramasta-ink-soft">
-              Tingkat SMP & SMA se-Bali
-            </span>
-          </div>
+        {/* Isi Modal: Ringkas & to the point ketika banner tersedia */}
+        <div className="p-4 sm:p-5 md:p-6 text-bramasta-ink overflow-y-auto overscroll-contain flex-1">
+          {isRemoteUrl ? (
+            /* Layout Ringkas: Teks padat & langsung fokus ke aksi */
+            <div className="text-left mb-3.5 sm:mb-4">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <span className="inline-block px-2 py-0.5 text-[10px] sm:text-[11px] font-bodoni font-bold uppercase tracking-wider bg-bramasta-accent text-bramasta-accent-on rounded">
+                  Pendaftaran Dibuka
+                </span>
+                <span className="text-[11px] sm:text-xs font-bodoni text-bramasta-ink-soft">
+                  {eventName || "LKBB Bramasta 4.0"}
+                </span>
+              </div>
 
-          <h2
-            id="welcome-modal-title"
-            className="font-bodoni font-bold text-xl sm:text-2xl md:text-[26px] uppercase tracking-tight text-bramasta-ink leading-[1.18]"
-          >
-            Selamat Datang di Portal Dwipara Dwisma!
-          </h2>
+              <h2
+                id="welcome-modal-title"
+                className="font-bodoni font-bold text-lg sm:text-xl md:text-2xl uppercase tracking-tight text-bramasta-ink leading-tight"
+              >
+                Pendaftaran Resmi Telah Dibuka
+              </h2>
 
-          <p
-            id="welcome-modal-desc"
-            className="font-bodoni text-xs sm:text-sm md:text-[15px] text-bramasta-ink-soft mt-2.5 sm:mt-3 leading-[1.6] text-justify hyphens-auto"
-          >
-            Pendaftaran kompetisi akbar{" "}
-            <strong className="text-bramasta-ink font-bold">
-              {eventName || "LKBB Bramasta 4.0"}
-            </strong>{" "}
-            telah resmi dibuka. Apakah Anda ingin langsung dipandu menuju informasi
-            lengkap dan langkah pendaftaran tim, atau ingin menjelajahi profil organisasi
-            Dwipara Dwisma terlebih dahulu?
-          </p>
+              <p
+                id="welcome-modal-desc"
+                className="font-bodoni text-xs sm:text-sm text-bramasta-ink-soft mt-1.5 leading-relaxed"
+              >
+                Ingin langsung dipandu melihat informasi lomba dan alur pendaftaran, atau menjelajahi profil Dwipara Dwisma?
+              </p>
+            </div>
+          ) : (
+            /* Layout Lengkap ketika menggunakan Fallback Foto */
+            <div className="text-left mb-4 sm:mb-5">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2">
+                <span className="inline-block px-2 py-0.5 text-[10px] sm:text-[11px] font-bodoni font-bold uppercase tracking-wider bg-bramasta-accent text-bramasta-accent-on rounded">
+                  Pendaftaran Dibuka
+                </span>
+                <span className="text-[11px] sm:text-xs font-bodoni text-bramasta-ink-soft">
+                  Tingkat SMP & SMA se-Bali
+                </span>
+              </div>
 
-          {/* Pemisah Garis Koran */}
-          <hr className="border-t border-bramasta-ink/20 my-4 sm:my-5" />
+              <h2
+                id="welcome-modal-title"
+                className="font-bodoni font-bold text-xl sm:text-2xl md:text-[26px] uppercase tracking-tight text-bramasta-ink leading-[1.18]"
+              >
+                Selamat Datang di Portal Dwipara Dwisma!
+              </h2>
+
+              <p
+                id="welcome-modal-desc"
+                className="font-bodoni text-xs sm:text-sm md:text-[15px] text-bramasta-ink-soft mt-2 leading-[1.6] text-justify hyphens-auto"
+              >
+                Pendaftaran kompetisi akbar{" "}
+                <strong className="text-bramasta-ink font-bold">
+                  {eventName || "LKBB Bramasta 4.0"}
+                </strong>{" "}
+                telah resmi dibuka. Apakah Anda ingin langsung dipandu menuju informasi
+                lengkap dan langkah pendaftaran tim, atau ingin menjelajahi profil organisasi
+                Dwipara Dwisma terlebih dahulu?
+              </p>
+            </div>
+          )}
 
           {/* Opsi Akomodasi Kedua Kebutuhan User */}
-          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 pt-1">
             {/* Opsi 1: Menuju Panduan Pendaftaran LKBB Bramasta 4.0 */}
             <button
               type="button"
               onClick={handleGuideToBramasta}
-              className="w-full sm:flex-1 min-h-[46px] inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-colors rounded-md shadow-xs text-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-bramasta-ink"
+              className="w-full sm:flex-1 min-h-[44px] sm:min-h-[46px] inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-colors rounded-md shadow-xs text-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-bramasta-ink"
             >
               <span>Pandu ke Pendaftaran</span>
               <ArrowRight className="w-4 h-4 shrink-0" />
@@ -212,16 +240,12 @@ export function BramastaWelcomeModal({
             <button
               type="button"
               onClick={handleExploreDwipara}
-              className="w-full sm:flex-1 min-h-[46px] inline-flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-bramasta-ink text-bramasta-ink font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.06em] hover:bg-bramasta-ink hover:text-paper-light transition-colors rounded-md text-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-bramasta-accent"
+              className="w-full sm:flex-1 min-h-[44px] sm:min-h-[46px] inline-flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-bramasta-ink text-bramasta-ink font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.06em] hover:bg-bramasta-ink hover:text-paper-light transition-colors rounded-md text-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-bramasta-accent"
             >
               <Compass className="w-4 h-4 shrink-0" />
               <span>Jelajahi Profil Dwipara</span>
             </button>
           </div>
-
-          <p className="font-bodoni text-[11px] sm:text-xs text-bramasta-ink-soft text-center mt-3">
-            Warta resmi LKBB Bramasta 4.0 · Dwipara Dwisma SMAN 2 Mengwi
-          </p>
         </div>
       </div>
     </div>
