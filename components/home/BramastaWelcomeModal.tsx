@@ -18,6 +18,12 @@ export function BramastaWelcomeModal({
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  // Reset status error jika bannerUrl dari props berubah
+  useEffect(() => {
+    setImageError(false);
+  }, [bannerUrl]);
 
   useEffect(() => {
     setMounted(true);
@@ -63,16 +69,12 @@ export function BramastaWelcomeModal({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, handleClose]);
 
+  // Semua hooks di atas telah dipanggil sebelum conditional return
   if (!mounted || !isOpen) return null;
 
-  const [imageError, setImageError] = useState(false);
-
-  useEffect(() => {
-    setImageError(false);
-  }, [bannerUrl]);
-
-  // Gunakan banner resmi dari EVORA API jika ada, atau fallback dokumentasi podium Bramasta
+  // Gunakan banner resmi dari EVORA API jika ada dan tidak error, atau fallback dokumentasi podium Bramasta
   const visualBannerSrc = !imageError && bannerUrl ? bannerUrl : "/images/bramasta-hero.jpg";
+  const isRemoteUrl = Boolean(visualBannerSrc && visualBannerSrc.startsWith("http"));
 
   return (
     <div
@@ -107,16 +109,25 @@ export function BramastaWelcomeModal({
           className="group relative w-full h-36 sm:h-48 md:h-52 bg-paper-dark border-b-2 border-bramasta-ink shrink-0 overflow-hidden cursor-pointer"
           title="Klik banner untuk melihat detail & panduan pendaftaran"
         >
-          <Image
-            src={visualBannerSrc}
-            alt={eventName || "Banner Resmi LKBB Bramasta 4.0"}
-            fill
-            priority
-            sizes="(max-width: 640px) 100vw, 600px"
-            unoptimized={visualBannerSrc.startsWith("http")}
-            onError={() => setImageError(true)}
-            className="object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500 ease-out"
-          />
+          {isRemoteUrl ? (
+            /* Gambar eksternal (ImageKit) dimuat langsung secara native tanpa melewati proxy internal _next/image */
+            <img
+              src={visualBannerSrc}
+              alt={eventName || "Banner Resmi LKBB Bramasta 4.0"}
+              onError={() => setImageError(true)}
+              className="w-full h-full object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          ) : (
+            /* Gambar lokal internal menggunakan Next.js Image component */
+            <Image
+              src={visualBannerSrc}
+              alt={eventName || "Banner Resmi LKBB Bramasta 4.0"}
+              fill
+              priority
+              sizes="(max-width: 640px) 100vw, 600px"
+              className="object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+          )}
 
           {/* Vignette Gelap & Aksen Tekstur Vintage */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/25 pointer-events-none" />
@@ -162,14 +173,14 @@ export function BramastaWelcomeModal({
             id="welcome-modal-title"
             className="font-bodoni font-bold text-xl sm:text-2xl md:text-[26px] uppercase tracking-tight text-bramasta-ink leading-[1.18]"
           >
-            Selamat Datang di Dwipara Dwisma!
+            Selamat Datang di Portal Dwipara Dwisma!
           </h2>
 
           <p
             id="welcome-modal-desc"
             className="font-bodoni text-xs sm:text-sm md:text-[15px] text-bramasta-ink-soft mt-2.5 sm:mt-3 leading-[1.6] text-justify hyphens-auto"
           >
-            Pendaftaran kompetisi {" "}
+            Pendaftaran kompetisi akbar{" "}
             <strong className="text-bramasta-ink font-bold">
               {eventName || "LKBB Bramasta 4.0"}
             </strong>{" "}

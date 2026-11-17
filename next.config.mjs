@@ -2,21 +2,19 @@
 const nextConfig = {
   images: {
     formats: ["image/webp"],
+    domains: ["ik.imagekit.io", "lh3.googleusercontent.com"],
     remotePatterns: [
       {
         protocol: "https",
         hostname: "ik.imagekit.io",
-        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "**.imagekit.io",
-        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
-        pathname: "/**",
       },
     ],
   },
