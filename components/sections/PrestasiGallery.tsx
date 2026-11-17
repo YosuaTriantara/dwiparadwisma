@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { prestasiSlides } from "@/lib/data";
+import { prestasiList } from "@/lib/data";
 import type { Achievement } from "@/lib/data";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -64,7 +64,30 @@ function CloseIcon() {
   );
 }
 
-// ─── Detail popup ─────────────────────────────────────────────────────────────
+function TrophyIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+      <path d="M4 22h16" />
+      <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+      <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+      <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+    </svg>
+  );
+}
+
+// ─── Detail Modal ─────────────────────────────────────────────────────────────
 
 function DetailModal({
   achievement,
@@ -92,7 +115,7 @@ function DetailModal({
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-ink/70 backdrop-blur-sm z-50"
+        className="fixed inset-0 bg-ink/70 backdrop-blur-sm z-50 cursor-pointer"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -103,11 +126,11 @@ function DetailModal({
         aria-modal="true"
         aria-labelledby="modal-title"
         className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50
-                   w-[92vw] max-w-2xl max-h-[88vh] overflow-y-auto bg-white shadow-2xl"
+                   w-[92vw] max-w-2xl max-h-[88vh] overflow-y-auto bg-white shadow-2xl border border-primary/20"
       >
         {/* Photo */}
         {achievement.image && (
-          <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+          <div className="relative w-full aspect-video bg-primary/10">
             <Image
               src={achievement.image}
               alt={achievement.imageAlt}
@@ -120,6 +143,11 @@ function DetailModal({
               <span className="text-white text-base font-bold">
                 {String(num).padStart(2, "0")}
               </span>
+            </div>
+            {/* Trophy count pill */}
+            <div className="absolute top-3 right-3 bg-primary text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 shadow-md flex items-center gap-1.5">
+              <TrophyIcon />
+              <span>{achievement.awardCount}</span>
             </div>
           </div>
         )}
@@ -139,33 +167,29 @@ function DetailModal({
             <button
               onClick={onClose}
               aria-label="Tutup detail"
-              className="p-2 text-ink/40 hover:text-ink transition-colors -mr-1 -mt-1"
+              className="p-2 text-ink/40 hover:text-ink transition-colors -mr-1 -mt-1 cursor-pointer"
             >
               <CloseIcon />
             </button>
           </div>
 
           {/* Meta */}
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-accent-red text-[12px] font-bold uppercase tracking-[0.15em]">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-accent-red text-xs font-bold uppercase tracking-[0.15em]">
               {achievement.year}
             </span>
-            {achievement.subtitle && (
-              <>
-                <span className="text-ink/20">·</span>
-                <span className="text-ink/50 text-[12px] uppercase tracking-wide">
-                  {achievement.subtitle}
-                </span>
-              </>
-            )}
+            <span className="text-ink/20">·</span>
+            <span className="text-ink/60 text-xs uppercase tracking-wide font-medium">
+              {achievement.subtitle}
+            </span>
           </div>
 
           <h2
             id="modal-title"
-            className="text-primary uppercase font-normal leading-tight mb-4"
-            style={{ fontSize: "clamp(20px, 3vw, 28px)" }}
+            className="text-primary uppercase font-bold leading-tight mb-4"
+            style={{ fontSize: "clamp(22px, 3.5vw, 28px)" }}
           >
-            {achievement.title}
+            {achievement.title} {achievement.subtitle}
           </h2>
 
           {achievement.description && (
@@ -174,16 +198,46 @@ function DetailModal({
                 className="w-16 h-0.5 bg-accent-orange mb-4"
                 aria-hidden="true"
               />
-              <p className="text-primary/70 text-base leading-7">
+              <p className="text-primary/75 text-sm sm:text-base leading-relaxed mb-6">
                 {achievement.description}
               </p>
             </>
           )}
 
+          {/* Full Trophy List */}
+          {achievement.trophies && achievement.trophies.length > 0 && (
+            <div className="pt-5 border-t border-primary/10 mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-primary font-bold text-xs uppercase tracking-[0.15em] flex items-center gap-2">
+                  <span className="w-2 h-2 bg-accent-orange inline-block" />
+                  Daftar Perolehan Piala ({achievement.trophies.length})
+                </h3>
+                <span className="text-[11px] font-bold text-accent-red uppercase tracking-wider">
+                  Hasil Resmi
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {achievement.trophies.map((trophy, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-2.5 p-3 bg-primary/5 border border-primary/10 hover:border-primary/30 transition-colors"
+                  >
+                    <span className="w-6 h-6 flex-shrink-0 bg-accent-orange text-white text-xs font-bold flex items-center justify-center">
+                      {idx + 1}
+                    </span>
+                    <span className="text-primary text-xs font-semibold uppercase leading-snug tracking-wide">
+                      {trophy}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Close CTA */}
           <button
             onClick={onClose}
-            className="mt-6 border border-primary text-primary text-[12px] uppercase tracking-[0.1em] px-8 py-3 hover:bg-primary hover:text-white transition-colors"
+            className="border border-primary text-primary text-[12px] uppercase tracking-[0.1em] px-8 py-3 hover:bg-primary hover:text-white transition-colors cursor-pointer"
           >
             Tutup
           </button>
@@ -193,333 +247,7 @@ function DetailModal({
   );
 }
 
-// ─── Featured card (7-col) ────────────────────────────────────────────────────
-// No nav arrows — only dots for slide pagination.
-
-function FeaturedCard({
-  item,
-  num,
-  slideTotal,
-  currentSlide,
-  onGoTo,
-  onOpenDetail,
-}: {
-  item: Achievement;
-  num: number;
-  slideTotal: number;
-  currentSlide: number;
-  onGoTo: (i: number) => void;
-  onOpenDetail: () => void;
-}) {
-  return (
-    <div
-      className="relative bg-white border border-primary flex flex-col cursor-pointer group"
-      style={{
-        gridColumn: "1 / span 7",
-        gridRow: "1 / span 6",
-        minHeight: "clamp(320px, 40vw, 650px)",
-      }}
-      onClick={onOpenDetail}
-      role="button"
-      tabIndex={0}
-      aria-label={`Lihat detail: ${item.title}`}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpenDetail();
-        }
-      }}
-    >
-      {/* Image */}
-      <div
-        className="relative flex-1 overflow-hidden"
-        style={{ minHeight: "260px" }}
-      >
-        {item.image ? (
-          <Image
-            src={item.image}
-            alt={item.imageAlt}
-            fill
-            sizes="(max-width: 1024px) 100vw, 58vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-          />
-        ) : (
-          <div className="w-full h-full bg-primary/5 flex items-center justify-center">
-            <span className="text-primary/20 text-xs uppercase tracking-widest text-center px-4">
-              Foto Prestasi
-            </span>
-          </div>
-        )}
-
-        {/* "Lihat detail" hover hint */}
-        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300 flex items-center justify-center">
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-[12px] uppercase tracking-[0.15em] bg-primary/80 px-4 py-2">
-            Lihat Detail
-          </span>
-        </div>
-
-        {/* Slide dot indicators — bottom centre */}
-        <div
-          className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10"
-          onClick={(e) => e.stopPropagation()}
-          role="tablist"
-          aria-label="Slide prestasi"
-        >
-          {Array.from({ length: slideTotal }).map((_, i) => (
-            <button
-              key={i}
-              role="tab"
-              aria-selected={i === currentSlide}
-              aria-label={`Slide ${i + 1}`}
-              onClick={() => onGoTo(i)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                i === currentSlide
-                  ? "w-10 bg-accent-orange"
-                  : "w-2.5 bg-white/60 hover:bg-white"
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Info */}
-      <div className="px-4 pt-4 pb-3 flex items-start gap-3">
-        {/* Number badge */}
-        <div className="w-12 h-12 bg-accent-orange flex items-center justify-center flex-shrink-0">
-          <span className="text-white text-sm font-bold">
-            {String(num).padStart(2, "0")}
-          </span>
-        </div>
-        <div className="flex flex-col gap-0.5">
-          <h3 className="text-primary text-sm sm:text-base uppercase font-normal leading-tight">
-            {item.title}
-          </h3>
-          <span className="text-accent-red text-[12px] font-bold uppercase tracking-[0.1em]">
-            {item.year}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Supporting card (5-col, stacked) ────────────────────────────────────────
-// The LAST supporting card hosts the prev / dots / next navigation row.
-
-function SupportingCard({
-  item,
-  num,
-  row,
-  isLast,
-  onOpenDetail,
-  // navigation — only used when isLast=true
-  slideTotal,
-  currentSlide,
-  onPrev,
-  onNext,
-  onGoTo,
-}: {
-  item: Achievement;
-  num: number;
-  row: 1 | 4;
-  isLast: boolean;
-  onOpenDetail: () => void;
-  slideTotal: number;
-  currentSlide: number;
-  onPrev: () => void;
-  onNext: () => void;
-  onGoTo: (i: number) => void;
-}) {
-  return (
-    <div
-      className="relative bg-white border border-primary flex flex-col"
-      style={{
-        gridColumn: "8 / span 5",
-        gridRow: `${row} / span 3`,
-        minHeight: "clamp(140px, 20vw, 310px)",
-      }}
-    >
-      {/* Clickable area (image + info) */}
-      <div
-        className="flex flex-col flex-1 cursor-pointer group"
-        onClick={onOpenDetail}
-        role="button"
-        tabIndex={0}
-        aria-label={`Lihat detail: ${item.title}`}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onOpenDetail();
-          }
-        }}
-      >
-        {/* Image */}
-        <div
-          className="relative overflow-hidden"
-          style={{ minHeight: isLast ? "80px" : "100px", flex: 1 }}
-        >
-          {item.image ? (
-            <Image
-              src={item.image}
-              alt={item.imageAlt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 40vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            />
-          ) : (
-            <div className="w-full h-full bg-primary/5 flex items-center justify-center">
-              <span className="text-primary/20 text-[10px] uppercase tracking-widest text-center px-2">
-                Foto
-              </span>
-            </div>
-          )}
-          {/* Hover hint */}
-          <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300 flex items-center justify-center">
-            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-[11px] uppercase tracking-widest bg-primary/80 px-3 py-1">
-              Detail
-            </span>
-          </div>
-        </div>
-
-        {/* Info row: badge + text */}
-        <div className="px-3 py-2 flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-[11px] font-bold">
-              {String(num).padStart(2, "0")}
-            </span>
-          </div>
-          <div>
-            <p className="text-primary text-[11px] sm:text-xs uppercase font-normal leading-tight tracking-wide">
-              {item.title}
-            </p>
-            <p className="text-primary/40 text-[10px] uppercase tracking-wide">
-              {item.year}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Navigation row — ONLY on the last supporting card ── */}
-      {isLast && (
-        <div
-          className="flex items-center justify-between gap-2 px-3 pb-3 pt-1 border-t border-primary/10"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Prev */}
-          <button
-            onClick={onPrev}
-            aria-label="Slide sebelumnya"
-            className="w-8 h-8 border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors flex-shrink-0"
-          >
-            <ChevronLeft />
-          </button>
-
-          {/* Dot indicators */}
-          <div
-            className="flex items-center gap-1.5 flex-1 justify-center"
-            role="tablist"
-          >
-            {Array.from({ length: slideTotal }).map((_, i) => (
-              <button
-                key={i}
-                role="tab"
-                aria-selected={i === currentSlide}
-                aria-label={`Slide ${i + 1}`}
-                onClick={() => onGoTo(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === currentSlide
-                    ? "w-8 bg-accent-orange"
-                    : "w-2 bg-primary/25 hover:bg-primary/50"
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Next */}
-          <button
-            onClick={onNext}
-            aria-label="Slide berikutnya"
-            className="w-8 h-8 border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors flex-shrink-0"
-          >
-            <ChevronRight />
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── Mobile card ──────────────────────────────────────────────────────────────
-
-function MobileCard({
-  item,
-  num,
-  isFeatured,
-  onOpenDetail,
-}: {
-  item: Achievement;
-  num: number;
-  isFeatured?: boolean;
-  onOpenDetail: () => void;
-}) {
-  return (
-    <div
-      className="relative bg-white border border-primary flex flex-col cursor-pointer group"
-      onClick={onOpenDetail}
-      role="button"
-      tabIndex={0}
-      aria-label={`Lihat detail: ${item.title}`}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpenDetail();
-        }
-      }}
-    >
-      <div
-        className="relative overflow-hidden"
-        style={{ height: isFeatured ? "200px" : "130px" }}
-      >
-        {item.image ? (
-          <Image
-            src={item.image}
-            alt={item.imageAlt}
-            fill
-            sizes="100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="w-full h-full bg-primary/5 flex items-center justify-center">
-            <span className="text-primary/20 text-xs uppercase tracking-widest text-center px-2">
-              Foto Prestasi
-            </span>
-          </div>
-        )}
-      </div>
-      <div className="px-3 py-2 flex items-center gap-2">
-        <div
-          className={`flex items-center justify-center flex-shrink-0 ${isFeatured ? "w-10 h-10 bg-accent-orange" : "w-8 h-8 bg-primary"}`}
-        >
-          <span className="text-white text-[11px] font-bold">
-            {String(num).padStart(2, "0")}
-          </span>
-        </div>
-        <div>
-          <p
-            className={`text-primary uppercase font-normal leading-tight ${isFeatured ? "text-sm" : "text-[11px]"}`}
-          >
-            {item.title}
-          </p>
-          <p className="text-accent-red text-[11px] font-bold uppercase tracking-[0.1em]">
-            {item.year}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Main section ─────────────────────────────────────────────────────────────
+// ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function PrestasiGallery() {
   const [current, setCurrent] = useState(0);
@@ -527,34 +255,21 @@ export default function PrestasiGallery() {
     achievement: Achievement;
     num: number;
   } | null>(null);
-  const total = prestasiSlides.length;
 
-  // Compute global sequential number for every achievement
-  const numMap = useMemo(() => {
-    const map: Record<string, number> = {};
-    let n = 1;
-    for (const slide of prestasiSlides) {
-      map[slide.featured.id] = n++;
-      for (const s of slide.supporting) map[s.id] = n++;
-    }
-    return map;
-  }, []);
+  const total = prestasiList.length; // Exactly 4 events
 
   const goTo = useCallback((index: number) => setCurrent(index), []);
   const prev = useCallback(
     () => setCurrent((c) => (c - 1 + total) % total),
-    [total],
+    [total]
   );
   const next = useCallback(() => setCurrent((c) => (c + 1) % total), [total]);
 
-  const openDetail = useCallback(
-    (a: Achievement) => {
-      setSelected({ achievement: a, num: numMap[a.id] ?? 0 });
-    },
-    [numMap],
-  );
+  const openDetail = useCallback((item: Achievement, num: number) => {
+    setSelected({ achievement: item, num });
+  }, []);
 
-  // Keyboard slide navigation (only when modal is closed)
+  // Keyboard slide navigation (when modal is closed)
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (selected) return;
@@ -565,7 +280,7 @@ export default function PrestasiGallery() {
     return () => window.removeEventListener("keydown", handler);
   }, [prev, next, selected]);
 
-  const slide = prestasiSlides[current];
+  const currentEvent = prestasiList[current];
 
   return (
     <>
@@ -580,9 +295,9 @@ export default function PrestasiGallery() {
 
       <section
         id="prestasi"
-        className="relative bg-primary/5 px-4 sm:px-8 lg:px-16 py-8 overflow-hidden scroll-mt-24"
+        className="relative bg-primary/5 px-4 sm:px-8 lg:px-16 py-10 lg:py-16 overflow-hidden scroll-mt-24"
       >
-        {/* Decorative orange circle outline */}
+        {/* Decorative circle outline */}
         <div
           className="absolute -left-32 top-24 w-[384px] h-[384px] pointer-events-none hidden lg:block"
           style={{
@@ -592,142 +307,374 @@ export default function PrestasiGallery() {
           aria-hidden="true"
         />
 
-        <div className="relative z-10 max-w-content mx-auto lg:pt-10 lg:pb-12">
+        <div className="relative z-10 max-w-content mx-auto lg:pt-4 lg:pb-8">
           {/* ── Header ── */}
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <h2
-                className="text-primary uppercase font-normal leading-[1]"
+                className="text-primary uppercase font-bold leading-tight"
                 style={{
-                  fontSize: "clamp(28px, 4.7vw, 60px)",
-                  lineHeight: "1",
+                  fontSize: "clamp(28px, 4.7vw, 54px)",
                 }}
               >
                 Galeri PRESTASI
               </h2>
-              <p className="text-accent-red text-sm sm:text-base tracking-[0.1em] uppercase">
-                Bukti nyata eksistensi di berbagai tingkat
+              <p className="text-accent-red text-xs sm:text-sm tracking-[0.15em] uppercase font-semibold">
+                Bukti nyata eksistensi di berbagai kompetisi
               </p>
             </div>
-            <div className="flex items-center gap-4" aria-hidden="true">
-              <div className="w-12 h-1 bg-ink" />
-              <div className="w-24 h-1 bg-accent-orange" />
-              <div className="w-48 h-1 bg-primary" />
+            <div className="flex items-center gap-3" aria-hidden="true">
+              <div className="w-10 h-1 bg-ink" />
+              <div className="w-20 h-1 bg-accent-orange" />
+              <div className="w-36 h-1 bg-primary" />
             </div>
           </div>
 
-          {/* ── Desktop bento carousel ── */}
+          {/* ── Desktop Bento Slider (4 Events) ── */}
           <div className="hidden lg:block relative">
-            {prestasiSlides.map((s, i) => (
-              <div
-                key={s.featured.id}
-                aria-hidden={i !== current}
-                className="transition-opacity duration-500"
-                style={{
-                  opacity: i === current ? 1 : 0,
-                  position: i === current ? "relative" : "absolute",
-                  inset: i === current ? "auto" : 0,
-                  pointerEvents: i === current ? "auto" : "none",
-                }}
-              >
+            {prestasiList.map((event, index) => {
+              const isCurrent = index === current;
+              return (
                 <div
-                  className="grid gap-4"
+                  key={event.id}
+                  aria-hidden={!isCurrent}
+                  className="transition-opacity duration-500"
                   style={{
-                    gridTemplateColumns: "repeat(12, minmax(0, 1fr))",
-                    gridTemplateRows: "repeat(6, minmax(0, 75px))",
+                    opacity: isCurrent ? 1 : 0,
+                    position: isCurrent ? "relative" : "absolute",
+                    inset: isCurrent ? "auto" : 0,
+                    pointerEvents: isCurrent ? "auto" : "none",
                   }}
                 >
-                  <FeaturedCard
-                    item={s.featured}
-                    num={numMap[s.featured.id] ?? i * 3 + 1}
-                    slideTotal={total}
-                    currentSlide={current}
-                    onGoTo={goTo}
-                    onOpenDetail={() => openDetail(s.featured)}
-                  />
-                  {s.supporting[0] && (
-                    <SupportingCard
-                      item={s.supporting[0]}
-                      num={numMap[s.supporting[0].id] ?? i * 3 + 2}
-                      row={1}
-                      isLast={false}
-                      onOpenDetail={() => openDetail(s.supporting[0])}
-                      slideTotal={total}
-                      currentSlide={current}
-                      onPrev={prev}
-                      onNext={next}
-                      onGoTo={goTo}
-                    />
-                  )}
-                  {s.supporting[1] && (
-                    <SupportingCard
-                      item={s.supporting[1]}
-                      num={numMap[s.supporting[1].id] ?? i * 3 + 3}
-                      row={4}
-                      isLast={true}
-                      onOpenDetail={() => openDetail(s.supporting[1])}
-                      slideTotal={total}
-                      currentSlide={current}
-                      onPrev={prev}
-                      onNext={next}
-                      onGoTo={goTo}
-                    />
-                  )}
+                  <div
+                    className="grid gap-4"
+                    style={{
+                      gridTemplateColumns: "repeat(12, minmax(0, 1fr))",
+                      gridTemplateRows: "repeat(6, minmax(0, 80px))",
+                    }}
+                  >
+                    {/* ── Left Featured Event Card (7 Columns) ── */}
+                    <div
+                      className="relative bg-white border border-primary flex flex-col cursor-pointer group"
+                      style={{
+                        gridColumn: "1 / span 7",
+                        gridRow: "1 / span 6",
+                        minHeight: "510px",
+                      }}
+                      onClick={() => openDetail(event, index + 1)}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Lihat detail event: ${event.subtitle}`}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          openDetail(event, index + 1);
+                        }
+                      }}
+                    >
+                      {/* Image Cover */}
+                      <div className="relative flex-1 overflow-hidden min-h-[340px] bg-primary/10">
+                        {event.image ? (
+                          <Image
+                            src={event.image}
+                            alt={event.imageAlt}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 58vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-primary/5">
+                            <span className="text-primary/30 text-xs uppercase tracking-widest">
+                              Foto Prestasi
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Top Left Number Badge */}
+                        <div className="absolute top-0 left-0 w-14 h-14 bg-accent-orange flex items-center justify-center">
+                          <span className="text-white text-base font-bold">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                        </div>
+
+                        {/* Top Right Award Pill */}
+                        <div className="absolute top-3 right-3 bg-primary text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 shadow-md flex items-center gap-1.5">
+                          <TrophyIcon />
+                          <span>{event.awardCount}</span>
+                        </div>
+
+                        {/* Hover Overlay */}
+                        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300 flex items-center justify-center">
+                          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-xs uppercase tracking-[0.15em] bg-primary/80 px-4 py-2 font-medium">
+                            Lihat Rincian Lengkap
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Info Row */}
+                      <div className="p-5 flex items-start gap-4">
+                        <div className="w-12 h-12 bg-primary flex items-center justify-center flex-shrink-0 text-white">
+                          <TrophyIcon />
+                        </div>
+                        <div className="flex flex-col gap-1 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-accent-red text-xs font-bold uppercase tracking-[0.1em]">
+                              {event.year}
+                            </span>
+                            <span className="text-primary/30 text-xs">·</span>
+                            <span className="text-primary/60 text-xs uppercase tracking-wider font-semibold">
+                              {event.subtitle}
+                            </span>
+                          </div>
+                          <h3 className="text-primary text-lg sm:text-xl uppercase font-bold leading-tight">
+                            {event.title}
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* ── Right Top: Trophy Highlights Card (5 Columns, Rows 1-3) ── */}
+                    <div
+                      className="relative bg-white border border-primary p-5 flex flex-col justify-between cursor-pointer group hover:border-accent-orange transition-colors"
+                      style={{
+                        gridColumn: "8 / span 5",
+                        gridRow: "1 / span 3",
+                      }}
+                      onClick={() => openDetail(event, index + 1)}
+                      role="button"
+                      tabIndex={0}
+                      aria-label="Lihat seluruh piala"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          openDetail(event, index + 1);
+                        }
+                      }}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between mb-3 pb-2 border-b border-primary/10">
+                          <span className="text-primary text-xs font-bold uppercase tracking-[0.15em] flex items-center gap-1.5">
+                            <span className="w-2 h-2 bg-accent-orange inline-block" />
+                            Daftar Penghargaan
+                          </span>
+                          <span className="text-accent-red text-[11px] font-bold uppercase tracking-wider">
+                            {event.awardCount}
+                          </span>
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          {event.trophies.slice(0, 3).map((trophy, tIdx) => (
+                            <div
+                              key={tIdx}
+                              className="flex items-center gap-2 text-xs font-semibold text-primary uppercase bg-primary/5 p-2 border border-primary/10"
+                            >
+                              <span className="w-5 h-5 bg-accent-orange text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+                                {tIdx + 1}
+                              </span>
+                              <span className="truncate">{trophy}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-2 flex items-center justify-between">
+                        <span className="text-primary/60 text-[11px] uppercase font-semibold">
+                          +{event.trophies.length > 3 ? event.trophies.length - 3 : 0} Kategori Lainnya
+                        </span>
+                        <span className="text-primary font-bold text-xs uppercase tracking-wider group-hover:text-accent-orange transition-colors">
+                          Buka Semua Piala &rarr;
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* ── Right Bottom: Overview & Navigation Row (5 Columns, Rows 4-6) ── */}
+                    <div
+                      className="relative bg-white border border-primary flex flex-col justify-between"
+                      style={{
+                        gridColumn: "8 / span 5",
+                        gridRow: "4 / span 3",
+                      }}
+                    >
+                      {/* Description body */}
+                      <div
+                        className="p-5 flex-1 cursor-pointer group"
+                        onClick={() => openDetail(event, index + 1)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Lihat deskripsi lengkap"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            openDetail(event, index + 1);
+                          }
+                        }}
+                      >
+                        <span className="text-primary/60 text-[11px] font-bold uppercase tracking-[0.15em] block mb-2">
+                          Ringkasan Event
+                        </span>
+                        <p className="text-primary/75 text-xs sm:text-sm leading-relaxed line-clamp-3">
+                          {event.description}
+                        </p>
+                      </div>
+
+                      {/* ── Slider Navigation Row ── */}
+                      <div
+                        className="flex items-center justify-between gap-3 px-4 py-3 border-t border-primary/10 bg-primary/5"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {/* Prev Button */}
+                        <button
+                          onClick={prev}
+                          aria-label="Event sebelumnya"
+                          className="w-9 h-9 border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer flex-shrink-0 bg-white"
+                        >
+                          <ChevronLeft />
+                        </button>
+
+                        {/* Dot indicators (4 events) */}
+                        <div
+                          className="flex items-center gap-2 flex-1 justify-center"
+                          role="tablist"
+                          aria-label="Navigasi event prestasi"
+                        >
+                          {prestasiList.map((_, dotIdx) => (
+                            <button
+                              key={dotIdx}
+                              role="tab"
+                              aria-selected={dotIdx === current}
+                              aria-label={`Event ${dotIdx + 1} dari ${total}`}
+                              onClick={() => goTo(dotIdx)}
+                              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                                dotIdx === current
+                                  ? "w-8 bg-accent-orange"
+                                  : "w-2.5 bg-primary/25 hover:bg-primary/50"
+                              }`}
+                            />
+                          ))}
+                        </div>
+
+                        {/* Counter badge */}
+                        <span className="text-primary/50 text-xs font-mono font-bold">
+                          {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                        </span>
+
+                        {/* Next Button */}
+                        <button
+                          onClick={next}
+                          aria-label="Event berikutnya"
+                          className="w-9 h-9 border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer flex-shrink-0 bg-white"
+                        >
+                          <ChevronRight />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* ── Mobile stacked ── */}
+          {/* ── Mobile Slider (Stacked Layout with Controls) ── */}
           <div className="lg:hidden">
-            {/* Nav row */}
-            <div className="flex items-center justify-between mb-4">
+            {/* Nav controls row */}
+            <div className="flex items-center justify-between mb-4 bg-white border border-primary p-2">
               <button
                 onClick={prev}
-                aria-label="Slide sebelumnya"
-                className="w-10 h-10 border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
+                aria-label="Event sebelumnya"
+                className="w-10 h-10 border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer"
               >
                 <ChevronLeft />
               </button>
+
               <div className="flex items-center gap-2">
-                {Array.from({ length: total }).map((_, i) => (
+                {prestasiList.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => goTo(i)}
-                    aria-label={`Slide ${i + 1}`}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
+                    aria-label={`Event ${i + 1}`}
+                    className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
                       i === current
-                        ? "w-10 bg-accent-orange"
+                        ? "w-8 bg-accent-orange"
                         : "w-2.5 bg-primary/30"
                     }`}
                   />
                 ))}
               </div>
+
               <button
                 onClick={next}
-                aria-label="Slide berikutnya"
-                className="w-10 h-10 border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors"
+                aria-label="Event berikutnya"
+                className="w-10 h-10 border border-primary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer"
               >
                 <ChevronRight />
               </button>
             </div>
 
-            {slide && (
+            {/* Current Mobile Event Card */}
+            {currentEvent && (
               <div className="flex flex-col gap-3">
-                <MobileCard
-                  item={slide.featured}
-                  num={numMap[slide.featured.id] ?? 1}
-                  isFeatured
-                  onOpenDetail={() => openDetail(slide.featured)}
-                />
-                {slide.supporting.map((a) => (
-                  <MobileCard
-                    key={a.id}
-                    item={a}
-                    num={numMap[a.id] ?? 0}
-                    onOpenDetail={() => openDetail(a)}
-                  />
-                ))}
+                <article
+                  className="bg-white border border-primary flex flex-col cursor-pointer group"
+                  onClick={() => openDetail(currentEvent, current + 1)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Lihat detail: ${currentEvent.subtitle}`}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openDetail(currentEvent, current + 1);
+                    }
+                  }}
+                >
+                  <div className="relative w-full aspect-video overflow-hidden bg-primary/10">
+                    {currentEvent.image ? (
+                      <Image
+                        src={currentEvent.image}
+                        alt={currentEvent.imageAlt}
+                        fill
+                        sizes="100vw"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-primary/5">
+                        <span className="text-primary/30 text-xs uppercase tracking-widest">
+                          Foto Prestasi
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute top-0 left-0 w-12 h-12 bg-accent-orange flex items-center justify-center">
+                      <span className="text-white text-sm font-bold">
+                        {String(current + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <div className="absolute top-2 right-2 bg-primary text-white text-[11px] font-bold uppercase tracking-wider px-2 py-1 shadow-sm">
+                      {currentEvent.awardCount}
+                    </div>
+                  </div>
+
+                  <div className="p-4 flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-accent-red text-xs font-bold uppercase tracking-[0.1em]">
+                        {currentEvent.year}
+                      </span>
+                      <span className="text-primary/30 text-xs">·</span>
+                      <span className="text-primary/60 text-xs uppercase tracking-wider font-semibold">
+                        {currentEvent.subtitle}
+                      </span>
+                    </div>
+                    <h3 className="text-primary text-base font-bold uppercase leading-tight">
+                      {currentEvent.title}
+                    </h3>
+                    <p className="text-primary/70 text-xs leading-relaxed line-clamp-2">
+                      {currentEvent.description}
+                    </p>
+
+                    <div className="pt-2 border-t border-primary/10 flex items-center justify-between">
+                      <span className="text-primary font-bold text-xs uppercase tracking-wider text-accent-red">
+                        Lihat Rincian ({currentEvent.trophies.length} Piala) &rarr;
+                      </span>
+                    </div>
+                  </div>
+                </article>
               </div>
             )}
           </div>

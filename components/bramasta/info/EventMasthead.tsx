@@ -57,7 +57,7 @@ export function EventMasthead({ event }: EventMastheadProps) {
       </p>
 
       {/* ── Tagline: Mencari sang pejuang dan sang pemenang - untuk 2027 ── */}
-      <p className="font-bodoni italic font-normal text-[19px] sm:text-2xl md:text-[32px] text-bramasta-ink-soft mt-1.5 mb-1 leading-[1.3] max-w-2xl mx-auto lining-nums">
+      <p className="font-bodoni italic font-normal text-[18px] sm:text-xl md:text-2xl lg:text-[28px] text-bramasta-ink-soft mt-1.5 mb-1 leading-[1.3] max-w-5xl mx-auto lg:whitespace-nowrap lining-nums">
         Mencari sang pejuang dan sang pemenang &mdash; untuk 2027
       </p>
     </section>

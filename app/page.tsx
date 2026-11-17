@@ -9,11 +9,22 @@ import ImmersiveTransition2 from "@/components/sections/ImmersiveTransition2";
 import JejakTimeline from "@/components/sections/JejakTimeline";
 import BramastaTeaserSection from "@/components/sections/BramastaTeaserSection";
 import CtaSection from "@/components/sections/CtaSection";
+import { BramastaWelcomeModal } from "@/components/home/BramastaWelcomeModal";
+import { getEventDetail } from "@/lib/evora/events";
 
-export default function Home() {
+export const revalidate = process.env.NODE_ENV === "development" ? 0 : 60;
+
+export default async function Home() {
+  const event = await getEventDetail();
+
   return (
     <>
       <Navbar />
+      {/* Pop-up Pengumuman Resmi & Panduan Pendaftaran Bramasta untuk Pengunjung Pertama */}
+      <BramastaWelcomeModal
+        bannerUrl={event?.banner_url}
+        eventName={event?.name}
+      />
       {/*
         space-y-16 lg:space-y-20 adds consistent gap between every section
         so content never visually bleeds into the adjacent section when scrolling.

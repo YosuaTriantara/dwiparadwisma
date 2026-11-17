@@ -46,7 +46,7 @@ export function BramastaCtaSection({ organizerInfo }: BramastaCtaSectionProps = 
   };
 
   return (
-    <section aria-labelledby="cta-title">
+    <section id="pendaftaran" aria-labelledby="cta-title" className="scroll-mt-20">
       <div className="bg-paper-light text-bramasta-ink border-2 border-bramasta-ink rounded-md p-5 sm:p-8 md:p-10 text-left sm:text-center shadow-[3px_3px_0px_#141210]">
         <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block mb-1.5">
           PANGGUNG KEHORMATAN MENANTI ANDA

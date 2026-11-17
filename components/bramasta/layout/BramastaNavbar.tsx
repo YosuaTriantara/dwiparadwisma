@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { ArrowLeft, ArrowRight, LogIn, Menu, ShieldCheck, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Compass, LogIn, Menu, ShieldCheck, X } from "lucide-react";
 import { isAuthenticated } from "@/lib/evora/auth";
 import { EVORA_AUTH_EVENT } from "@/lib/evora/client";
 
@@ -46,6 +46,12 @@ export function BramastaNavbar() {
     }
   };
 
+  const handleStartTour = () => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("start-bramasta-tour", { detail: {} }));
+    }
+  };
+
   const handleDaftarClick = (e: React.MouseEvent) => {
     if (normalizedPath === "/lkbb-bramasta-4") {
       e.preventDefault();
@@ -59,40 +65,52 @@ export function BramastaNavbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-paper/95 backdrop-blur-sm border-b-4 border-bramasta-ink w-full">
-      <div className="w-full max-w-[1152px] mx-auto px-2.5 sm:px-4 lg:px-6 py-2 flex items-center justify-between gap-1.5 sm:gap-3 lg:gap-4">
-        {/* Sisi Kiri: Tombol Kembali ke Halaman Sebelumnya (Hanya Ikon <-) */}
+      <div className="w-full max-w-[1152px] mx-auto px-3 sm:px-6 md:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-3 sm:gap-6">
+        {/* Sisi Kiri: Tombol Kembali */}
         <button
           type="button"
           onClick={handleBack}
-          className="group flex items-center justify-center min-w-[44px] min-h-[44px] p-2 border border-bramasta-ink/60 bg-paper hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-sm transition-colors cursor-pointer shrink-0 shadow-xs focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+          className="group flex items-center justify-center min-w-[42px] min-h-[42px] sm:min-w-[44px] sm:min-h-[44px] p-2 border border-bramasta-ink/60 bg-paper hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-sm transition-colors cursor-pointer shrink-0 shadow-xs focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
           aria-label="Kembali ke halaman sebelumnya"
           title="Kembali ke halaman sebelumnya"
         >
           <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
         </button>
 
-        {/* Menu Navigasi Tengah: Satu Baris Penuh Bersih */}
+        {/* Menu Navigasi Tengah */}
         <nav
           aria-label="Navigasi utama"
-          className="hidden lg:flex items-center gap-2 xl:gap-5 text-xs xl:text-sm uppercase tracking-wide xl:tracking-wider font-bodoni font-bold text-bramasta-ink whitespace-nowrap min-w-0"
+          className="hidden lg:flex items-center gap-3.5 xl:gap-6 text-xs xl:text-sm uppercase tracking-wider font-bodoni font-bold text-bramasta-ink whitespace-nowrap shrink-0"
         >
           {NAV_LINKS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="hover:text-bramasta-accent transition-colors py-1 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+              className="py-1 hover:text-bramasta-accent transition-colors focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        {/* Sisi Kanan: Tombol Login / Dashboard & Daftar Tim */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        {/* Sisi Kanan: Panduan, Login / Dashboard & Daftar Tim */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          {/* Tombol Panduan Interaktif */}
+          <button
+            type="button"
+            onClick={handleStartTour}
+            className="inline-flex items-center justify-center gap-1.5 min-h-[42px] sm:min-h-[44px] px-2.5 sm:px-3 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+            title="Mulai Panduan Step-by-Step Pendaftaran"
+            aria-label="Panduan Pendaftaran"
+          >
+            <Compass className="w-4 h-4 shrink-0 text-bramasta-accent" />
+            <span className="hidden xl:inline">Panduan</span>
+          </button>
+
           {isLoggedIn ? (
             <Link
               href="/lkbb-bramasta-4/daftar"
-              className="inline-flex items-center justify-center gap-1.5 min-h-[44px] min-w-[44px] px-2.5 sm:px-3 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+              className="inline-flex items-center justify-center gap-1.5 min-h-[42px] sm:min-h-[44px] px-2.5 sm:px-3 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 shadow-xs focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
               title="Buka Dashboard Kontingen Tim"
               aria-label="Buka Dashboard Kontingen Tim"
             >
@@ -102,7 +120,7 @@ export function BramastaNavbar() {
           ) : (
             <Link
               href="/lkbb-bramasta-4/daftar?mode=login"
-              className="inline-flex items-center justify-center gap-1.5 min-h-[44px] min-w-[44px] px-2.5 sm:px-3 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+              className="inline-flex items-center justify-center gap-1.5 min-h-[42px] sm:min-h-[44px] px-2.5 sm:px-3 py-2 border-2 border-bramasta-ink bg-paper text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors whitespace-nowrap shrink-0 shadow-xs focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
               title="Masuk bagi peserta atau tim yang sudah terdaftar"
               aria-label="Masuk Akun Peserta"
             >
@@ -114,9 +132,9 @@ export function BramastaNavbar() {
           <Link
             href="/lkbb-bramasta-4/daftar"
             onClick={handleDaftarClick}
-            className="flex items-center justify-center gap-1.5 min-h-[44px] px-2.5 sm:px-3.5 py-2 border-2 border-bramasta-ink bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink-soft rounded-md transition-colors shadow-sm whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+            className="flex items-center justify-center gap-1.5 min-h-[42px] sm:min-h-[44px] px-3 sm:px-4 py-2 border-2 border-bramasta-ink bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink-soft rounded-md transition-colors shadow-xs whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
           >
-            <span>Daftar</span>
+            <span>Daftar Tim</span>
             <ArrowRight className="w-4 h-4 shrink-0" />
           </Link>
 
@@ -124,7 +142,7 @@ export function BramastaNavbar() {
           <button
             type="button"
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden flex items-center justify-center min-w-[44px] min-h-[44px] p-2 text-bramasta-ink hover:bg-bramasta-ink/10 rounded-sm transition-colors shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+            className="lg:hidden flex items-center justify-center min-w-[42px] min-h-[42px] sm:min-w-[44px] sm:min-h-[44px] p-2 text-bramasta-ink hover:bg-bramasta-ink/10 rounded-sm transition-colors shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
           >
@@ -150,6 +168,21 @@ export function BramastaNavbar() {
             </span>
             <ArrowRight className="w-4 h-4" />
           </Link>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMobileOpen(false);
+              handleStartTour();
+            }}
+            className="flex items-center justify-between min-h-[44px] py-2.5 px-3 mb-1.5 border-2 border-bramasta-ink bg-paper text-bramasta-ink hover:bg-bramasta-ink hover:text-[#F4F1DC] rounded-md transition-colors cursor-pointer text-left w-full"
+          >
+            <span className="flex items-center gap-2">
+              <Compass className="w-4 h-4 text-bramasta-accent shrink-0" />
+              <span>Panduan Pendaftaran</span>
+            </span>
+            <ArrowRight className="w-4 h-4 shrink-0" />
+          </button>
 
           {NAV_LINKS.map((item) => (
             <Link

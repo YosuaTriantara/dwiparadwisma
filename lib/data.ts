@@ -9,85 +9,119 @@ export interface Achievement {
   year: string;
   image: string | null;
   imageAlt: string;
+  /** Highlight count badge (e.g. "11 Penghargaan") */
+  awardCount: string;
+  /** Complete list of trophies/awards won in this event */
+  trophies: string[];
   /** Full description shown in the detail popup */
   description?: string;
 }
 
+export const prestasiList: Achievement[] = [
+  {
+    id: "lkbb-rumfest-vi",
+    title: "JUARA UMUM",
+    subtitle: "LKBB RUMFEST VI",
+    year: "2026",
+    image: "/images/prestasi/lkbb-rumfest-vi/cover.jpeg",
+    imageAlt: "Dokumentasi Juara Umum LKBB RUMFEST VI",
+    awardCount: "11 Penghargaan",
+    trophies: [
+      "JUARA UMUM",
+      "BEST OF THE BEST LPBB UDAYANA",
+      "BEST OF THE BEST PBB",
+      "BEST OF THE BEST FORMASI",
+      "JUARA UTAMA 1",
+      "BEST PBB 1 - BEST VARIASI 1",
+      "BEST FORMASI 1",
+      "BEST COACH 1",
+      "BEST DANTON 1",
+      "JUARA HARAPAN 2",
+      "BEST ADMINISTRASI 5",
+    ],
+    description:
+      "Pencapaian luar biasa Dwipara Dwisma dalam ajang bergengsi LKBB RUMFEST VI. Memboyong gelar tertinggi Juara Umum beserta 11 kategori penghargaan terbaik yang menjadi bukti disiplin tinggi dan keunggulan teknik seluruh anggota tim.",
+  },
+  {
+    id: "lkbb-visvagatra",
+    title: "JUARA UMUM",
+    subtitle: "LKBB VISVAGATRA (POLTRADA)",
+    year: "2025",
+    image: "/images/prestasi/lkbb-visvagatra/cover.jpeg",
+    imageAlt: "Dokumentasi Juara Umum LKBB Visvagatra POLTRADA",
+    awardCount: "7 Penghargaan",
+    trophies: [
+      "JUARA UMUM",
+      "JUARA UTAMA 1",
+      "PBB TERBAIK 1",
+      "KOMANDAN PASUKAN TERBAIK 1",
+      "KOSTUM DAN MAKEUP TERBAIK 1",
+      "VARIASI FORMASI TERBAIK 2",
+      "JUARA HARAPAN 2",
+    ],
+    description:
+      "Keberhasilan gemilang Dwipara Dwisma dalam kompetisi LKBB Visvagatra POLTRADA Bali. Tampil solid di seluruh kategori dan sukses mengamankan predikat Juara Umum dengan 7 piala kemenangan.",
+  },
+  {
+    id: "lkbb-pasma",
+    title: "JUARA UMUM",
+    subtitle: "LKBB PASMA",
+    year: "2026",
+    image: "/images/prestasi/lkbb-pasma/cover.jpeg",
+    imageAlt: "Dokumentasi Juara Umum LKBB PASMA",
+    awardCount: "5 Penghargaan",
+    trophies: [
+      "Juara Umum",
+      "Juara Utama I",
+      "Variasi Formasi Terbaik I",
+      "Pelatih Terbaik I",
+      "Danton Terbaik I",
+    ],
+    description:
+      "Performa konsisten dan memukau mengantarkan Dwipara Dwisma merebut gelar Juara Umum di LKBB PASMA. Dominasi penuh ditunjukkan lewat kemenangan Juara Utama I dan penghargaan pelatih serta danton terbaik.",
+  },
+  {
+    id: "lkbb-sapta-2",
+    title: "JUARA UTAMA I",
+    subtitle: "LKBB SAPTA 2",
+    year: "2025",
+    image: "/images/prestasi/lkbb-sapta-2/cover.jpeg",
+    imageAlt: "Dokumentasi Juara Utama I LKBB SAPTA 2",
+    awardCount: "5 Penghargaan",
+    trophies: [
+      "JUARA UTAMA I",
+      "BEST PBB I",
+      "BEST VARIASI I",
+      "BEST FORMASI I",
+      "BEST DANTON I",
+    ],
+    description:
+      "Kemenangan telak di ajang LKBB SAPTA 2 dengan menyapu bersih seluruh kategori utama: Juara Utama I, Best PBB, Best Variasi, Best Formasi, dan Best Danton I.",
+  },
+];
+
+// Backward compatibility helper if needed
 export interface PrestasiSlide {
-  /** The large 7-col featured card */
   featured: Achievement;
-  /** Up to 2 small supporting cards (5-col stack) */
   supporting: Achievement[];
 }
 
 export const prestasiSlides: PrestasiSlide[] = [
   {
-    featured: {
-      id: "p1",
-      title: "JUARA UTAMA I LKBB PPI BALI",
-      subtitle: "Lomba Ketangkasan Baris Berbaris Pelajar se-Bali",
-      year: "2026",
-      image: "/images/ppibali.jpg",
-      imageAlt: "Juara Utama I LKBB PPI Bali 2026",
-      description:
-        "Dwipara Dwisma berhasil meraih predikat Juara Umum dalam ajang Lomba Ketangkasan Baris-Berbaris Pelajar Indonesia (PPI) tingkat Bali — pencapaian prestisius yang mencerminkan kualitas latihan intensif dan dedikasi tanpa batas seluruh anggota selama berbulan-bulan.",
-    },
-    supporting: [
-      {
-        id: "p2",
-        title: "JUARA ....",
-        subtitle: "Badung Paskibra Competition 2026",
-        year: "2026",
-        image: "/images/bpc2026.jpg",
-        imageAlt: "Juara Utama I",
-        description:
-          "Penghargaan Best Variasi diraih berkat kreativitas dan kekompakan tim dalam menampilkan formasi variasi yang inovatif, memukau dewan juri dan seluruh penonton yang hadir.",
-      },
-      {
-        id: "p3",
-        title: "Juara ....",
-        subtitle: "RUMFEST V",
-        year: "2025",
-        image: "/images/rumfest2025.jpg",
-        imageAlt: "Peringkat 1 Danton Terbaik",
-        description:
-          "Komandan Peleton (Danton) terbaik tingkat Kabupaten Badung. Penghargaan ini mengakui kepemimpinan luar biasa yang ditunjukkan dalam memimpin pasukan dengan presisi, wibawa, dan ketegasan di hadapan dewan juri.",
-      },
-    ],
+    featured: prestasiList[0],
+    supporting: [],
   },
   {
-    featured: {
-      id: "p4",
-      title: "JUARA 2 LKBB TINGKAT PROVINSI",
-      subtitle: "Festival Paskibraka Bali 2023",
-      year: "2023",
-      image: "/images/chapter-2-unity.png",
-      imageAlt: "Juara 2 LKBB Tingkat Provinsi Bali",
-      description:
-        "Medali perak Festival Paskibraka Bali menjadi bukti konsistensi Dwipara dalam berkompetisi di tingkat provinsi, bersaing ketat dengan puluhan sekolah unggulan dari seluruh Bali.",
-    },
-    supporting: [
-      {
-        id: "p5",
-        title: "BEST FORMASI",
-        subtitle: "Festival Paskibraka Bali",
-        year: "2023",
-        image: null,
-        imageAlt: "Best Formasi Festival Paskibraka",
-        description:
-          "Kategori Best Formasi merupakan pengakuan atas keindahan, ketepatan, dan kreativitas susunan formasi yang ditampilkan Dwipara selama Festival Paskibraka Bali 2023 berlangsung.",
-      },
-      {
-        id: "p6",
-        title: "BEST DISPLAY PASUKAN",
-        subtitle: "Kompetisi Paskibraka Tingkat SMA",
-        year: "2023",
-        image: null,
-        imageAlt: "Best Display Pasukan",
-        description:
-          "Display pasukan Dwipara dinilai sebagai yang terbaik, mencerminkan harmoni sempurna antara gerakan, seragam, dan presentasi tim secara keseluruhan di hadapan juri kompetisi.",
-      },
-    ],
+    featured: prestasiList[1],
+    supporting: [],
+  },
+  {
+    featured: prestasiList[2],
+    supporting: [],
+  },
+  {
+    featured: prestasiList[3],
+    supporting: [],
   },
 ];
 
@@ -112,38 +146,38 @@ export interface Chapter {
 export const chapters: Chapter[] = [
   {
     num: "01",
-    year: "2024",
-    title: "ORIENTASI DWIPARA",
-    desc: "Gerbang resmi bagi setiap calon anggota baru Dwipara Dwisma — sebuah proses pengenalan dan rekrutmen yang membentuk fondasi karakter sejak hari pertama bergabung.",
+    year: "2023",
+    title: "LKBB BRAMASTA 1.0",
+    desc: "Titik awal mempertemukan pelajar melalui semangat baris-berbaris. Membangun ruang kompetisi positif yang berorientasi pada pembentukan karakter dan identitas.",
     fullDesc:
-      "Orientasi Dwipara adalah program penerimaan dan pengenalan anggota baru yang menjadi pintu masuk resmi ke dalam keluarga besar Dwipara Dwisma. Melalui serangkaian kegiatan terstruktur, calon anggota diperkenalkan dengan nilai-nilai dasar Paskibraka, sejarah dan tradisi Dwipara, serta standar kedisiplinan yang menjadi identitas unit. Proses ini sekaligus menjadi ajang penilaian awal untuk menentukan kesiapan setiap calon dalam menjalani pembinaan lebih lanjut bersama seluruh anggota aktif.",
-    image: "/images/timeline-1.png",
-    imageAlt: "Orientasi Anggota Baru Dwipara Dwisma",
+      "BRAMASTA pertama menjadi titik awal lahirnya sebuah ajang yang mempertemukan para pelajar melalui semangat baris-berbaris. Berangkat dari keinginan untuk menciptakan ruang kompetisi yang positif bagi generasi muda, Paskibra SMAN 2 Mengwi mulai membangun sebuah kegiatan yang tidak hanya berorientasi pada kemenangan, tetapi juga pada pembentukan karakter. Tantangan terbesar bukan sekadar menghadirkan perlombaan, melainkan bagaimana membangun identitas BRAMASTA itu sendiri, mulai dari menyusun konsep, mempersiapkan teknis perlombaan, hingga memastikan seluruh rangkaian kegiatan dapat berjalan dengan baik.",
+    image: "/images/bramasta-article-2.jpg",
+    imageAlt: "Dokumentasi Penyelenggaraan LKBB Bramasta 1.0",
     accentColor: "green",
-    tags: ["REKRUTMEN", "TAHUNAN"],
+    tags: ["TITIK AWAL", "KARAKTER"],
   },
   {
     num: "02",
-    year: "2026",
-    title: "LKBB BRAMASTA 3.0",
-    desc: "Ajang Lomba Ketangkasan Baris-Berbaris bergengsi yang diselenggarakan langsung oleh Dwipara Dwisma sebagai wadah kompetisi sekaligus bukti kapasitas penyelenggaraan event berkualitas.",
+    year: "2024",
+    title: "LKBB BRAMASTA 2.0",
+    desc: "Hadir berbekal evaluasi dan pengalaman pertama dengan semangat pembenahan serta pengembangan untuk menghadirkan penyelenggaraan yang lebih matang.",
     fullDesc:
-      "LKBB Bramasta 3.0 adalah perlombaan Ketangkasan Baris-Berbaris yang diinisiasi dan diselenggarakan langsung oleh Dwipara Dwisma. Sebagai tuan rumah, Dwipara tidak hanya mengorganisir seluruh rangkaian acara — dari teknis pertandingan hingga akomodasi peserta — tetapi juga turut berkompetisi di antara puluhan tim terbaik dari berbagai sekolah yang hadir. Keberhasilan penyelenggaraan Bramasta 3.0 menjadi bukti nyata bahwa Dwipara Dwisma mampu tampil bukan sekadar sebagai peserta, tetapi juga sebagai penyelenggara event Paskibraka yang profesional dan terpercaya.",
-    image: "/images/chapter-2-unity.png",
-    imageAlt: "LKBB Bramasta 3.0 diselenggarakan oleh Dwipara Dwisma",
+      "Berbekal pengalaman dari penyelenggaraan pertama, BRAMASTA 2.0 hadir dengan semangat untuk melakukan pembenahan dan pengembangan. Evaluasi dari pelaksanaan sebelumnya menjadi modal penting untuk menghadirkan penyelenggaraan yang lebih matang, mempertemukan para pelajar dan insan paskibra dalam suasana kompetitif yang sehat, memperluas persaudaraan antarpelajar, serta memperkuat budaya disiplin dan sportivitas.",
+    image: "/images/bramasta-article-3.jpg",
+    imageAlt: "Dokumentasi Arena Perlombaan LKBB Bramasta 2.0",
     accentColor: "orange",
-    tags: ["LOMBA", "PENYELENGGARA"],
+    tags: ["PEMBENAHAN", "PENGEMBANGAN"],
   },
   {
     num: "03",
-    year: "2026",
-    title: "Serah Terima Jabatan (Sertijab)",
-    desc: "Momentum  regenerasi kepengurusan Dwipara Dwisma — tongkat estafet kepemimpinan diserahkan dari pengurus lama kepada generasi penerus yang siap melanjutkan warisan.",
+    year: "2025",
+    title: "LKBB BRAMASTA 3.0",
+    desc: "Melewati tiga penyelenggaraan yang membuktikan bahwa prestasi lahir dari proses panjang. Menjadi panggung bertemunya disiplin, kekompakan, dan perjuangan.",
     fullDesc:
-      "Serah Terima Jabatan (Sertijab) adalah tradisi tahunan yang menandai berakhirnya satu periode kepengurusan dan lahirnya era kepemimpinan baru di Dwipara Dwisma. Dalam prosesi yang penuh khidmat ini, ketua dan seluruh jajaran pengurus menyerahkan tanggung jawab organisasi kepada generasi berikutnya yang telah melalui proses seleksi dan penilaian internal. Sertijab bukan sekadar pergantian nama di struktur organisasi — ia adalah janji keberlangsungan, komitmen bahwa nilai-nilai disiplin, dedikasi, dan kebanggaan yang telah dibangun akan terus dijaga dan dikembangkan oleh setiap generasi Dwipara.",
-    image: "/images/chapter-3-process.png",
-    imageAlt: "Serah Terima Jabatan Dwipara Dwisma",
+      "Kini, ketika perjalanan BRAMASTA telah melewati tiga penyelenggaraan, ajang ini membuktikan bahwa BRAMASTA bukan sekadar perlombaan baris-berbaris biasa. Ia adalah panggung tempat disiplin bertemu semangat, kekompakan bertemu perjuangan, dan generasi muda membuktikan bahwa prestasi lahir dari proses yang tidak pernah mudah. Pertanyaan yang muncul bukan hanya tentang bagaimana BRAMASTA dimulai, tetapi juga sejauh mana perjalanan dan daya juang tersebut akan terus dilanjutkan.",
+    image: "/images/bramasta-hero.jpg",
+    imageAlt: "Podium Juara LKBB Bramasta 3.0 bersama Panitia Dwipara Dwisma",
     accentColor: "red",
-    tags: ["INTERNAL", "REGENERASI"],
+    tags: ["TIGA EDISI", "DAYA JUANG"],
   },
 ];

@@ -6,3 +6,5 @@ panduan-implementasi.md
 .env
 .env.local
 .env.example
+AGENTS.md
+.agents/

@@ -8,6 +8,7 @@ import { RegistrationFeeSection } from "@/components/bramasta/info/RegistrationF
 import { AdministrationGuide } from "@/components/bramasta/info/AdministrationGuide";
 import { BramastaMerchandise } from "@/components/bramasta/info/BramastaMerchandise";
 import { BramastaCtaSection } from "@/components/bramasta/info/BramastaCtaSection";
+import { BramastaStepTour } from "@/components/bramasta/tour/BramastaStepTour";
 
 export const revalidate = process.env.NODE_ENV === "development" ? 0 : 60;
 
@@ -84,6 +85,9 @@ export default async function BramastaPage() {
         {/* Call to Action Pendaftaran Tim (Menggunakan kontak utama panitia) */}
         <BramastaCtaSection organizerInfo={event?.organizer_info} />
       </div>
+
+      {/* Panduan Interaktif Step-by-Step Menuju Pendaftaran */}
+      <BramastaStepTour />
     </>
   );
 }
