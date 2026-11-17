@@ -27,7 +27,6 @@ export function EventTimeline({ event }: EventTimelineProps) {
   let timelineItems: {
     stage: string;
     title: string;
-    badge: string;
     dateRange: string;
     desc?: string;
   }[] = [];
@@ -36,7 +35,6 @@ export function EventTimeline({ event }: EventTimelineProps) {
     timelineItems = event.timeline.map((item, idx) => ({
       stage: String(idx + 1).padStart(2, "0"),
       title: item.title,
-      badge: `Tahap ${idx + 1}`,
       dateRange: item.date ? formatDate(item.date) || item.date : "",
       desc: item.description || "",
     }));
@@ -48,7 +46,6 @@ export function EventTimeline({ event }: EventTimelineProps) {
       timelineItems.push({
         stage: String(step++).padStart(2, "0"),
         title: "Pembukaan Pendaftaran",
-        badge: "Tahap 1",
         dateRange: formatDate(event.registration_start_date)!,
         desc: "Pembukaan pendaftaran akun ketua tim dan reservasi kuota peleton.",
       });
@@ -58,7 +55,6 @@ export function EventTimeline({ event }: EventTimelineProps) {
       timelineItems.push({
         stage: String(step++).padStart(2, "0"),
         title: "Batas Akhir Pendaftaran",
-        badge: `Tahap ${step - 1}`,
         dateRange: formatDate(event.registration_end_date)!,
         desc: "Batas pengunggahan kelengkapan berkas anggota dan penguncian roster.",
       });
@@ -68,7 +64,6 @@ export function EventTimeline({ event }: EventTimelineProps) {
       timelineItems.push({
         stage: String(step++).padStart(2, "0"),
         title: "Technical Meeting (TM)",
-        badge: `Tahap ${step - 1}`,
         dateRange: formatDate(event.technical_meeting_date)!,
         desc: "Penjelasan petunjuk teknis perlombaan dan pengundian nomor urut tampil.",
       });
@@ -80,7 +75,6 @@ export function EventTimeline({ event }: EventTimelineProps) {
       timelineItems.push({
         stage: String(step++).padStart(2, "0"),
         title: "Hari Perlombaan",
-        badge: "Puncak Acara",
         dateRange: end ? `${start} – ${end}` : start,
         desc: "Pelaksanaan lomba ketangkasan baris-berbaris dan penyerahan piala juara.",
       });
@@ -142,9 +136,6 @@ export function EventTimeline({ event }: EventTimelineProps) {
                 <div className="flex justify-between items-center mb-2.5">
                   <span className="font-bodoni font-bold text-2xl text-bramasta-ink lining-nums">
                     {item.stage}
-                  </span>
-                  <span className="text-xs font-bodoni font-bold uppercase tracking-wider bg-bramasta-ink text-[#F4F1DC] px-2.5 py-0.5 rounded-sm lining-nums">
-                    {item.badge}
                   </span>
                 </div>
                 <h3 className="font-bodoni font-bold text-xl uppercase tracking-[0.02em] text-bramasta-ink leading-[1.2] mb-1">
