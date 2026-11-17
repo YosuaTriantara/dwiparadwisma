@@ -65,8 +65,14 @@ export function BramastaWelcomeModal({
 
   if (!mounted || !isOpen) return null;
 
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [bannerUrl]);
+
   // Gunakan banner resmi dari EVORA API jika ada, atau fallback dokumentasi podium Bramasta
-  const visualBannerSrc = bannerUrl || "/images/bramasta-hero.jpg";
+  const visualBannerSrc = !imageError && bannerUrl ? bannerUrl : "/images/bramasta-hero.jpg";
 
   return (
     <div
@@ -107,6 +113,7 @@ export function BramastaWelcomeModal({
             fill
             priority
             sizes="(max-width: 640px) 100vw, 600px"
+            onError={() => setImageError(true)}
             className="object-cover filter contrast-105 brightness-95 group-hover:scale-105 transition-transform duration-500 ease-out"
           />
 
