@@ -110,7 +110,10 @@ export function EventTimeline({ event }: EventTimelineProps) {
         <NewsRule variant="std" className="my-3" />
 
         {timelineItems.length === 0 ? (
-          <div className="bg-paper border border-bramasta-ink/40 rounded-md p-5 text-left sm:text-center">
+          <div className="bg-paper border border-bramasta-ink/30 rounded-md p-5 text-left sm:text-center">
+            <h3 className="font-bodoni font-bold text-xl sm:text-2xl uppercase tracking-[0.02em] text-bramasta-ink leading-[1.2] mb-2">
+              COMING SOON
+            </h3>
             <p className="font-bodoni text-base text-bramasta-ink-soft max-w-md sm:mx-auto leading-[1.65] text-justify sm:text-center hyphens-auto">
               Jadwal pelaksanaan belum diatur oleh panitia di sistem EVORA.
             </p>

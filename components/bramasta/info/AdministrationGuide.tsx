@@ -9,28 +9,6 @@ interface AdministrationGuideProps {
   event: EvoraEvent | null;
 }
 
-// Berkas dokumen default resmi jika API belum mengunggah berkas khusus di database
-const DEFAULT_DOCUMENTS: EvoraDocument[] = [
-  {
-    id: "doc-juklak-juknis",
-    title: "Petunjuk Teknis (Juknis) & Tata Tertib LKBB Bramasta 4.0",
-    url: "/documents/juklak-juknis-bramasta-4.pdf",
-    type: "pdf",
-    size: "889 KB",
-    description:
-      "Memuat panduan lengkap ketentuan perlombaan, teknis penilaian PBB & variasi formasi, serta tata tertib kontingen peserta.",
-  },
-  {
-    id: "doc-surat-rekomendasi",
-    title: "Format Surat Rekomendasi & Izin Kepala Sekolah",
-    url: "/documents/format-surat-rekomendasi.pdf",
-    type: "pdf",
-    size: "662 KB",
-    description:
-      "Formulir dispensasi dan rekomendasi resmi kepala sekolah untuk verifikasi keabsahan satuan kontingen peleton.",
-  },
-];
-
 function normalizeDocuments(rawDocs: any): EvoraDocument[] {
   if (!rawDocs) return [];
   if (Array.isArray(rawDocs)) {
@@ -123,9 +101,8 @@ export function AdministrationGuide({ event }: AdministrationGuideProps) {
     };
   }, [previewDoc]);
 
-  // Normalisasi berkas dari API EVORA, fallback ke dokumen resmi default jika kosong
-  const apiDocs = normalizeDocuments(event?.documents);
-  const documents = apiDocs.length > 0 ? apiDocs : DEFAULT_DOCUMENTS;
+  // Normalisasi berkas dari API EVORA tanpa fallback
+  const documents = normalizeDocuments(event?.documents);
 
   return (
     <section id="administrasi" aria-labelledby="administrasi-title" className="scroll-mt-20">
@@ -149,8 +126,18 @@ export function AdministrationGuide({ event }: AdministrationGuideProps) {
         <NewsRule variant="std" className="my-3.5" />
 
         {/* Daftar Berkas & Dokumen Resmi Perlombaan */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {documents.map((doc, idx) => {
+        {documents.length === 0 ? (
+          <div className="bg-paper border border-bramasta-ink/30 rounded-md p-5 text-left sm:text-center">
+            <h3 className="font-bodoni font-bold text-xl sm:text-2xl uppercase tracking-[0.02em] text-bramasta-ink leading-[1.2] mb-2">
+              COMING SOON
+            </h3>
+            <p className="font-bodoni text-base text-bramasta-ink-soft max-w-md sm:mx-auto leading-[1.65] text-justify sm:text-center hyphens-auto">
+              Dokumen petunjuk teknis dan berkas administrasi resmi akan diunggah oleh panitia.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            {documents.map((doc, idx) => {
             const isPdf =
               doc.type?.toLowerCase() === "pdf" ||
               doc.url.toLowerCase().includes(".pdf");
@@ -222,7 +209,8 @@ export function AdministrationGuide({ event }: AdministrationGuideProps) {
               </div>
             );
           })}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* ── POP-UP MODAL PREVIEW DOKUMEN PDF (RINGKAS & MOBILE-FRIENDLY) ── */}
