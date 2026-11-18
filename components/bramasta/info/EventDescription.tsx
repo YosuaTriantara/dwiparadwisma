@@ -14,7 +14,7 @@ export function EventDescription({ event }: EventDescriptionProps) {
         <div className="w-full border-2 border-bramasta-ink rounded-none bg-paper-dark relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[2.1/1] overflow-hidden shadow-xs">
           <Image
             src="/images/bramasta-hero.jpg"
-            alt="Para Juara LKBB Bramasta berdiri di podium kehormatan bersama panitia Dwipara Dwisma"
+            alt="Para Juara LKBB Bramasta berdiri di podium bersama panitia Dwipara Dwisma"
             fill
             priority
             sizes="(max-width: 1200px) 100vw, 1150px"
@@ -22,7 +22,7 @@ export function EventDescription({ event }: EventDescriptionProps) {
           />
         </div>
         <figcaption className="mt-2 font-bodoni italic text-xs sm:text-[13px] text-bramasta-ink-soft tracking-[0.02em] leading-[1.4]">
-          Foto: Dokumentasi podium kehormatan para juara LKBB Bramasta bersama panitia Dwipara Dwisma.
+          Foto: Dokumentasi podium para juara LKBB Bramasta bersama panitia Dwipara Dwisma.
         </figcaption>
       </figure>
 

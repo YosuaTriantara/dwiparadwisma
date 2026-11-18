@@ -33,7 +33,7 @@ const OFFICIAL_TSHIRT: MerchandiseItem = {
   price: "Rp 90.000",
   badge: "Official Merch",
   shortDesc: "Kaos resmi kontingen LKBB Bramasta 4.0 dengan tipografi klasik di bagian dada dan ilustrasi ksatria berornamen Bali di bagian belakang.",
-  material: "Cotton Combed 30s",
+  material: "Cotton 30s",
   images: [
     {
       src: "/images/merch/cover.jpeg",
