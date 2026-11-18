@@ -31,10 +31,10 @@ interface MerchandiseItem {
 const OFFICIAL_TSHIRT: MerchandiseItem = {
   id: "kaos-bramasta-4",
   name: "Kaos Resmi LKBB Bramasta 4.0",
-  price: "Rp 100.000",
+  price: "Rp 90.000",
   badge: "Edisi Terbatas",
   shortDesc: "Tampil kompak di arena lomba dengan kaos resmi edisi terbatas LKBB Bramasta 4.0. Pre-order dibuka selama stok tersedia.",
-  material: "Cotton Combed 24s Premium Soft Reactive (Bahan tebal, adem, dan menyerap keringat saat aktivitas lapangan)",
+  material: "Cotton 30s",
   images: [
     {
       src: "/images/merch/tshirt-front.svg",
@@ -61,10 +61,8 @@ const OFFICIAL_TSHIRT: MerchandiseItem = {
     { size: "3XL", chest: "62 cm", length: "80 cm", sleeve: "26 cm" },
   ],
   features: [
-    "Bahan 100% Cotton Combed 24s Soft Reactive standar distro",
-    "Sablon High-density Plastisol Ink tajam & tahan cuci berulang",
-    "Jahitan rantai dobel di pundak dan leher (kuat & awet)",
-    "Pilihan ukuran lengkap: S, M, L, XL, XXL, hingga 3XL (Unisex)",
+    "Bahan 100% Cotton 30s ",
+    "Pilihan ukuran lengkap: XS, S, M, L, XL, XXL, hingga 3XL (Unisex)",
   ],
 };
 
@@ -270,7 +268,7 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
                       Bahan
                     </span>
                     <span className="font-semibold text-bramasta-ink">
-                      Cotton Combed 24s Soft Reactive
+                      Cotton 30s
                     </span>
                   </div>
                 </div>

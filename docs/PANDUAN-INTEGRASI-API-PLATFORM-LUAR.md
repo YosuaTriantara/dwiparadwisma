@@ -171,6 +171,55 @@ Memungkinkan pengguna masuk atau mendaftar otomatis dengan sekali klik menggunak
 
 ---
 
+### 3.4 Permintaan Lupa Kata Sandi (Forgot Password)
+Mengirimkan email berisi tautan token reset kata sandi ke alamat email pengguna yang terdaftar.
+
+* **Method**: `POST`
+* **Endpoint**: `/auth/forgot-password`
+* **Autentikasi**: Tidak diperlukan (Publik)
+* **Request Body**:
+  ```json
+  {
+    "email": "budi.santoso@example.com"
+  }
+  ```
+* **Response Success (`200 OK`)**:
+  ```json
+  {
+    "message": "Instruksi reset kata sandi telah dikirimkan ke email Anda."
+  }
+  ```
+* **Error Response**:
+  * `404 Not Found` (`EMAIL_NOT_REGISTERED`): Email belum terdaftar di sistem. Platform mitra dapat langsung mengarahkan pengguna ke halaman registrasi (`/daftar`).
+  * `403 Forbidden` (`ACCOUNT_NOT_ACTIVE`): Akun pengguna berstatus nonaktif atau ditangguhkan.
+  * `400 Bad Request`: Format email tidak valid.
+
+---
+
+### 3.5 Reset Kata Sandi Baru (Reset Password)
+Memperbarui kata sandi pengguna menggunakan token yang dikirimkan melalui email (token berlaku selama 15 menit).
+
+* **Method**: `POST`
+* **Endpoint**: `/auth/reset-password`
+* **Autentikasi**: Tidak diperlukan (Publik)
+* **Request Body**:
+  ```json
+  {
+    "token": "57b20230-a414-49cc-8717-474d2892f9cd",
+    "new_password": "PasswordBaruKuat123!"
+  }
+  ```
+* **Response Success (`200 OK`)**:
+  ```json
+  {
+    "message": "Kata sandi Anda berhasil diperbarui. Silakan login kembali dengan kata sandi baru."
+  }
+  ```
+* **Error Response**:
+  * `400 Bad Request`: Token tidak valid, sudah kadaluwarsa, atau kata sandi baru tidak memenuhi syarat minimal (minimal 8 karakter).
+
+---
+
 ## 4. Membaca Informasi Event & Kategori
 
 ### 4.1 Detail Event
@@ -199,15 +248,42 @@ Mengambil metadata event, jadwal pelaksanaan, status pendaftaran, dan spanduk (b
     "technical_meeting_date": "2026-11-20",
     "start_date": "2026-11-25",
     "end_date": "2026-11-30",
+    "timeline": [
+      {
+        "id": "item-reg-1",
+        "stage": "registration",
+        "title": "Pendaftaran Tim",
+        "start_date": "2026-10-01",
+        "end_date": "2026-11-15",
+        "date": "1 Oktober 2026 s.d. 15 November 2026",
+        "time": "00:00 - 23:59 WITA",
+        "location": "Online melalui Portal Pendaftaran",
+        "description": "Pembukaan pendaftaran peserta, pengisian data kontingen, dan konfirmasi biaya registrasi.",
+        "status": "ongoing"
+      },
+      {
+        "id": "item-tm-1",
+        "stage": "technical_meeting",
+        "title": "Technical Meeting (TM)",
+        "start_date": "2026-11-20",
+        "end_date": "",
+        "date": "20 November 2026",
+        "time": "14:00 WITA",
+        "location": "Zoom Meeting / Aula Utama",
+        "description": "Pemaparan peraturan lomba, pengundian nomor tampil, dan sesi tanya jawab bersama panitia.",
+        "status": "upcoming"
+      }
+    ],
     "is_paid": true,
     "registration_fee": "250000.00",
     "payment_method": "payment_gateway",
     "is_listed": false
   }
   ```
-  > **Keterangan `allowed_team_types`, `max_coaches_per_team`, dan `max_officials_per_team`**:
+  > **Keterangan `allowed_team_types`, `max_coaches_per_team`, `max_officials_per_team`, dan `timeline`**:
   > * `allowed_team_types`: Array berisi `"school"` (Sekolah) dan/atau `"club"` (Club). Gunakan field ini di frontend mitra untuk menampilkan pilihan **Jenis Tim**. Jika hanya berisi satu nilai (misal `["school"]`), otomatis pilih nilai tersebut, dan sesuaikan label input asal peserta (`"school"` menjadi **Nama Sekolah**, `"club"` menjadi **Nama Club**).
   > * `max_coaches_per_team` & `max_officials_per_team` (`number | null`): Batas maksimal jumlah **Pelatih (`coach`)** dan **Official (`official`)** per tim pada event ini. Nilai `null` berarti tidak dibatasi, `0` berarti peran tersebut tidak diizinkan.
+  > * `timeline` (`array | null`): Daftar tahapan linimasa kegiatan event. Setiap item berisi `id`, `stage` (`"registration" | "technical_meeting" | "competition" | "announcement" | "custom"`), `title`, `start_date`, `end_date`, `date` (teks terformat), `time`, `location`, `description` (mendukung teks multi-baris), dan `status` (`"upcoming" | "ongoing" | "completed"`). Gunakan `timeline` sebagai sumber utama tampilan jadwal & deskripsi tiap tahapan pada halaman event mitra (sedangkan `registration_start_date`, `registration_end_date`, dan `technical_meeting_date` bersifat opsional / kompatibilitas lama dan dapat bernilai `null`).
 
 ---
 
@@ -529,6 +605,47 @@ Gunakan status di bawah ini untuk menampilkan indikator visual (*badge*) pada UI
 | `roster_submitted` | Berkas anggota telah dikirim lengkap ke panitia. | Form anggota dinonaktifkan (*read-only*). User dapat melakukan *unsubmit* jika perlu revisi sebelum diverifikasi. |
 | `roster_rejected` | Berkas ada yang tidak lengkap / ditolak juri verifikator. | Form anggota aktif kembali untuk diperbaiki dan di-submit ulang. |
 | `verified` | **Sah / Lolos Verifikasi**. | Tim resmi terdaftar untuk bertanding. Data terkunci permanen. |
+
+---
+
+### 8.1 Notifikasi Email Transaksional Otomatis ke Peserta
+Sistem EVORA secara otomatis mengirimkan notifikasi email HTML responsif ke alamat email pendaftar tim pada setiap tahapan siklus hidup status:
+
+1. **Saat Pendaftaran Diajukan (`submitted`)**:
+   Mengirimkan konfirmasi bahwa pendaftaran awal telah diterima sistem dan sedang ditinjau panitia.
+2. **Saat Pendaftaran Diverifikasi (`registration_verified`)**:
+   Mengirimkan pemberitahuan bahwa slot aman dan berkas awal disetujui, serta mengajak user mengisi biodata anggota tim (*roster*).
+3. **Saat Pendaftaran Ditolak (`registration_rejected`)**:
+   Menyertakan kotak catatan merah berisi alasan penolakan dari panitia.
+4. **Saat Roster Ditolak (`roster_rejected`)**:
+   Mengirimkan instruksi perbaikan biodata anggota yang belum memenuhi syarat.
+5. **Saat Terverifikasi Penuh (`verified`)**:
+   Mengonfirmasi bahwa tim telah resmi terdaftar dan siap mengikuti kompetisi.
+
+---
+
+### 8.2 White-Labeling Tautan Email ke Portal Mitra (`partner_website_url`)
+Secara default, tombol tindakan di email mengarahkan peserta ke domain platform utama. Jika platform mitra memiliki website portal sendiri:
+
+1. Pastikan kolom **`partner_website_url`** pada data event telah diisi (misal: `https://kompetisi.mitra.com`).
+2. Tautan tombol aksi di dalam email notifikasi secara otomatis akan menggunakan URL mitra sebagai basis:
+   * **Tombol Lengkapi Biodata Tim**: `https://kompetisi.mitra.com/teams/:teamId`
+   * **Tombol Lihat Status Tim**: `https://kompetisi.mitra.com/events/:eventSlug`
+3. Hal ini memastikan peserta tidak akan dialihkan ke domain EVORA, melainkan tetap berada dalam ekosistem website mitra (*100% White-Label*).
+
+---
+
+### 8.3 Kustomisasi Template Pesan, Branding & Reply-To
+Platform mitra dapat menyesuaikan isi pesan email secara mandiri:
+* **Nama Pengirim (`Display Name`)**: Otomatis menggunakan nama event milik mitra.
+* **Email Balasan (`Reply-To`)**: Dapat diarahkan ke alamat email panitia mitra (misal: `panitia@mitra.com`), sehingga jika peserta menekan tombol *Reply* di aplikasi email, balasan langsung masuk ke inbox panitia mitra.
+* **Editor Pesan Per Status**: Melalui tab **Notifikasi Email** di dashboard admin (atau endpoint `PUT /admin/events/:eventId/email-settings`), mitra dapat mengkustomisasi subjek, headline, isi paragraf, dan tombol aksi per status dengan variabel dinamis:
+  * `{{event_name}}`: Nama event
+  * `{{team_name}}`: Nama tim
+  * `{{category_name}}`: Kategori lomba
+  * `{{note}}`: Catatan tambahan dari panitia
+  * `{{rejection_reason}}`: Alasan penolakan
+* **Custom SMTP (Opsional)**: Jika mitra ingin pengiriman email 100% keluar dari server mail milik mitra sendiri, mitra dapat mengonfigurasi host, port, user, dan password SMTP di tab Notifikasi Email.
 
 ---
 

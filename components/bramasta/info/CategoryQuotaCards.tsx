@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { NewsRule } from "../ui/NewsRule";
 import type { EvoraCategory, EvoraEvent } from "@/types/evora";
 import { RegistrationWizardModal } from "../registration/RegistrationWizardModal";
+import { getRegistrationStatus } from "@/lib/evora/status";
 
 interface CategoryQuotaCardsProps {
   categories: EvoraCategory[];
@@ -15,9 +16,18 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCatForModal, setSelectedCatForModal] = useState<string>("");
+  const regStatus = getRegistrationStatus(event);
 
   useEffect(() => {
     const handleOpen = (e: Event) => {
+      if (!regStatus.isOpen) {
+        const el = document.getElementById("agenda");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        return;
+      }
+
       const customEvent = e as CustomEvent<{ categoryId?: string }>;
       if (customEvent.detail?.categoryId) {
         setSelectedCatForModal(customEvent.detail.categoryId);
@@ -31,7 +41,7 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
     return () => {
       window.removeEventListener("open-bramasta-registration", handleOpen);
     };
-  }, [categories, selectedCatForModal]);
+  }, [categories, selectedCatForModal, regStatus.isOpen]);
 
   const hasCategories = categories && categories.length > 0;
 
@@ -131,10 +141,18 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
 
                   {/* Action Button */}
                   <div>
-                    {isFull ? (
+                    {!regStatus.isOpen ? (
                       <button
                         disabled
-                        className="w-full min-h-[48px] py-3.5 bg-paper-dark text-bramasta-ink-mute font-bodoni font-bold text-sm uppercase tracking-[0.1em] border-2 border-bramasta-ink/40 rounded-md cursor-not-allowed"
+                        className="w-full min-h-[48px] py-3.5 bg-paper-dark text-bramasta-ink-soft/75 font-bodoni font-bold text-xs uppercase tracking-[0.08em] border-2 border-bramasta-ink/30 rounded-md cursor-not-allowed text-center"
+                        title="Pendaftaran belum dibuka (Coming Soon)"
+                      >
+                        Pendaftaran Segera Dibuka
+                      </button>
+                    ) : isFull ? (
+                      <button
+                        disabled
+                        className="w-full min-h-[48px] py-3.5 bg-paper-dark text-bramasta-ink-mute font-bodoni font-bold text-sm uppercase tracking-[0.1em] border-2 border-bramasta-ink/40 rounded-md cursor-not-allowed text-center"
                       >
                         Pendaftaran Ditutup
                       </button>

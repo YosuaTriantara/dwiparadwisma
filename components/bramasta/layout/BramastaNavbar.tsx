@@ -6,6 +6,8 @@ import { useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, ArrowRight, Compass, LogIn, Menu, ShieldCheck, X } from "lucide-react";
 import { isAuthenticated } from "@/lib/evora/auth";
 import { EVORA_AUTH_EVENT } from "@/lib/evora/client";
+import { getRegistrationStatus } from "@/lib/evora/status";
+import type { EvoraEvent } from "@/types/evora";
 
 const NAV_LINKS = [
   { href: "/lkbb-bramasta-4#deskripsi", label: "Tentang", mobileLabel: "Tentang Lomba" },
@@ -16,13 +18,18 @@ const NAV_LINKS = [
   { href: "/lkbb-bramasta-4#merchandise", label: "Merchandise", mobileLabel: "Merchandise Resmi" },
 ];
 
-export function BramastaNavbar() {
+interface BramastaNavbarProps {
+  event?: EvoraEvent | null;
+}
+
+export function BramastaNavbar({ event }: BramastaNavbarProps = {}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const normalizedPath = pathname?.replace(/\/$/, "") || "";
   const isDaftarPage = normalizedPath === "/lkbb-bramasta-4/daftar";
+  const regStatus = getRegistrationStatus(event);
 
   useEffect(() => {
     const syncAuth = () => {
@@ -53,6 +60,17 @@ export function BramastaNavbar() {
   };
 
   const handleDaftarClick = (e: React.MouseEvent) => {
+    if (!regStatus.isOpen) {
+      e.preventDefault();
+      const el = document.getElementById("agenda");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        router.push("/lkbb-bramasta-4#agenda");
+      }
+      return;
+    }
+
     if (normalizedPath === "/lkbb-bramasta-4") {
       e.preventDefault();
       window.dispatchEvent(new CustomEvent("open-bramasta-registration", { detail: {} }));
@@ -130,13 +148,18 @@ export function BramastaNavbar() {
             </Link>
           )}
 
-          {/* Tombol Daftar Tim Utama */}
+          {/* Tombol Daftar Tim / Status Pendaftaran */}
           <Link
-            href="/lkbb-bramasta-4/daftar"
+            href={regStatus.isOpen ? "/lkbb-bramasta-4/daftar" : "/lkbb-bramasta-4#agenda"}
             onClick={handleDaftarClick}
-            className="flex items-center justify-center gap-1.5 min-h-[40px] sm:min-h-[44px] px-2.5 sm:px-4 py-2 border-2 border-bramasta-ink bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink-soft rounded-md transition-colors shadow-xs whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+            className={`flex items-center justify-center gap-1.5 min-h-[40px] sm:min-h-[44px] px-2.5 sm:px-4 py-2 border-2 border-bramasta-ink rounded-md transition-colors shadow-xs whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2 ${
+              regStatus.isOpen
+                ? "bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink-soft"
+                : "bg-paper-dark/60 text-bramasta-ink font-bodoni font-bold text-xs uppercase tracking-wider hover:bg-bramasta-ink hover:text-[#F4F1DC]"
+            }`}
+            title={regStatus.isOpen ? "Mulai Pendaftaran Tim" : "Pendaftaran Segera Dibuka (Lihat Jadwal Linimasa)"}
           >
-            <span>Daftar Tim</span>
+            <span>{regStatus.isOpen ? "Daftar Tim" : "Segera Hadir"}</span>
             <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
           </Link>
 

@@ -4,7 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
+  ArrowRight,
+  Calendar,
   LogOut,
+  Mail,
   Plus,
   CheckCircle2,
   AlertCircle,
@@ -33,9 +36,11 @@ import {
   loginWithGoogle,
   getCurrentUser,
   logoutParticipant,
+  forgotPassword,
 } from "@/lib/evora/auth";
 import { EvoraApiError } from "@/lib/evora/client";
 import { getEventCategories, getEventDetail } from "@/lib/evora/events";
+import { getRegistrationStatus } from "@/lib/evora/status";
 import {
   getMyTeams,
   getTeamDetail,
@@ -83,6 +88,42 @@ function formatSupportLimitPhrase(label: string, max: number | null): string {
   return `${label} tanpa batas`;
 }
 
+function getEmailStatusInfo(status?: string) {
+  switch (status) {
+    case "registration_verified":
+      return {
+        title: "Email Verifikasi Pendaftaran Telah Dikirimkan",
+        body: "Slot tim Anda telah diverifikasi panitia. Email konfirmasi persetujuan slot dan panduan pengisian personil tim telah dikirimkan ke alamat email terdaftar.",
+      };
+    case "registration_rejected":
+      return {
+        title: "Email Pemberitahuan Catatan Revisi Telah Dikirimkan",
+        body: "Pendaftaran tim memerlukan perbaikan. Email berisi catatan revisi telah dikirimkan ke kotak masuk email Anda. Silakan perbaiki identitas tim melalui form revisi di atas.",
+      };
+    case "roster_submitted":
+      return {
+        title: "Email Konfirmasi Pengajuan Berkas Personil Telah Dikirimkan",
+        body: "Pengajuan data anggota tim dan berkas persyaratan telah diterima sistem. Panitia sedang melakukan verifikasi teknis, dan pembaruan status akan dikirimkan ke email Anda.",
+      };
+    case "roster_rejected":
+      return {
+        title: "Email Instruksi Perbaikan Berkas Personil Telah Dikirimkan",
+        body: "Terdapat data personil yang belum memenuhi ketentuan. Catatan verifikator telah dikirimkan ke email Anda. Silakan buka kuncian berkas untuk melengkapi.",
+      };
+    case "verified":
+      return {
+        title: "Email Verifikasi Tim Telah Dikirimkan",
+        body: "Selamat! Seluruh berkas tim dan personil Anda telah dinyatakan sah (Lolos Verifikasi). Surat pengesahan pendaftaran resmi telah dikirimkan ke email Anda.",
+      };
+    case "submitted":
+    default:
+      return {
+        title: "Email Pendaftaran Tim Telah Dikirimkan",
+        body: "Ringkasan pendaftaran awal telah dikirimkan. Pastikan bukti transfer terunggah agar verifikator dapat memproses pendaftaran tim Anda.",
+      };
+  }
+}
+
 export default function BramastaRegistrationPage() {
   const [currentUser, setCurrentUser] = useState<EvoraUser | null>(null);
   const [event, setEvent] = useState<EvoraEvent | null>(null);
@@ -100,6 +141,10 @@ export default function BramastaRegistrationPage() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotSubmitting, setForgotSubmitting] = useState(false);
+  const [forgotSuccess, setForgotSuccess] = useState<string | null>(null);
   const [gsiRendered, setGsiRendered] = useState(false);
   const googleBtnRef = useRef<HTMLDivElement>(null);
   const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
@@ -222,14 +267,17 @@ export default function BramastaRegistrationPage() {
       setCurrentUser(user);
     } else if (modeParam === "login") {
       setIsLoginTab(true);
-    } else {
-      setIsWizardOpen(true);
     }
 
     async function initPage() {
       const ev = await loadData();
       if (user) {
         await loadUserData(ev);
+      } else if (modeParam !== "login") {
+        const regStatus = getRegistrationStatus(ev);
+        if (regStatus.isOpen) {
+          setIsWizardOpen(true);
+        }
       }
     }
     initPage();
@@ -352,10 +400,35 @@ export default function BramastaRegistrationPage() {
     setMyTeam(team);
     syncTeamDependentState(team);
     setSuccessMessage(
-      `Pendaftaran tim "${team.team_name}" berhasil! Selamat datang di Dashboard Tim.`
+      `Pendaftaran tim "${team.team_name}" berhasil! Informasi bukti pendaftaran dan ringkasan transaksi telah dikirimkan ke email Anda (${user.email}). Silakan periksa inbox atau folder spam.`
     );
     setIsWizardOpen(false);
     loadUserData(event, team.id);
+  }
+
+  // Handle Lupa Kata Sandi (EVORA Section 3)
+  async function handleForgotPassword(e: React.FormEvent) {
+    e.preventDefault();
+    if (!forgotEmail.trim()) {
+      setErrorMessage("Masukkan alamat email Anda terlebih dahulu.");
+      return;
+    }
+    setErrorMessage(null);
+    setForgotSubmitting(true);
+    try {
+      const res = await forgotPassword(forgotEmail.trim());
+      setForgotSuccess(
+        res.message ||
+          `Tautan instruksi reset kata sandi telah dikirimkan ke email ${forgotEmail.trim()}. Silakan periksa kotak masuk atau spam.`
+      );
+    } catch (err: any) {
+      setErrorMessage(
+        err.message ||
+          "Gagal memproses permintaan reset kata sandi. Pastikan email terdaftar."
+      );
+    } finally {
+      setForgotSubmitting(false);
+    }
   }
 
   // Handle Revisi Identitas Tim (Saat status registration_rejected)
@@ -494,7 +567,9 @@ export default function BramastaRegistrationPage() {
       await submitTeamRoster(myTeam.id);
       const refreshed = await getTeamDetail(myTeam.id);
       setMyTeam(refreshed);
-      setSuccessMessage("Berkas anggota tim berhasil dikunci dan diajukan!");
+      setSuccessMessage(
+        "Berkas anggota tim berhasil dikunci dan diajukan! Notifikasi status verifikasi berkas telah dikirimkan ke email Anda."
+      );
     } catch (err: any) {
       setErrorMessage(err.message || "Gagal mengajukan anggota tim.");
     } finally {
@@ -584,8 +659,13 @@ export default function BramastaRegistrationPage() {
     }
   };
 
+  const regStatus = getRegistrationStatus(event);
+  const emailStatusInfo = getEmailStatusInfo(myTeam?.status);
+
   const canAddMoreTeams =
-    !!event?.max_teams_per_user && myTeams.length < event.max_teams_per_user;
+    regStatus.isOpen &&
+    !!event?.max_teams_per_user &&
+    myTeams.length < event.max_teams_per_user;
 
   return (
     <div className="max-w-[960px] mx-auto pt-0.5 pb-6 sm:py-2 font-jakarta text-bramasta-ink">
@@ -767,77 +847,216 @@ export default function BramastaRegistrationPage() {
                 </div>
               </div>
 
-              <form onSubmit={handleStandaloneLogin} className="space-y-3.5">
-                <div>
-                  <label htmlFor="login-email" className={LABEL_CLASS}>
-                    Alamat Email
-                  </label>
-                  <input
-                    id="login-email"
-                    type="email"
-                    required
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    placeholder="pembina@email.com"
-                    className={INPUT_CLASS}
-                  />
-                </div>
+              {isForgotPassword ? (
+                /* Form Permintaan Reset Kata Sandi (EVORA Section 3.4) */
+                <form onSubmit={handleForgotPassword} className="space-y-3.5">
+                  <div className="p-3 bg-[#EBF3ED] border border-[#2F6B3F]/30 rounded-md text-xs text-[#1F4D2B] space-y-1.5 leading-relaxed">
+                    <div className="flex items-start gap-2">
+                      <Mail className="w-4 h-4 shrink-0 mt-0.5 text-[#2F6B3F]" />
+                      <p>
+                        <strong>Informasi Pengiriman Email:</strong> Masukkan alamat email pembina terdaftar. Tautan aman untuk mengatur ulang kata sandi akan dikirimkan otomatis ke kotak masuk email Anda.
+                      </p>
+                    </div>
+                  </div>
 
-                <div>
-                  <label htmlFor="login-password" className={LABEL_CLASS}>
-                    Kata Sandi
-                  </label>
-                  <div className="relative">
+                  {forgotSuccess && (
+                    <div className="p-3 bg-[#2F6B3F] text-bramasta-accent-on rounded-md text-xs font-medium space-y-2">
+                      <p>{forgotSuccess}</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsForgotPassword(false);
+                          setForgotSuccess(null);
+                        }}
+                        className="font-bold underline cursor-pointer text-bramasta-accent-on"
+                      >
+                        Kembali ke Form Masuk
+                      </button>
+                    </div>
+                  )}
+
+                  <div>
+                    <label htmlFor="forgot-email" className={LABEL_CLASS}>
+                      Alamat Email Terdaftar
+                    </label>
                     <input
-                      id="login-password"
-                      type={showLoginPassword ? "text" : "password"}
+                      id="forgot-email"
+                      type="email"
                       required
-                      value={loginPassword}
-                      onChange={(e) => setLoginPassword(e.target.value)}
-                      placeholder="Masukkan kata sandi"
-                      className={`${INPUT_CLASS} pr-12`}
+                      value={forgotEmail}
+                      onChange={(e) => setForgotEmail(e.target.value)}
+                      placeholder="pembina@email.com"
+                      className={INPUT_CLASS}
                     />
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
                     <button
                       type="button"
-                      onClick={() => setShowLoginPassword((prev) => !prev)}
-                      aria-label={
-                        showLoginPassword
-                          ? "Sembunyikan kata sandi"
-                          : "Tampilkan kata sandi"
-                      }
-                      className={`absolute right-1 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center text-bramasta-ink-soft hover:text-bramasta-ink rounded-sm cursor-pointer ${FOCUS_RING_CLASS}`}
+                      onClick={() => {
+                        setIsForgotPassword(false);
+                        setForgotSuccess(null);
+                      }}
+                      className={`min-h-[44px] px-4 border border-bramasta-ink/50 bg-paper hover:bg-paper-dark rounded-md text-xs font-semibold text-bramasta-ink transition-colors cursor-pointer ${FOCUS_RING_CLASS}`}
                     >
-                      {showLoginPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
+                      Batal
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={forgotSubmitting}
+                      className={`flex-1 min-h-[44px] px-4 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-xs sm:text-sm uppercase tracking-wider rounded-md hover:bg-bramasta-accent-hover transition-colors disabled:opacity-50 cursor-pointer ${FOCUS_RING_CLASS}`}
+                    >
+                      {forgotSubmitting ? "Mengirim Email..." : "Kirim Tautan Reset"}
                     </button>
                   </div>
-                </div>
+                </form>
+              ) : (
+                <form onSubmit={handleStandaloneLogin} className="space-y-3.5">
+                  <div>
+                    <label htmlFor="login-email" className={LABEL_CLASS}>
+                      Alamat Email
+                    </label>
+                    <input
+                      id="login-email"
+                      type="email"
+                      required
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      placeholder="pembina@email.com"
+                      className={INPUT_CLASS}
+                    />
+                  </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`w-full min-h-[48px] py-3 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-colors rounded-md shadow-sm cursor-pointer disabled:opacity-50 ${FOCUS_RING_CLASS}`}
-                >
-                  {loading ? "Memverifikasi..." : "Masuk ke Dashboard"}
-                </button>
-              </form>
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label htmlFor="login-password" className="font-jakarta font-semibold text-sm text-bramasta-ink">
+                        Kata Sandi
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsForgotPassword(true);
+                          setForgotEmail(loginEmail);
+                          setForgotSuccess(null);
+                        }}
+                        className="text-xs font-semibold text-bramasta-accent hover:underline cursor-pointer"
+                      >
+                        Lupa kata sandi?
+                      </button>
+                    </div>
+                    <div className="relative">
+                      <input
+                        id="login-password"
+                        type={showLoginPassword ? "text" : "password"}
+                        required
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                        placeholder="Masukkan kata sandi"
+                        className={`${INPUT_CLASS} pr-12`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowLoginPassword((prev) => !prev)}
+                        aria-label={
+                          showLoginPassword
+                            ? "Sembunyikan kata sandi"
+                            : "Tampilkan kata sandi"
+                        }
+                        className={`absolute right-1 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center text-bramasta-ink-soft hover:text-bramasta-ink rounded-sm cursor-pointer ${FOCUS_RING_CLASS}`}
+                      >
+                        {showLoginPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`w-full min-h-[48px] py-3 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-colors rounded-md shadow-sm cursor-pointer disabled:opacity-50 ${FOCUS_RING_CLASS}`}
+                  >
+                    {loading ? "Memverifikasi..." : "Masuk ke Dashboard"}
+                  </button>
+                </form>
+              )}
 
               <div className="mt-5 pt-3.5 border-t border-paper-deep flex flex-wrap items-center justify-center gap-2 text-sm">
                 <span className="text-bramasta-ink-soft">
                   Belum mendaftarkan tim?
                 </span>
+                {regStatus.isOpen ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsLoginTab(false);
+                      setIsWizardOpen(true);
+                    }}
+                    className={`font-semibold text-bramasta-accent underline hover:text-bramasta-accent-hover cursor-pointer ${FOCUS_RING_CLASS}`}
+                  >
+                    Daftar Tim Baru
+                  </button>
+                ) : (
+                  <Link
+                    href="/lkbb-bramasta-4#agenda"
+                    className={`font-semibold text-bramasta-accent underline hover:text-bramasta-accent-hover cursor-pointer ${FOCUS_RING_CLASS}`}
+                  >
+                    Cek Agenda Pembukaan
+                  </Link>
+                )}
+              </div>
+            </div>
+          ) : !regStatus.isOpen && !currentUser ? (
+            /* Card Saat Pendaftaran Masih COMING SOON / Belum Dibuka */
+            <div className="bg-paper-light border-2 border-bramasta-ink rounded-lg p-6 sm:p-8 shadow-[0_2px_0_#B5AD73,0_10px_24px_rgba(20,18,16,0.14)] text-center max-w-xl mx-auto space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-bramasta-accent-soft text-bramasta-accent rounded-full text-xs font-bold uppercase tracking-wider">
+                <Calendar className="w-3.5 h-3.5" />
+                <span>{regStatus.badgeText}</span>
+              </div>
+
+              <h2 className="font-bodoni font-bold text-2xl sm:text-3xl uppercase text-bramasta-ink leading-tight">
+                {regStatus.headline}
+              </h2>
+
+              <p className="text-sm sm:text-base text-bramasta-ink-soft max-w-md mx-auto leading-relaxed">
+                {regStatus.description}
+              </p>
+
+              {regStatus.registrationStage && (
+                <div className="p-3.5 bg-paper border border-paper-deep rounded-md max-w-md mx-auto text-left text-xs sm:text-sm space-y-1">
+                  <span className="font-bold text-xs uppercase tracking-wider text-bramasta-accent block">
+                    Jadwal Tahapan Linimasa:
+                  </span>
+                  <p className="font-semibold text-bramasta-ink">
+                    {regStatus.registrationStage.date}
+                    {regStatus.registrationStage.time ? ` · ${regStatus.registrationStage.time}` : ""}
+                  </p>
+                  {regStatus.registrationStage.location && (
+                    <p className="text-bramasta-ink-soft">
+                      Lokasi: {regStatus.registrationStage.location}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link
+                  href="/lkbb-bramasta-4#agenda"
+                  className={`w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm ${FOCUS_RING_CLASS}`}
+                >
+                  <span>Lihat Linimasa Agenda &amp; Jadwal</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
                 <button
                   type="button"
-                  onClick={() => {
-                    setIsLoginTab(false);
-                    setIsWizardOpen(true);
-                  }}
-                  className={`font-semibold text-bramasta-accent underline hover:text-bramasta-accent-hover cursor-pointer ${FOCUS_RING_CLASS}`}
+                  onClick={() => setIsLoginTab(true)}
+                  className={`w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3 border border-bramasta-ink/50 bg-paper hover:bg-paper-dark font-jakarta font-semibold text-sm text-bramasta-ink transition-colors rounded-md cursor-pointer ${FOCUS_RING_CLASS}`}
                 >
-                  Daftar Tim Baru
+                  <LogIn className="w-4 h-4" />
+                  <span>Masuk ke Akun Terdaftar</span>
                 </button>
               </div>
             </div>
@@ -862,14 +1081,33 @@ export default function BramastaRegistrationPage() {
                 </p>
               )}
 
-              <button
-                type="button"
-                onClick={() => setIsWizardOpen(true)}
-                className={`w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-8 py-3 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm cursor-pointer active:translate-y-px ${FOCUS_RING_CLASS}`}
-              >
-                <span>Mulai Pendaftaran Tim</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
+              {regStatus.isOpen ? (
+                <button
+                  type="button"
+                  onClick={() => setIsWizardOpen(true)}
+                  className={`w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-8 py-3 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm cursor-pointer active:translate-y-px ${FOCUS_RING_CLASS}`}
+                >
+                  <span>Mulai Pendaftaran Tim</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              ) : (
+                <div className="space-y-3 pt-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-bramasta-accent-soft text-bramasta-accent rounded-full text-xs font-bold uppercase tracking-wider">
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>{regStatus.badgeText}</span>
+                  </div>
+                  <p className="text-sm text-bramasta-ink-soft max-w-md mx-auto leading-relaxed">
+                    Pendaftaran tim saat ini belum dibuka. Silakan pantau linimasa agenda kegiatan untuk jadwal pembukaan resmi pendaftaran.
+                  </p>
+                  <Link
+                    href="/lkbb-bramasta-4#agenda"
+                    className={`w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm ${FOCUS_RING_CLASS}`}
+                  >
+                    <span>Lihat Linimasa Agenda &amp; Jadwal</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              )}
 
               {!currentUser && (
                 <div className="mt-5 pt-3.5 border-t border-paper-deep flex items-center justify-center gap-2 text-sm">
@@ -983,7 +1221,7 @@ export default function BramastaRegistrationPage() {
               <div className="p-3.5 space-y-2 text-sm">
                 <div>
                   <span className="text-[11px] uppercase tracking-wider font-semibold text-bramasta-ink-soft block">
-                    Divisi Kategori
+                    Kategori
                   </span>
                   <span className="font-bold text-bramasta-ink block mt-0.5">
                     {myTeam.category?.name || "Kategori Lomba"}

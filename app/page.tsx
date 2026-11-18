@@ -11,17 +11,20 @@ import BramastaTeaserSection from "@/components/sections/BramastaTeaserSection";
 import CtaSection from "@/components/sections/CtaSection";
 import { BramastaWelcomeModal } from "@/components/home/BramastaWelcomeModal";
 import { getEventDetail } from "@/lib/evora/events";
+import { getRegistrationStatus } from "@/lib/evora/status";
 
 export const revalidate = process.env.NODE_ENV === "development" ? 0 : 60;
 
 export default async function Home() {
   const event = await getEventDetail();
+  const regStatus = getRegistrationStatus(event);
 
   return (
     <>
-      <Navbar />
+      <Navbar isOpen={regStatus.isOpen} />
       {/* Pop-up Pengumuman Resmi & Panduan Pendaftaran Bramasta untuk Pengunjung Pertama */}
       <BramastaWelcomeModal
+        event={event}
         bannerUrl={event?.banner_url}
         eventName={event?.name}
       />
@@ -39,7 +42,7 @@ export default async function Home() {
         <ImmersiveTransition2 />
         <JejakTimeline />
         <BramastaTeaserSection />
-        <CtaSection />
+        <CtaSection isOpen={regStatus.isOpen} />
       </main>
       <Footer />
     </>

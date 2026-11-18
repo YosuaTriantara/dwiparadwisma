@@ -33,9 +33,15 @@ export interface EvoraJudge {
 
 export interface EvoraTimelineItem {
   id?: string;
+  stage?: "registration" | "technical_meeting" | "competition" | "announcement" | "custom" | string;
   title: string;
+  start_date?: string;
+  end_date?: string;
   date?: string;
+  time?: string;
+  location?: string;
   description?: string;
+  status?: "upcoming" | "ongoing" | "completed" | string;
 }
 
 export interface EvoraDocument {

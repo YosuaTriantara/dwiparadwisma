@@ -11,7 +11,11 @@ const NAV_LINKS = [
   { label: "BRAMASTA 4.0", href: "/lkbb-bramasta-4", badge: "SOON" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  isOpen?: boolean;
+}
+
+export default function Navbar({ isOpen = false }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("HOME");
 
@@ -72,15 +76,21 @@ export default function Navbar() {
         {/* CTA + Hamburger */}
         <div className="flex items-center gap-3 sm:gap-4 shrink-0">
           <Link
-            href="/lkbb-bramasta-4"
+            href={isOpen ? "/lkbb-bramasta-4" : "/lkbb-bramasta-4#agenda"}
             className="hidden sm:inline-flex items-center gap-2 bg-accent-orange text-ink font-extrabold text-[10px] xl:text-[11px] uppercase tracking-[0.08em] px-3.5 xl:px-5 py-2.5 border-2 border-ink shadow-[3px_3px_0px_#121C2A] hover:bg-amber-400 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap shrink-0"
           >
-            <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-red opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-red" />
-            </span>
-            <span className="hidden xl:inline">DAFTAR LKBB BRAMASTA 4.0</span>
-            <span className="inline xl:hidden">BRAMASTA 4.0</span>
+            {isOpen ? (
+              <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-red opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-red" />
+              </span>
+            ) : (
+              <span className="inline-block px-1.5 py-0.2 text-[9px] font-black bg-ink text-accent-orange rounded-xs">
+                SOON
+              </span>
+            )}
+            <span className="hidden xl:inline">{isOpen ? "DAFTAR LKBB BRAMASTA 4.0" : "INFO BRAMASTA 4.0"}</span>
+            <span className="inline xl:hidden">{isOpen ? "DAFTAR BRAMASTA" : "BRAMASTA 4.0"}</span>
           </Link>
 
           {/* Hamburger */}

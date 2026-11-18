@@ -8,13 +8,16 @@ import type { EvoraEvent } from "@/types/evora";
 import { formatWaNumber } from "@/lib/evora/contact";
 import { isAuthenticated } from "@/lib/evora/auth";
 import { EVORA_AUTH_EVENT } from "@/lib/evora/client";
+import { getRegistrationStatus } from "@/lib/evora/status";
 
 interface BramastaCtaSectionProps {
+  event?: EvoraEvent | null;
   organizerInfo?: EvoraEvent["organizer_info"];
 }
 
-export function BramastaCtaSection({ organizerInfo }: BramastaCtaSectionProps = {}) {
+export function BramastaCtaSection({ event, organizerInfo }: BramastaCtaSectionProps = {}) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const regStatus = getRegistrationStatus(event);
 
   useEffect(() => {
     const syncAuth = () => setIsLoggedIn(isAuthenticated());
@@ -49,31 +52,47 @@ export function BramastaCtaSection({ organizerInfo }: BramastaCtaSectionProps = 
     <section id="pendaftaran" aria-labelledby="cta-title" className="scroll-mt-20">
       <div className="bg-paper-light text-bramasta-ink border-2 border-bramasta-ink rounded-md p-5 sm:p-8 md:p-10 text-left sm:text-center shadow-[3px_3px_0px_#141210]">
         <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block mb-1.5">
-          PANGGUNG KEHORMATAN MENANTI ANDA
+          {regStatus.isOpen ? "PANGGUNG KEHORMATAN MENANTI ANDA" : "PENDAFTARAN SEGERA DIBUKA · COMING SOON"}
         </span>
 
         <h2
           id="cta-title"
           className="font-bodoni font-bold text-[26px] sm:text-3xl lg:text-4xl uppercase tracking-tight text-bramasta-ink leading-[1.12] mb-2.5 sm:mb-3"
         >
-          Siap Jadi Sang Pemenang?
+          {regStatus.isOpen ? "Siap Jadi Sang Pemenang?" : "Nantikan Panggung Kehormatan Bramasta 4.0"}
         </h2>
 
         <p className="font-bodoni text-base sm:text-[17px] text-bramasta-ink-soft max-w-lg sm:mx-auto mb-6 leading-[1.65] text-justify sm:text-center hyphens-auto lining-nums">
-          Amankan kuota sekolah Anda sekarang! Bergabunglah bersama puluhan tim terbaik se-Bali di LKBB Bramasta 4.0.
+          {regStatus.isOpen
+            ? "Amankan kuota sekolah Anda sekarang! Bergabunglah bersama puluhan tim terbaik se-Bali di LKBB Bramasta 4.0."
+            : "Pendaftaran kontingen resmi akan dibuka sesuai jadwal linimasa kegiatan. Siapkan tim dan berkas administrasi sekolah Anda mulai sekarang!"}
         </p>
 
         <NewsRule variant="thin" className="max-w-xs sm:mx-auto border-t-bramasta-ink/25 my-5" />
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-lg sm:mx-auto">
-          <Link
-            href="/lkbb-bramasta-4/daftar"
-            onClick={handleDaftarClick}
-            className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-sm uppercase tracking-[0.1em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm text-center cursor-pointer active:translate-y-px focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
-          >
-            <span>Daftar Tim Sekarang</span>
-            <ArrowRight className="w-4 h-4 shrink-0" />
-          </Link>
+          {regStatus.isOpen ? (
+            <Link
+              href="/lkbb-bramasta-4/daftar"
+              onClick={handleDaftarClick}
+              className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-sm uppercase tracking-[0.1em] hover:bg-bramasta-accent-hover transition-all rounded-md shadow-sm text-center cursor-pointer active:translate-y-px focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+            >
+              <span>Daftar Tim Sekarang</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
+            </Link>
+          ) : (
+            <a
+              href="#agenda"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("agenda")?.scrollIntoView({ behavior: "smooth", block: "center" });
+              }}
+              className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-bramasta-ink text-[#F4F1DC] font-bodoni font-bold text-sm uppercase tracking-[0.08em] hover:bg-bramasta-ink-soft transition-all rounded-md shadow-sm text-center cursor-pointer active:translate-y-px focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-bramasta-accent focus-visible:outline-offset-2"
+            >
+              <span>Lihat Jadwal Agenda & Linimasa</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
+            </a>
+          )}
           <a
             href={waLink}
             target="_blank"

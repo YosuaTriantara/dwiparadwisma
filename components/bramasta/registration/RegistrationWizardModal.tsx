@@ -14,6 +14,7 @@ import {
   Eye,
   EyeOff,
   Circle,
+  Mail,
 } from "lucide-react";
 import {
   registerParticipant,
@@ -1161,6 +1162,12 @@ export function RegistrationWizardModal({
                         }
                         className={INPUT_CLASS}
                       />
+                      <div className="mt-2 p-2.5 bg-[#EBF3ED] border border-[#2F6B3F]/30 rounded-md flex items-start gap-2 text-xs text-[#1F4D2B] leading-relaxed">
+                        <Mail className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#2F6B3F]" />
+                        <span>
+                          <strong>Informasi:</strong> Pastikan alamat email aktif
+                        </span>
+                      </div>
                     </div>
 
                     <div>

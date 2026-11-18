@@ -22,9 +22,16 @@ import {
   dismissTour,
   startBramastaTour,
 } from "@/lib/tour/tourStorage";
+import { getRegistrationStatus } from "@/lib/evora/status";
+import type { EvoraEvent } from "@/types/evora";
 
-function BramastaStepTourContent() {
+interface BramastaStepTourProps {
+  event?: EvoraEvent | null;
+}
+
+function BramastaStepTourContent({ event }: BramastaStepTourProps = {}) {
   const searchParams = useSearchParams();
+  const regStatus = getRegistrationStatus(event);
 
   const [isActive, setIsActive] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
@@ -105,12 +112,16 @@ function BramastaStepTourContent() {
       completeTour();
       setIsActive(false);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(
-          new CustomEvent("open-bramasta-registration", { detail: {} })
-        );
+        if (regStatus.isOpen) {
+          window.dispatchEvent(
+            new CustomEvent("open-bramasta-registration", { detail: {} })
+          );
+        } else {
+          document.getElementById("agenda")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }
     }
-  }, [currentStepIndex]);
+  }, [currentStepIndex, regStatus.isOpen]);
 
   const handlePrev = useCallback(() => {
     if (currentStepIndex > 0) {
@@ -248,10 +259,12 @@ function BramastaStepTourContent() {
             {/* Konten Langkah Saat Ini */}
             <div>
               <h3 className="font-bodoni font-bold text-base sm:text-lg text-bramasta-ink uppercase tracking-tight leading-snug">
-                {currentStep.title}
+                {isLastStep && !regStatus.isOpen ? "Pendaftaran Segera Dibuka" : currentStep.title}
               </h3>
               <p className="font-bodoni text-xs sm:text-[13px] text-bramasta-ink-soft mt-1 leading-[1.55] line-clamp-3 sm:line-clamp-none">
-                {currentStep.description}
+                {isLastStep && !regStatus.isOpen
+                  ? "Pendaftaran resmi akan dibuka sesuai jadwal linimasa kegiatan. Anda dapat menyiapkan berkas dan kuota tim sekolah Anda terlebih dahulu."
+                  : currentStep.description}
               </p>
             </div>
 
@@ -304,7 +317,13 @@ function BramastaStepTourContent() {
                   onClick={handleNext}
                   className="min-h-[42px] px-3.5 sm:px-4 inline-flex items-center justify-center gap-1 bg-bramasta-accent text-bramasta-accent-on rounded text-[11px] sm:text-xs font-bodoni font-bold uppercase tracking-wider hover:bg-bramasta-accent-hover cursor-pointer transition-colors shadow-xs"
                 >
-                  <span>{isLastStep ? "Daftar Tim" : "Lanjut"}</span>
+                  <span>
+                    {isLastStep
+                      ? regStatus.isOpen
+                        ? "Daftar Tim"
+                        : "Lihat Agenda"
+                      : "Lanjut"}
+                  </span>
                   {isLastStep ? (
                     <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                   ) : (
@@ -344,10 +363,10 @@ function BramastaStepTourContent() {
   );
 }
 
-export function BramastaStepTour() {
+export function BramastaStepTour({ event }: BramastaStepTourProps = {}) {
   return (
     <Suspense fallback={null}>
-      <BramastaStepTourContent />
+      <BramastaStepTourContent event={event} />
     </Suspense>
   );
 }

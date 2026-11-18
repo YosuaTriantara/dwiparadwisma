@@ -83,11 +83,11 @@ export default async function BramastaPage() {
         <BramastaMerchandise organizerInfo={event?.organizer_info} />
 
         {/* Call to Action Pendaftaran Tim (Menggunakan kontak utama panitia) */}
-        <BramastaCtaSection organizerInfo={event?.organizer_info} />
+        <BramastaCtaSection event={event} organizerInfo={event?.organizer_info} />
       </div>
 
       {/* Panduan Interaktif Step-by-Step Menuju Pendaftaran */}
-      <BramastaStepTour />
+      <BramastaStepTour event={event} />
     </>
   );
 }

@@ -44,7 +44,7 @@ export function StatusBadge({ status, children, className = "" }: StatusBadgePro
       break;
     case "roster_submitted":
       bgStyles = "bg-[#B7791F] text-[#F4F1DC]";
-      defaultText = "ROSTER DIAJUKAN";
+      defaultText = "ANGGOTA DIAJUKAN";
       break;
     case "verified":
       bgStyles = "bg-[#2F6B3F] text-[#F4F1DC]";

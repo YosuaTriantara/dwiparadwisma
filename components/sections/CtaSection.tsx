@@ -2,7 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-export default function CtaSection() {
+interface CtaSectionProps {
+  isOpen?: boolean;
+}
+
+export default function CtaSection({ isOpen = false }: CtaSectionProps) {
   return (
     <section
       id="daftar"
@@ -73,24 +77,46 @@ export default function CtaSection() {
           </h2>
 
           <p className="text-white/90 text-sm sm:text-base text-center max-w-xl leading-relaxed -mt-2 sm:-mt-4">
-            Siapkan pasukan terbaikmu! Daftar resmi sebagai peserta{" "}
-            <span className="font-bold text-accent-orange">LKBB Bramasta 4.0</span>{" "}
-            atau hubungi kami untuk informasi seputar Dwipara Dwisma.
+            {isOpen ? (
+              <>
+                Siapkan pasukan terbaikmu! Daftar resmi sebagai peserta{" "}
+                <span className="font-bold text-accent-orange">LKBB Bramasta 4.0</span>{" "}
+                atau hubungi kami untuk informasi seputar Dwipara Dwisma.
+              </>
+            ) : (
+              <>
+                Nantikan perhelatan akbar{" "}
+                <span className="font-bold text-accent-orange">LKBB Bramasta 4.0</span>!{" "}
+                Pendaftaran tim akan segera dibuka sesuai linimasa agenda resmi. Cek jadwal dan ketentuan kompetisi sekarang.
+              </>
+            )}
           </p>
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
-    
-            <Link
-              href="/lkbb-bramasta-4"
-              className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-orange text-ink border-2 border-ink text-sm sm:text-base uppercase tracking-[0.1em] px-8 sm:px-12 py-5 sm:py-6 font-extrabold hover:bg-amber-400 hover:-translate-y-0.5 transition-all text-center shadow-[6px_6px_0px_#121C2A] ring-4 ring-accent-orange/35"
-            >
-              <span>DAFTAR LKBB BRAMASTA 4.0</span>
-              <ArrowRight
-                className="w-5 h-5 transition-transform group-hover:translate-x-1"
-                aria-hidden="true"
-              />
-            </Link>
+            {isOpen ? (
+              <Link
+                href="/lkbb-bramasta-4/daftar"
+                className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-orange text-ink border-2 border-ink text-sm sm:text-base uppercase tracking-[0.1em] px-8 sm:px-12 py-5 sm:py-6 font-extrabold hover:bg-amber-400 hover:-translate-y-0.5 transition-all text-center shadow-[6px_6px_0px_#121C2A] ring-4 ring-accent-orange/35"
+              >
+                <span>DAFTAR LKBB BRAMASTA 4.0</span>
+                <ArrowRight
+                  className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+            ) : (
+              <Link
+                href="/lkbb-bramasta-4#agenda"
+                className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-orange text-ink border-2 border-ink text-sm sm:text-base uppercase tracking-[0.1em] px-8 sm:px-12 py-5 sm:py-6 font-extrabold hover:bg-amber-400 hover:-translate-y-0.5 transition-all text-center shadow-[6px_6px_0px_#121C2A] ring-4 ring-accent-orange/35"
+              >
+                <span>LIHAT AGENDA &amp; JADWAL LOMBA</span>
+                <ArrowRight
+                  className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+            )}
 
             <Link
               href="https://wa.me/6288219544105?text=Halo%2C%20saya%20ingin%20bertanya%20lebih%20lanjut%20tentang%20Dwipara%20Dwisma."

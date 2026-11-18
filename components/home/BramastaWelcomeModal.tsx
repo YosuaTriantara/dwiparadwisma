@@ -5,13 +5,17 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { X, ArrowRight, Compass, Award } from "lucide-react";
 import { startBramastaTour } from "@/lib/tour/tourStorage";
+import { getRegistrationStatus } from "@/lib/evora/status";
+import type { EvoraEvent } from "@/types/evora";
 
 interface BramastaWelcomeModalProps {
+  event?: EvoraEvent | null;
   bannerUrl?: string | null;
   eventName?: string | null;
 }
 
 export function BramastaWelcomeModal({
+  event,
   bannerUrl,
   eventName = "LKBB Bramasta 4.0",
 }: BramastaWelcomeModalProps) {
@@ -71,6 +75,8 @@ export function BramastaWelcomeModal({
 
   // Semua hooks di atas telah dipanggil sebelum conditional return
   if (!mounted || !isOpen) return null;
+
+  const regStatus = getRegistrationStatus(event);
 
   // Gunakan banner resmi dari EVORA API jika ada dan tidak error, atau fallback dokumentasi podium Bramasta
   const visualBannerSrc = !imageError && bannerUrl ? bannerUrl : "/images/bramasta-hero.jpg";
@@ -168,8 +174,12 @@ export function BramastaWelcomeModal({
             /* Layout Ringkas: Teks padat & langsung fokus ke aksi */
             <div className="text-left mb-3.5 sm:mb-4">
               <div className="flex items-center gap-1.5 mb-1.5">
-                <span className="inline-block px-2 py-0.5 text-[10px] sm:text-[11px] font-bodoni font-bold uppercase tracking-wider bg-bramasta-accent text-bramasta-accent-on rounded">
-                  Pendaftaran Dibuka
+                <span className={`inline-block px-2 py-0.5 text-[10px] sm:text-[11px] font-bodoni font-bold uppercase tracking-wider rounded ${
+                  regStatus.isOpen
+                    ? "bg-bramasta-accent text-bramasta-accent-on"
+                    : "bg-bramasta-ink text-paper-light"
+                }`}>
+                  {regStatus.badgeText}
                 </span>
                 <span className="text-[11px] sm:text-xs font-bodoni text-bramasta-ink-soft">
                   {eventName || "LKBB Bramasta 4.0"}
@@ -180,22 +190,28 @@ export function BramastaWelcomeModal({
                 id="welcome-modal-title"
                 className="font-bodoni font-bold text-lg sm:text-xl md:text-2xl uppercase tracking-tight text-bramasta-ink leading-tight"
               >
-                Pendaftaran Resmi Telah Dibuka
+                {regStatus.headline}
               </h2>
 
               <p
                 id="welcome-modal-desc"
                 className="font-bodoni text-xs sm:text-sm text-bramasta-ink-soft mt-1.5 leading-relaxed"
               >
-                Ingin langsung dipandu melihat informasi lomba dan alur pendaftaran, atau menjelajahi profil Dwipara Dwisma?
+                {regStatus.isOpen
+                  ? "Ingin langsung dipandu melihat informasi lomba dan alur pendaftaran, atau menjelajahi profil Dwipara Dwisma?"
+                  : "Pendaftaran akan dibuka sesuai jadwal linimasa resmi. Ingin dipandu melihat jadwal linimasa, kuota lomba, dan juknis kompetisi?"}
               </p>
             </div>
           ) : (
             /* Layout Lengkap ketika menggunakan Fallback Foto */
             <div className="text-left mb-4 sm:mb-5">
               <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2">
-                <span className="inline-block px-2 py-0.5 text-[10px] sm:text-[11px] font-bodoni font-bold uppercase tracking-wider bg-bramasta-accent text-bramasta-accent-on rounded">
-                  Pendaftaran Dibuka
+                <span className={`inline-block px-2 py-0.5 text-[10px] sm:text-[11px] font-bodoni font-bold uppercase tracking-wider rounded ${
+                  regStatus.isOpen
+                    ? "bg-bramasta-accent text-bramasta-accent-on"
+                    : "bg-bramasta-ink text-paper-light"
+                }`}>
+                  {regStatus.badgeText}
                 </span>
                 <span className="text-[11px] sm:text-xs font-bodoni text-bramasta-ink-soft">
                   Tingkat SMP & SMA se-Bali
@@ -206,33 +222,45 @@ export function BramastaWelcomeModal({
                 id="welcome-modal-title"
                 className="font-bodoni font-bold text-xl sm:text-2xl md:text-[26px] uppercase tracking-tight text-bramasta-ink leading-[1.18]"
               >
-                Selamat Datang di Portal Dwipara Dwisma!
+                {regStatus.isOpen ? "Selamat Datang di Portal Dwipara Dwisma!" : "Warta Resmi LKBB Bramasta 4.0"}
               </h2>
 
               <p
                 id="welcome-modal-desc"
                 className="font-bodoni text-xs sm:text-sm md:text-[15px] text-bramasta-ink-soft mt-2 leading-[1.6] text-justify hyphens-auto"
               >
-                Pendaftaran kompetisi akbar{" "}
-                <strong className="text-bramasta-ink font-bold">
-                  {eventName || "LKBB Bramasta 4.0"}
-                </strong>{" "}
-                telah resmi dibuka. Apakah Anda ingin langsung dipandu menuju informasi
-                lengkap dan langkah pendaftaran tim, atau ingin menjelajahi profil organisasi
-                Dwipara Dwisma terlebih dahulu?
+                {regStatus.isOpen ? (
+                  <>
+                    Pendaftaran kompetisi akbar{" "}
+                    <strong className="text-bramasta-ink font-bold">
+                      {eventName || "LKBB Bramasta 4.0"}
+                    </strong>{" "}
+                    telah resmi dibuka. Apakah Anda ingin langsung dipandu menuju informasi
+                    lengkap dan langkah pendaftaran tim, atau ingin menjelajahi profil organisasi
+                    Dwipara Dwisma terlebih dahulu?
+                  </>
+                ) : (
+                  <>
+                    Kompetisi akbar{" "}
+                    <strong className="text-bramasta-ink font-bold">
+                      {eventName || "LKBB Bramasta 4.0"}
+                    </strong>{" "}
+                    akan segera hadir. Pendaftaran kontingen akan dibuka sesuai tahapan linimasa resmi. Apakah Anda ingin dipandu melihat rincian agenda, kuota slot, dan pedoman berkas kompetisi?
+                  </>
+                )}
               </p>
             </div>
           )}
 
           {/* Opsi Akomodasi Kedua Kebutuhan User */}
           <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 pt-1">
-            {/* Opsi 1: Menuju Panduan Pendaftaran LKBB Bramasta 4.0 */}
+            {/* Opsi 1: Menuju Panduan LKBB Bramasta 4.0 */}
             <button
               type="button"
               onClick={handleGuideToBramasta}
               className="w-full sm:flex-1 min-h-[44px] sm:min-h-[46px] inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-bramasta-accent text-bramasta-accent-on font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.06em] hover:bg-bramasta-accent-hover transition-colors rounded-md shadow-xs text-center cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-bramasta-ink"
             >
-              <span>Pandu ke Pendaftaran</span>
+              <span>{regStatus.isOpen ? "Pandu ke Pendaftaran" : "Pandu Informasi & Jadwal"}</span>
               <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
 
