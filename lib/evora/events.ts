@@ -3,18 +3,27 @@ import type { EvoraEvent, EvoraCategory } from "@/types/evora";
 
 /**
  * Mengambil detail event langsung dari EVORA Backend API.
- * Jika event belum terdaftar/belum diatur di EVORA (404), return null (tanpa data dummy).
+ * Jika slug pertama mengembalikan 404, mencoba slug varian (lkbb-bramasta-40 / lkbb-bramasta-4).
+ * Jika event belum terdaftar di EVORA, return null.
  */
 export async function getEventDetail(
   idOrSlug: string = EVORA_EVENT_SLUG
 ): Promise<EvoraEvent | null> {
-  try {
-    const event = await evoraRequest<EvoraEvent>(`/events/${idOrSlug}`);
-    return event;
-  } catch (err) {
-    // Data belum dibuat di EVORA API, kembalikan null agar UI menampilkan status menunggu rilis
-    return null;
+  const candidates = [idOrSlug, "lkbb-bramasta-40", "lkbb-bramasta-4"].filter(
+    (s, idx, arr) => Boolean(s) && arr.indexOf(s) === idx
+  );
+
+  for (const slug of candidates) {
+    try {
+      const event = await evoraRequest<EvoraEvent>(`/events/${slug}`);
+      if (event && (event.id || event.name)) {
+        return event;
+      }
+    } catch {
+      // Coba kandidat berikutnya
+    }
   }
+  return null;
 }
 
 /**
@@ -24,11 +33,19 @@ export async function getEventDetail(
 export async function getEventCategories(
   idOrSlug: string = EVORA_EVENT_SLUG
 ): Promise<EvoraCategory[]> {
-  try {
-    const categories = await evoraRequest<EvoraCategory[]>(`/events/${idOrSlug}/categories`);
-    return Array.isArray(categories) ? categories : [];
-  } catch (err) {
-    // Belum ada kategori di EVORA API, kembalikan array kosong
-    return [];
+  const candidates = [idOrSlug, "lkbb-bramasta-40", "lkbb-bramasta-4"].filter(
+    (s, idx, arr) => Boolean(s) && arr.indexOf(s) === idx
+  );
+
+  for (const slug of candidates) {
+    try {
+      const categories = await evoraRequest<EvoraCategory[]>(`/events/${slug}/categories`);
+      if (Array.isArray(categories) && categories.length > 0) {
+        return categories;
+      }
+    } catch {
+      // Coba kandidat berikutnya
+    }
   }
+  return [];
 }

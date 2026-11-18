@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function BramastaTeaserSection() {
+interface BramastaTeaserSectionProps {
+  isOpen?: boolean;
+}
+
+export default function BramastaTeaserSection({ isOpen = false }: BramastaTeaserSectionProps) {
   return (
     <section className="px-4 sm:px-8 lg:px-16 py-6 lg:py-10 scroll-mt-24">
       <div className="max-w-content mx-auto">
@@ -10,8 +14,10 @@ export default function BramastaTeaserSection() {
           {/* Tag & Kicker */}
           <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-[#141210] pb-3 mb-5">
             <div className="flex items-center gap-2.5">
-              <span className="bg-[#141210] text-[#D9D3A1] text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5">
-                COMING SOON
+              <span className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 ${
+                isOpen ? "bg-[#0F5257] text-[#F4F1DC]" : "bg-[#141210] text-[#D9D3A1]"
+              }`}>
+                {isOpen ? "PENDAFTARAN DIBUKA" : "COMING SOON"}
               </span>
               <span className="text-[11px] font-bold uppercase tracking-widest text-[#3A362B]">
                 BRAMASTA 4.0 · 2027
@@ -35,22 +41,24 @@ export default function BramastaTeaserSection() {
                 &ldquo;Mencari sang pejuang dan sang pemenang.&rdquo;
               </p>
               <p className="text-xs sm:text-sm text-[#3A362B]/90 leading-relaxed mt-1">
-                Setelah kesuksesan edisi sebelumnya, Dwipara Dwisma kembali membuka arena kompetisi ketangkasan baris-berbaris bagi jenjang SD, SMP dan SMA/SMK se-Bali (open). Dapatkan informasi resmi mengenai jadwal, dewan juri, kuota slot, dan panduan administrasi.
+                {isOpen
+                  ? "Pendaftaran resmi kontingen LKBB Bramasta 4.0 kini telah dibuka! Amankan kuota tim sekolah Anda untuk jenjang SD, SMP, dan SMA/SMK se-Bali (open). Dapatkan informasi jadwal, alokasi kuota slot, dan panduan administrasi."
+                  : "Setelah kesuksesan edisi sebelumnya, Dwipara Dwisma kembali membuka arena kompetisi ketangkasan baris-berbaris bagi jenjang SD, SMP dan SMA/SMK se-Bali (open). Dapatkan informasi resmi mengenai jadwal, dewan juri, kuota slot, dan panduan administrasi."}
               </p>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-center gap-3.5 mt-3">
                 <Link
-                  href="/lkbb-bramasta-4"
+                  href={isOpen ? "/lkbb-bramasta-4/daftar" : "/lkbb-bramasta-4"}
                   className="w-full sm:w-auto px-6 py-3 bg-[#0F5257] text-[#F4F1DC] font-bold text-xs uppercase tracking-widest hover:bg-[#0B3F43] transition-colors text-center shadow-sm"
                 >
-                  LIHAT BRAMASTA 4.0 &rarr;
+                  {isOpen ? "DAFTAR BRAMASTA 4.0 \u2192" : "LIHAT BRAMASTA 4.0 \u2192"}
                 </Link>
                 <Link
-                  href="#jejak"
+                  href="/lkbb-bramasta-4"
                   className="w-full sm:w-auto px-5 py-3 border-2 border-[#141210] text-[#141210] font-bold text-xs uppercase tracking-widest hover:bg-[#141210] hover:text-[#D9D3A1] transition-colors text-center"
                 >
-                  Lihat Edisi Sebelumnya
+                  {isOpen ? "Informasi & Juknis" : "Lihat Edisi Sebelumnya"}
                 </Link>
               </div>
             </div>

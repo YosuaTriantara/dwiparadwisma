@@ -82,6 +82,34 @@ async function handleProxy(
       headers: responseHeaders,
     });
   } catch (error: any) {
+    // Jika panggilan lokal ke localhost gagal karena server lokal tidak aktif, coba otomatis fallback ke api.events.my.id
+    if (backendBase.includes("localhost") || backendBase.includes("127.0.0.1")) {
+      try {
+        const prodTarget = `https://api.events.my.id/${path}${search}`;
+        const prodRes = await fetch(prodTarget, {
+          method: request.method,
+          headers: forwardHeaders,
+          body,
+          cache: "no-store",
+        });
+
+        const prodResponseHeaders = new Headers(prodRes.headers);
+        prodResponseHeaders.delete("access-control-allow-origin");
+        prodResponseHeaders.delete("Access-Control-Allow-Origin");
+        prodResponseHeaders.delete("access-control-allow-credentials");
+        prodResponseHeaders.delete("Access-Control-Allow-Credentials");
+
+        const prodData = await prodRes.arrayBuffer();
+        return new NextResponse(prodData, {
+          status: prodRes.status,
+          statusText: prodRes.statusText,
+          headers: prodResponseHeaders,
+        });
+      } catch {
+        // Fallback production gagal, lanjutkan penanganan error di bawah
+      }
+    }
+
     if (path === "auth/forgot-password") {
       let emailTarget = "Anda";
       if (body) {

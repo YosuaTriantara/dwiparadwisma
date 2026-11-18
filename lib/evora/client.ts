@@ -13,7 +13,7 @@ export const EVORA_BASE_URL =
 export const EVORA_EVENT_SLUG =
   process.env.EVORA_EVENT_ID ||
   process.env.NEXT_PUBLIC_EVORA_EVENT_ID ||
-  "lkbb-bramasta-4";
+  "lkbb-bramasta-40";
 
 const TOKEN_KEY = "evora_auth_token";
 const USER_KEY = "evora_user_data";
@@ -127,6 +127,28 @@ export async function evoraRequest<T>(
 
     return data as T;
   } catch (err: any) {
+    // Jika panggilan gagal pada server lokal (misal backend lokal tidak aktif), coba fallback ke production API
+    if (baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1")) {
+      try {
+        const prodFallbackUrl = `https://api.events.my.id${cleanEndpoint}`;
+        const fallbackRes = await fetch(prodFallbackUrl, fetchConfig);
+        const data = await fallbackRes.json().catch(() => null);
+        if (fallbackRes.ok) {
+          if (
+            data &&
+            typeof data === "object" &&
+            "data" in data &&
+            !("id" in data && "name" in data)
+          ) {
+            return (data as any).data as T;
+          }
+          return data as T;
+        }
+      } catch {
+        // Fallback gagal, teruskan error asli di bawah
+      }
+    }
+
     if (process.env.NODE_ENV === "development") {
       console.warn(`[EVORA API Error] ${options.method || "GET"} ${url}: ${err.message}`);
     }

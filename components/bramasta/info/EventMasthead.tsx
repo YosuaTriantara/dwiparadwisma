@@ -1,12 +1,14 @@
 import React from "react";
 import type { EvoraEvent } from "@/types/evora";
+import { getRegistrationStatus } from "@/lib/evora/status";
 
 interface EventMastheadProps {
   event: EvoraEvent | null;
 }
 
 export function EventMasthead({ event }: EventMastheadProps) {
-  const isOpen = event?.registration_status === "registration_open";
+  const regStatus = getRegistrationStatus(event);
+  const isOpen = regStatus.isOpen;
 
   return (
     <section aria-labelledby="hero-title" className="text-center pt-2 sm:pt-4 pb-3 sm:pb-5 w-full">

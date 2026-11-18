@@ -41,7 +41,7 @@ export default async function Home() {
         <PrestasiGallery />
         <ImmersiveTransition2 />
         <JejakTimeline />
-        <BramastaTeaserSection />
+        <BramastaTeaserSection isOpen={regStatus.isOpen} />
         <CtaSection isOpen={regStatus.isOpen} />
       </main>
       <Footer />
