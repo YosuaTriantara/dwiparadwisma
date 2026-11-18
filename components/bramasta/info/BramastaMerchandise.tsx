@@ -21,48 +21,55 @@ interface MerchandiseItem {
   }[];
   sizeChart: {
     size: string;
-    chest: string;
     length: string;
-    sleeve: string;
+    width: string;
   }[];
-  features: string[];
+  benefits: string[];
 }
 
 const OFFICIAL_TSHIRT: MerchandiseItem = {
   id: "kaos-bramasta-4",
   name: "Kaos Resmi LKBB Bramasta 4.0",
   price: "Rp 90.000",
-  badge: "Edisi Terbatas",
-  shortDesc: "Tampil kompak di arena lomba dengan kaos resmi edisi terbatas LKBB Bramasta 4.0. Pre-order dibuka selama stok tersedia.",
-  material: "Cotton 30s",
+  badge: "Official Merch",
+  shortDesc: "Kaos resmi kontingen LKBB Bramasta 4.0 dengan tipografi klasik di bagian dada dan ilustrasi ksatria berornamen Bali di bagian belakang.",
+  material: "Cotton Combed 30s",
   images: [
     {
-      src: "/images/merch/tshirt-front.svg",
+      src: "/images/merch/cover.jpeg",
+      alt: "Official Merchandise LKBB Bramasta 4.0 - Poster Resmi",
+      title: "Katalog Resmi",
+    },
+    {
+      src: "/images/merch/front.jpeg",
       alt: "Kaos Resmi LKBB Bramasta 4.0 - Tampak Depan",
       title: "Tampak Depan",
     },
     {
-      src: "/images/merch/tshirt-back.svg",
+      src: "/images/merch/back.jpeg",
       alt: "Kaos Resmi LKBB Bramasta 4.0 - Tampak Belakang",
       title: "Tampak Belakang",
     },
     {
-      src: "/images/merch/tshirt-sizechart.svg",
-      alt: "Panduan Detail Ukuran Kaos Resmi Bramasta 4.0",
-      title: "Panduan Size Chart",
+      src: "/images/merch/chart.jpeg",
+      alt: "Panduan Detail Ukuran Kaos Resmi LKBB Bramasta 4.0",
+      title: "Size Chart",
     },
   ],
   sizeChart: [
-    { size: "S", chest: "47 cm", length: "67 cm", sleeve: "20 cm" },
-    { size: "M", chest: "50 cm", length: "70 cm", sleeve: "22 cm" },
-    { size: "L", chest: "53 cm", length: "73 cm", sleeve: "23 cm" },
-    { size: "XL", chest: "56 cm", length: "75 cm", sleeve: "24 cm" },
-    { size: "XXL", chest: "59 cm", length: "77 cm", sleeve: "25 cm" },
-    { size: "3XL", chest: "62 cm", length: "80 cm", sleeve: "26 cm" },
+    { size: "XS", length: "67 cm", width: "46 cm" },
+    { size: "S", length: "70 cm", width: "48 cm" },
+    { size: "M", length: "73 cm", width: "50 cm" },
+    { size: "L", length: "76 cm", width: "52 cm" },
+    { size: "XL", length: "79 cm", width: "54 cm" },
+    { size: "XXL", length: "82 cm", width: "56 cm" },
+    { size: "XXXL", length: "85 cm", width: "58 cm" },
   ],
-  features: [
-    "Bahan 100% Cotton 30s ",
-    "Pilihan ukuran lengkap: XS, S, M, L, XL, XXL, hingga 3XL (Unisex)",
+  benefits: [
+    "Poin Balot (VIP) & kupon undian berhadiah",
+    "Gratis pendaftaran lomba (minimal pemesanan 20 pcs)",
+    "Gratis pendaftaran lomba + piala hingga 1,5 meter (minimal pemesanan 30 pcs)",
+    "Pilihan ukuran lengkap XS hingga XXXL (Unisex)",
   ],
 };
 
@@ -253,14 +260,14 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
                   {OFFICIAL_TSHIRT.shortDesc}
                 </p>
 
-                {/* Ringkasan Spesifikasi Singkat (Padat di Mobile, Tidak Penuh Teks) */}
+                {/* Ringkasan Spesifikasi Singkat */}
                 <div className="bg-paper-light border border-bramasta-ink/35 rounded-sm px-3.5 py-2.5 mb-4 font-bodoni text-sm text-bramasta-ink-soft space-y-1">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
                     <span className="font-bold text-bramasta-ink uppercase text-xs tracking-wider">
                       Ukuran
                     </span>
                     <span className="font-semibold text-bramasta-ink lining-nums">
-                      S – 3XL (Unisex)
+                      XS – XXXL (Unisex)
                     </span>
                   </div>
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 pt-1 border-t border-bramasta-ink/15">
@@ -268,8 +275,18 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
                       Bahan
                     </span>
                     <span className="font-semibold text-bramasta-ink">
-                      Cotton 30s
+                      {OFFICIAL_TSHIRT.material}
                     </span>
+                  </div>
+                  <div className="pt-1.5 border-t border-bramasta-ink/15">
+                    <span className="font-bold text-bramasta-ink uppercase text-xs tracking-wider block mb-1">
+                      Keuntungan Pemesanan:
+                    </span>
+                    <ul className="text-xs text-bramasta-ink space-y-0.5 list-disc list-inside">
+                      <li>Poin Balot (VIP) &amp; kupon undian berhadiah</li>
+                      <li>Free pendaftaran lomba (min. 20 pcs)</li>
+                      <li>Free pendaftaran + piala s.d. 1,5M (min. 30 pcs)</li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -418,16 +435,15 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
               {/* Tabel Detail Ukuran */}
               <div>
                 <span className="font-bold uppercase tracking-wider block text-xs text-bramasta-accent mb-1.5">
-                  Panduan Ukuran (Centimeter)
+                  Panduan Ukuran Resmi (Centimeter)
                 </span>
                 <div className="border-2 border-bramasta-ink bg-paper rounded-none overflow-x-auto lining-nums">
                   <table className="w-full text-left text-xs sm:text-sm border-collapse">
                     <thead>
                       <tr className="bg-bramasta-ink text-[#F4F1DC] font-bold uppercase text-xs">
                         <th className="p-2 border-r border-paper/20">Size</th>
-                        <th className="p-2 border-r border-paper/20">Lebar Dada</th>
-                        <th className="p-2 border-r border-paper/20">Panjang</th>
-                        <th className="p-2">Lengan</th>
+                        <th className="p-2 border-r border-paper/20">Panjang (Length)</th>
+                        <th className="p-2">Lebar (Width)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -439,9 +455,8 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
                           }`}
                         >
                           <td className="p-2 font-bold border-r border-bramasta-ink/20">{row.size}</td>
-                          <td className="p-2 border-r border-bramasta-ink/20">{row.chest}</td>
                           <td className="p-2 border-r border-bramasta-ink/20">{row.length}</td>
-                          <td className="p-2">{row.sleeve}</td>
+                          <td className="p-2">{row.width}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -449,13 +464,13 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
                 </div>
               </div>
 
-              {/* Fitur Kaos Ringkas */}
+              {/* Keuntungan Pemesanan Resmi */}
               <div>
                 <span className="font-bold uppercase tracking-wider block text-xs text-bramasta-accent mb-1">
-                  Keunggulan
+                  Keuntungan Pemesanan (Benefits)
                 </span>
                 <ul className="list-disc list-inside space-y-1 text-sm sm:text-base text-bramasta-ink-soft leading-[1.55]">
-                  {OFFICIAL_TSHIRT.features.map((feat, i) => (
+                  {OFFICIAL_TSHIRT.benefits.map((feat, i) => (
                     <li key={i}>{feat}</li>
                   ))}
                 </ul>

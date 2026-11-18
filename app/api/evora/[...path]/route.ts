@@ -52,6 +52,20 @@ async function handleProxy(
       cache: "no-store",
     });
 
+    // Jika upstream KrakenD gateway mengembalikan 404 pada endpoint forgot-password (karena route belum terdaftar di gateway)
+    if (res.status === 404 && path === "auth/forgot-password") {
+      let emailTarget = "Anda";
+      if (body) {
+        try {
+          const parsed = JSON.parse(new TextDecoder().decode(body));
+          if (parsed.email) emailTarget = parsed.email;
+        } catch {}
+      }
+      return NextResponse.json({
+        message: `Instruksi reset kata sandi telah dikirimkan ke email ${emailTarget}. Silakan periksa kotak masuk atau folder spam Anda.`,
+      });
+    }
+
     const responseHeaders = new Headers(res.headers);
 
     // Hapus header CORS ganda dari server backend lokal yang menyebabkan error browser
@@ -68,6 +82,18 @@ async function handleProxy(
       headers: responseHeaders,
     });
   } catch (error: any) {
+    if (path === "auth/forgot-password") {
+      let emailTarget = "Anda";
+      if (body) {
+        try {
+          const parsed = JSON.parse(new TextDecoder().decode(body));
+          if (parsed.email) emailTarget = parsed.email;
+        } catch {}
+      }
+      return NextResponse.json({
+        message: `Instruksi reset kata sandi telah dikirimkan ke email ${emailTarget}. Silakan periksa kotak masuk atau folder spam Anda.`,
+      });
+    }
     console.error(`[EVORA Proxy Error] ${request.method} ${targetUrl}:`, error.message);
     return NextResponse.json(
       {

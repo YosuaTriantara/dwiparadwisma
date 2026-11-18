@@ -22,6 +22,7 @@ import {
   loginWithGoogle,
   getCurrentUser,
   logoutParticipant,
+  forgotPassword,
 } from "@/lib/evora/auth";
 import { validatePassword } from "@/lib/evora/validation";
 import { registerTeam } from "@/lib/evora/teams";
@@ -185,6 +186,34 @@ export function RegistrationWizardModal({
 
   // Login shortcut mode jika akun pembina sudah pernah dibuat
   const [isExistingAccount, setIsExistingAccount] = useState(false);
+  const [isWizardForgot, setIsWizardForgot] = useState(false);
+  const [wizardForgotLoading, setWizardForgotLoading] = useState(false);
+  const [wizardForgotSuccess, setWizardForgotSuccess] = useState<string | null>(null);
+
+  async function handleWizardForgotPassword(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    const targetEmail = authEmail.trim();
+    if (!targetEmail) {
+      setErrorMessage("Masukkan alamat email Anda terlebih dahulu.");
+      return;
+    }
+    setErrorMessage(null);
+    setWizardForgotLoading(true);
+    try {
+      const res = await forgotPassword(targetEmail);
+      setWizardForgotSuccess(
+        res?.message ||
+          `Tautan instruksi reset kata sandi telah dikirimkan ke email ${targetEmail}. Silakan periksa kotak masuk atau spam.`
+      );
+    } catch (err: any) {
+      setErrorMessage(
+        err.message ||
+          "Gagal memproses permintaan reset kata sandi. Pastikan email terdaftar."
+      );
+    } finally {
+      setWizardForgotLoading(false);
+    }
+  }
 
   // 1. Sinkronkan sesi user aktif saat modal dibuka
   useEffect(() => {
@@ -1171,42 +1200,91 @@ export function RegistrationWizardModal({
                     </div>
 
                     <div>
-                      <label htmlFor="wizard-password" className={LABEL_CLASS}>
-                        {isExistingAccount
-                          ? "Kata Sandi Akun"
-                          : "Buat Kata Sandi"}
-                      </label>
-                      <div className="relative">
-                        <input
-                          id="wizard-password"
-                          type={showPassword ? "text" : "password"}
-                          required
-                          value={authPassword}
-                          onChange={(e) => setAuthPassword(e.target.value)}
-                          placeholder={
-                            isExistingAccount
-                              ? "Masukkan kata sandi akun Anda"
-                              : "Minimal 8 karakter"
-                          }
-                          className={`${INPUT_CLASS} pr-12`}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword((prev) => !prev)}
-                          aria-label={
-                            showPassword
-                              ? "Sembunyikan kata sandi"
-                              : "Tampilkan kata sandi"
-                          }
-                          className={`absolute right-1 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center text-bramasta-ink-soft hover:text-bramasta-ink rounded-sm cursor-pointer ${FOCUS_RING_CLASS}`}
-                        >
-                          {showPassword ? (
-                            <EyeOff className="w-5 h-5" />
-                          ) : (
-                            <Eye className="w-5 h-5" />
-                          )}
-                        </button>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label htmlFor="wizard-password" className="font-jakarta font-semibold text-sm text-bramasta-ink">
+                          {isExistingAccount
+                            ? "Kata Sandi Akun"
+                            : "Buat Kata Sandi"}
+                        </label>
+                        {isExistingAccount && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsWizardForgot((prev) => !prev);
+                              setWizardForgotSuccess(null);
+                            }}
+                            className="text-xs font-semibold text-bramasta-accent hover:underline cursor-pointer"
+                          >
+                            {isWizardForgot ? "Batal Reset" : "Lupa kata sandi?"}
+                          </button>
+                        )}
                       </div>
+
+                      {isWizardForgot ? (
+                        <div className="p-3 bg-paper border border-paper-deep rounded-md space-y-2.5">
+                          {wizardForgotSuccess ? (
+                            <div className="p-2.5 bg-[#2F6B3F] text-bramasta-accent-on rounded-sm text-xs font-medium space-y-1.5">
+                              <p>{wizardForgotSuccess}</p>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setIsWizardForgot(false);
+                                  setWizardForgotSuccess(null);
+                                }}
+                                className="font-bold underline cursor-pointer text-bramasta-accent-on block text-left"
+                              >
+                                Kembali ke Pengisian Password
+                              </button>
+                            </div>
+                          ) : (
+                            <>
+                              <p className="text-xs text-bramasta-ink-soft leading-relaxed">
+                                Tautan reset kata sandi akan dikirimkan otomatis ke alamat email pembina di atas (<strong>{authEmail || "isi email di atas"}</strong>).
+                              </p>
+                              <button
+                                type="button"
+                                onClick={handleWizardForgotPassword}
+                                disabled={wizardForgotLoading || !authEmail.trim()}
+                                className={`w-full min-h-[40px] px-3 py-2 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-xs uppercase tracking-wider rounded-md hover:bg-bramasta-accent-hover transition-colors disabled:opacity-50 cursor-pointer ${FOCUS_RING_CLASS}`}
+                              >
+                                {wizardForgotLoading ? "Mengirim Email..." : "Kirim Tautan Reset ke Email Ini"}
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="relative">
+                          <input
+                            id="wizard-password"
+                            type={showPassword ? "text" : "password"}
+                            required
+                            value={authPassword}
+                            onChange={(e) => setAuthPassword(e.target.value)}
+                            placeholder={
+                              isExistingAccount
+                                ? "Masukkan kata sandi akun Anda"
+                                : "Minimal 8 karakter"
+                            }
+                            className={`${INPUT_CLASS} pr-12`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            aria-label={
+                              showPassword
+                                ? "Sembunyikan kata sandi"
+                                : "Tampilkan kata sandi"
+                            }
+                            className={`absolute right-1 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center text-bramasta-ink-soft hover:text-bramasta-ink rounded-sm cursor-pointer ${FOCUS_RING_CLASS}`}
+                          >
+                            {showPassword ? (
+                              <EyeOff className="w-5 h-5" />
+                            ) : (
+                              <Eye className="w-5 h-5" />
+                            )}
+                          </button>
+                        </div>
+                      )}
 
                       {/* Checklist Validasi Password Real-Time */}
                       {!isExistingAccount && (

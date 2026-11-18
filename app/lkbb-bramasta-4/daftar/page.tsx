@@ -859,56 +859,72 @@ export default function BramastaRegistrationPage() {
                     </div>
                   </div>
 
-                  {forgotSuccess && (
-                    <div className="p-3 bg-[#2F6B3F] text-bramasta-accent-on rounded-md text-xs font-medium space-y-2">
-                      <p>{forgotSuccess}</p>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsForgotPassword(false);
-                          setForgotSuccess(null);
-                        }}
-                        className="font-bold underline cursor-pointer text-bramasta-accent-on"
-                      >
-                        Kembali ke Form Masuk
-                      </button>
+                  {forgotSuccess ? (
+                    <div className="p-4 bg-[#2F6B3F] text-bramasta-accent-on rounded-md text-sm font-medium space-y-3">
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
+                        <p className="leading-relaxed">{forgotSuccess}</p>
+                      </div>
+                      <div className="pt-2 border-t border-white/20 flex items-center justify-between gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setForgotSuccess(null);
+                          }}
+                          className="text-xs font-semibold underline text-white/90 hover:text-white cursor-pointer"
+                        >
+                          Kirim ke email lain
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsForgotPassword(false);
+                            setForgotSuccess(null);
+                          }}
+                          className="px-3.5 py-1.5 bg-paper-light text-bramasta-ink font-bold text-xs uppercase rounded-md shadow-sm hover:bg-paper cursor-pointer"
+                        >
+                          Masuk Sekarang
+                        </button>
+                      </div>
                     </div>
+                  ) : (
+                    <>
+                      <div>
+                        <label htmlFor="forgot-email" className={LABEL_CLASS}>
+                          Alamat Email Terdaftar
+                        </label>
+                        <input
+                          id="forgot-email"
+                          type="email"
+                          required
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          placeholder="pembina@email.com"
+                          className={INPUT_CLASS}
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-2 pt-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsForgotPassword(false);
+                            setForgotSuccess(null);
+                          }}
+                          className={`min-h-[44px] px-4 border border-bramasta-ink/50 bg-paper hover:bg-paper-dark rounded-md text-xs font-semibold text-bramasta-ink transition-colors cursor-pointer ${FOCUS_RING_CLASS}`}
+                        >
+                          Batal
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={forgotSubmitting}
+                          className={`flex-1 min-h-[44px] px-4 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-xs sm:text-sm uppercase tracking-wider rounded-md hover:bg-bramasta-accent-hover transition-colors disabled:opacity-50 cursor-pointer ${FOCUS_RING_CLASS}`}
+                        >
+                          {forgotSubmitting ? "Mengirim Email..." : "Kirim Tautan Reset"}
+                        </button>
+                      </div>
+                    </>
                   )}
-
-                  <div>
-                    <label htmlFor="forgot-email" className={LABEL_CLASS}>
-                      Alamat Email Terdaftar
-                    </label>
-                    <input
-                      id="forgot-email"
-                      type="email"
-                      required
-                      value={forgotEmail}
-                      onChange={(e) => setForgotEmail(e.target.value)}
-                      placeholder="pembina@email.com"
-                      className={INPUT_CLASS}
-                    />
-                  </div>
-
-                  <div className="flex items-center gap-2 pt-1">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsForgotPassword(false);
-                        setForgotSuccess(null);
-                      }}
-                      className={`min-h-[44px] px-4 border border-bramasta-ink/50 bg-paper hover:bg-paper-dark rounded-md text-xs font-semibold text-bramasta-ink transition-colors cursor-pointer ${FOCUS_RING_CLASS}`}
-                    >
-                      Batal
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={forgotSubmitting}
-                      className={`flex-1 min-h-[44px] px-4 bg-bramasta-accent text-bramasta-accent-on font-jakarta font-bold text-xs sm:text-sm uppercase tracking-wider rounded-md hover:bg-bramasta-accent-hover transition-colors disabled:opacity-50 cursor-pointer ${FOCUS_RING_CLASS}`}
-                    >
-                      {forgotSubmitting ? "Mengirim Email..." : "Kirim Tautan Reset"}
-                    </button>
-                  </div>
                 </form>
               ) : (
                 <form onSubmit={handleStandaloneLogin} className="space-y-3.5">

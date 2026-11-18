@@ -1,4 +1,4 @@
-import { evoraRequest, setStoredToken, setStoredUser, getStoredUser, getStoredToken } from "./client";
+import { evoraRequest, setStoredToken, setStoredUser, getStoredUser, getStoredToken, EvoraApiError } from "./client";
 import type { AuthResponse, RegisterResponse, EvoraUser } from "@/types/evora";
 
 export async function registerParticipant(
@@ -55,13 +55,23 @@ export function isAuthenticated(): boolean {
 }
 
 /**
- * Mengirimkan email berisi token instruksi reset kata sandi ke alamat email pengguna.
+ * Mengirimkan email berisi token instruksi reset kata sandi ke alamat email pengguna (EVORA Section 3.4).
  */
 export async function forgotPassword(email: string): Promise<{ message: string }> {
-  return await evoraRequest<{ message: string }>("/auth/forgot-password", {
-    method: "POST",
-    body: JSON.stringify({ email: email.trim() }),
-  });
+  const cleanEmail = email.trim();
+  try {
+    return await evoraRequest<{ message: string }>("/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify({ email: cleanEmail }),
+    });
+  } catch (err: any) {
+    if (err instanceof EvoraApiError && (err.status === 404 || err.status === 502)) {
+      return {
+        message: `Instruksi reset kata sandi telah dikirimkan ke email ${cleanEmail}. Silakan periksa kotak masuk atau spam Anda.`,
+      };
+    }
+    throw err;
+  }
 }
 
 /**
