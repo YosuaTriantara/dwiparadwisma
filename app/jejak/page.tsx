@@ -163,6 +163,22 @@ export default function JejakPage() {
                           </div>
                         )}
                       </div>
+
+                      {/* Secondary Photo if available */}
+                      {chapter.secondaryImage && (
+                        <div
+                          className={`relative z-10 overflow-hidden border ${accentBorder[chapter.accentColor]} mt-4`}
+                          style={{ height: "clamp(180px, 22vw, 320px)" }}
+                        >
+                          <Image
+                            src={chapter.secondaryImage}
+                            alt={`${chapter.imageAlt} - Arena Pertandingan`}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
                     </div>
 
                     {/* Text (span 6) */}

@@ -159,8 +159,8 @@ export default function JejakTimeline() {
                 style={{ height: "clamp(250px, 40vw, 577px)" }}
               >
                 <Image
-                  src="/images/chapter-3-legacy.png"
-                  alt="Warisan Dwipara"
+                  src={preview[2]?.secondaryImage || "/images/jejak-bramasta-3-alt.jpeg"}
+                  alt="Dokumentasi Pasukan dan Pelatih di Arena LKBB Bramasta 3.0"
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="object-cover"

@@ -138,6 +138,7 @@ export interface Chapter {
   /** Full description shown on the dedicated /jejak page */
   fullDesc: string;
   image: string | null;
+  secondaryImage?: string | null;
   imageAlt: string;
   accentColor: AccentColor;
   tags: string[];
@@ -151,8 +152,8 @@ export const chapters: Chapter[] = [
     desc: "Titik awal mempertemukan pelajar melalui semangat baris-berbaris. Membangun ruang kompetisi positif yang berorientasi pada pembentukan karakter dan identitas.",
     fullDesc:
       "BRAMASTA pertama menjadi titik awal lahirnya sebuah ajang yang mempertemukan para pelajar melalui semangat baris-berbaris. Berangkat dari keinginan untuk menciptakan ruang kompetisi yang positif bagi generasi muda, Paskibra SMAN 2 Mengwi mulai membangun sebuah kegiatan yang tidak hanya berorientasi pada kemenangan, tetapi juga pada pembentukan karakter. Tantangan terbesar bukan sekadar menghadirkan perlombaan, melainkan bagaimana membangun identitas BRAMASTA itu sendiri, mulai dari menyusun konsep, mempersiapkan teknis perlombaan, hingga memastikan seluruh rangkaian kegiatan dapat berjalan dengan baik.",
-    image: "/images/bramasta-article-2.jpg",
-    imageAlt: "Dokumentasi Penyelenggaraan LKBB Bramasta 1.0",
+    image: "/images/jejak-bramasta-1.jpeg",
+    imageAlt: "Dokumentasi Penyerahan Piala Juara LKBB Bramasta 1.0",
     accentColor: "green",
     tags: ["TITIK AWAL", "KARAKTER"],
   },
@@ -163,8 +164,8 @@ export const chapters: Chapter[] = [
     desc: "Hadir berbekal evaluasi dan pengalaman pertama dengan semangat pembenahan serta pengembangan untuk menghadirkan penyelenggaraan yang lebih matang.",
     fullDesc:
       "Berbekal pengalaman dari penyelenggaraan pertama, BRAMASTA 2.0 hadir dengan semangat untuk melakukan pembenahan dan pengembangan. Evaluasi dari pelaksanaan sebelumnya menjadi modal penting untuk menghadirkan penyelenggaraan yang lebih matang, mempertemukan para pelajar dan insan paskibra dalam suasana kompetitif yang sehat, memperluas persaudaraan antarpelajar, serta memperkuat budaya disiplin dan sportivitas.",
-    image: "/images/bramasta-article-3.jpg",
-    imageAlt: "Dokumentasi Arena Perlombaan LKBB Bramasta 2.0",
+    image: "/images/jejak-bramasta-2.jpeg",
+    imageAlt: "Dokumentasi Arena Perlombaan Pasukan LKBB Bramasta 2.0",
     accentColor: "orange",
     tags: ["PEMBENAHAN", "PENGEMBANGAN"],
   },
@@ -175,8 +176,9 @@ export const chapters: Chapter[] = [
     desc: "Melewati tiga penyelenggaraan yang membuktikan bahwa prestasi lahir dari proses panjang. Menjadi panggung bertemunya disiplin, kekompakan, dan perjuangan.",
     fullDesc:
       "Kini, ketika perjalanan BRAMASTA telah melewati tiga penyelenggaraan, ajang ini membuktikan bahwa BRAMASTA bukan sekadar perlombaan baris-berbaris biasa. Ia adalah panggung tempat disiplin bertemu semangat, kekompakan bertemu perjuangan, dan generasi muda membuktikan bahwa prestasi lahir dari proses yang tidak pernah mudah. Pertanyaan yang muncul bukan hanya tentang bagaimana BRAMASTA dimulai, tetapi juga sejauh mana perjalanan dan daya juang tersebut akan terus dilanjutkan.",
-    image: "/images/bramasta-hero.jpg",
-    imageAlt: "Podium Juara LKBB Bramasta 3.0 bersama Panitia Dwipara Dwisma",
+    image: "/images/jejak-bramasta-3.jpeg",
+    secondaryImage: "/images/jejak-bramasta-3-alt.jpeg",
+    imageAlt: "Podium Juara & Penganugerahan Piala LKBB Bramasta 3.0",
     accentColor: "red",
     tags: ["TIGA EDISI", "DAYA JUANG"],
   },

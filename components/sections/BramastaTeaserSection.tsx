@@ -55,17 +55,22 @@ export default function BramastaTeaserSection() {
               </div>
             </div>
 
-            {/* Sisi Kanan: Foto Sepia Podium Bramasta (5 Kolom) */}
-            <div className="lg:col-span-5">
-              <div className="relative aspect-[4/3] border-2 border-[#141210] bg-[#C9C28A] overflow-hidden shadow-[2px_2px_0px_#141210]">
+            {/* Sisi Kanan: Poster Resmi Coming Soon LKBB Bramasta 4.0 (5 Kolom) */}
+            <div className="lg:col-span-5 flex justify-center">
+              <Link
+                href="/lkbb-bramasta-4"
+                className="group relative w-full max-w-[320px] sm:max-w-[340px] lg:max-w-full aspect-[766/1024] border-2 border-[#141210] bg-[#141210] overflow-hidden shadow-[4px_4px_0px_#141210] block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F5257]"
+                title="Lihat detail lengkap LKBB Bramasta 4.0"
+              >
                 <Image
-                  src="/images/bpc2026.jpg"
-                  alt="Dokumentasi LKBB Bramasta Dwipara"
+                  src="/images/coming-soon.jpg"
+                  alt="Poster Resmi Coming Soon LKBB Bramasta 4.0 Dwipara Dwisma"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="object-cover filter grayscale contrast-105 brightness-95 sepia-[0.35]"
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 340px, 420px"
+                  className="object-contain group-hover:scale-[1.02] transition-transform duration-300 ease-out"
+                  priority
                 />
-              </div>
+              </Link>
             </div>
           </div>
         </div>

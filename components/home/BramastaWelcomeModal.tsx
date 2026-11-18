@@ -78,8 +78,8 @@ export function BramastaWelcomeModal({
 
   const regStatus = getRegistrationStatus(event);
 
-  // Gunakan banner resmi dari EVORA API jika ada dan tidak error, atau fallback dokumentasi podium Bramasta
-  const visualBannerSrc = !imageError && bannerUrl ? bannerUrl : "/images/bramasta-hero.jpg";
+  // Gunakan banner resmi dari EVORA API jika ada dan tidak error, atau fallback poster coming soon Bramasta
+  const visualBannerSrc = !imageError && bannerUrl ? bannerUrl : "/images/coming-soon.jpg";
   const isRemoteUrl = Boolean(visualBannerSrc && visualBannerSrc.startsWith("http"));
 
   return (

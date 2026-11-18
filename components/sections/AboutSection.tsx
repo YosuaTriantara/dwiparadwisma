@@ -123,7 +123,7 @@ export default function AboutSection() {
                   style={{ aspectRatio: "548 / 1200" }}
                 >
                   <Image
-                    src="/images/about-large.png"
+                    src="/images/about-large.jpeg"
                     alt="Anggota Dwipara Dwisma dalam kegiatan"
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -141,7 +141,7 @@ export default function AboutSection() {
                     style={{ aspectRatio: "548 / 584" }}
                   >
                     <Image
-                      src="/images/about-small-1.png"
+                      src="/images/about-small-1.jpeg"
                       alt="Kegiatan Dwipara Dwisma"
                       fill
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw"
@@ -157,7 +157,7 @@ export default function AboutSection() {
                     style={{ aspectRatio: "548 / 584" }}
                   >
                     <Image
-                      src="/images/about-small-2.png"
+                      src="/images/about-small-2.jpeg"
                       alt="Latihan Paskibraka"
                       fill
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw"

@@ -13,7 +13,7 @@ export function EventDescription({ event }: EventDescriptionProps) {
       <figure className="mb-6 sm:mb-8">
         <div className="w-full border-2 border-bramasta-ink rounded-none bg-paper-dark relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[2.1/1] overflow-hidden shadow-xs">
           <Image
-            src="/images/bramasta-hero.jpg"
+            src="/images/bramasta-hero.jpeg"
             alt="Para Juara LKBB Bramasta berdiri di podium bersama panitia Dwipara Dwisma"
             fill
             priority
@@ -54,7 +54,7 @@ export function EventDescription({ event }: EventDescriptionProps) {
             <div className="md:col-span-5 flex flex-col gap-3">
               <div className="relative aspect-[4/3] border-2 border-bramasta-ink rounded-none overflow-hidden bg-paper-dark shadow-xs">
                 <Image
-                  src="/images/bramasta-article-1.jpg"
+                  src="/images/bramasta-article-1.jpeg"
                   alt="Dokumentasi Penyerahan Piala LKBB Bramasta"
                   fill
                   sizes="(max-width: 768px) 100vw, 260px"
@@ -94,7 +94,7 @@ export function EventDescription({ event }: EventDescriptionProps) {
           <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mb-4">
             <div className="relative aspect-[3/2] border-2 border-bramasta-ink rounded-none overflow-hidden bg-paper-dark">
               <Image
-                src="/images/bramasta-article-2.jpg"
+                src="/images/bramasta-article-2.jpeg"
                 alt="Dokumentasi Pasukan Paskibra Bramasta"
                 fill
                 sizes="(max-width: 640px) 50vw, 240px"
@@ -103,7 +103,7 @@ export function EventDescription({ event }: EventDescriptionProps) {
             </div>
             <div className="relative aspect-[3/2] border-2 border-bramasta-ink rounded-none overflow-hidden bg-paper-dark">
               <Image
-                src="/images/bramasta-article-3.jpg"
+                src="/images/bramasta-article-3.jpeg"
                 alt="Dokumentasi Arena Perlombaan Bramasta"
                 fill
                 sizes="(max-width: 640px) 50vw, 240px"

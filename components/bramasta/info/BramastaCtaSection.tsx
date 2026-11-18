@@ -52,14 +52,14 @@ export function BramastaCtaSection({ event, organizerInfo }: BramastaCtaSectionP
     <section id="pendaftaran" aria-labelledby="cta-title" className="scroll-mt-20">
       <div className="bg-paper-light text-bramasta-ink border-2 border-bramasta-ink rounded-md p-5 sm:p-8 md:p-10 text-left sm:text-center shadow-[3px_3px_0px_#141210]">
         <span className="font-bodoni font-bold text-xs sm:text-sm uppercase tracking-[0.18em] text-bramasta-accent block mb-1.5">
-          {regStatus.isOpen ? "PANGGUNG KEHORMATAN MENANTI ANDA" : "PENDAFTARAN SEGERA DIBUKA · COMING SOON"}
+          {regStatus.isOpen ? "PANGGUNG MENANTI ANDA" : "PENDAFTARAN SEGERA DIBUKA · COMING SOON"}
         </span>
 
         <h2
           id="cta-title"
           className="font-bodoni font-bold text-[26px] sm:text-3xl lg:text-4xl uppercase tracking-tight text-bramasta-ink leading-[1.12] mb-2.5 sm:mb-3"
         >
-          {regStatus.isOpen ? "Siap Jadi Sang Pemenang?" : "Nantikan Panggung Kehormatan Bramasta 4.0"}
+          {regStatus.isOpen ? "Siap Jadi Sang Pemenang?" : "Nantikan Panggung Bramasta 4.0"}
         </h2>
 
         <p className="font-bodoni text-base sm:text-[17px] text-bramasta-ink-soft max-w-lg sm:mx-auto mb-6 leading-[1.65] text-justify sm:text-center hyphens-auto lining-nums">
