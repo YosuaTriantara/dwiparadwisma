@@ -390,13 +390,6 @@ export function BramastaMerchandise({ organizerInfo }: BramastaMerchandiseProps 
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
-
-                {/* Petunjuk Swipe di Smartphone */}
-                <div className="absolute bottom-1.5 inset-x-0 text-center pointer-events-none">
-                  <span className="text-xs font-bodoni font-bold text-bramasta-ink bg-paper/95 border border-bramasta-ink/60 px-2 py-0.5 inline-block rounded-sm">
-                    Geser foto (swipe)
-                  </span>
-                </div>
               </div>
 
               {/* Slide Indicator Dots (Target Sentuh Nyaman) */}
