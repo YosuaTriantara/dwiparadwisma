@@ -93,7 +93,7 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
                 >
                   <div>
                     <div className="flex flex-wrap justify-between items-center gap-2 mb-3">
-                      <span className="font-bodoni font-bold text-xs uppercase tracking-wider px-2.5 py-1 bg-bramasta-ink text-[#F4F1DC] rounded-sm lining-nums">
+                      {/* <span className="font-bodoni font-bold text-xs uppercase tracking-wider px-2.5 py-1 bg-bramasta-ink text-[#F4F1DC] rounded-sm lining-nums">
                         Kategori {String(idx + 1).padStart(2, "0")}
                       </span>
                       <span
@@ -104,7 +104,7 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
                         }`}
                       >
                         {isFull ? "KUOTA PENUH" : `${remaining} SLOT TERSISA`}
-                      </span>
+                      </span> */}
                     </div>
 
                     <h3 className="font-bodoni font-bold text-xl sm:text-2xl uppercase tracking-[0.02em] text-bramasta-ink mb-2 leading-[1.2]">
