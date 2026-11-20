@@ -122,7 +122,7 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
                         </span>
                       </div>
 
-                      <div className="pt-2.5">
+                      {/* <div className="pt-2.5">
                         <div className="flex flex-wrap justify-between items-baseline gap-x-3 gap-y-0.5 mb-2">
                           <span className="text-bramasta-ink-soft">Kuota Terisi:</span>
                           <span className="font-bold text-bramasta-ink">
@@ -135,7 +135,7 @@ export function CategoryQuotaCards({ categories, event }: CategoryQuotaCardsProp
                             style={{ width: `${percentTaken}%` }}
                           />
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 
