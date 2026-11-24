@@ -851,7 +851,7 @@ export function RegistrationWizardModal({
                               (termasuk danton)
                             </span>
                           </div>
-                          <span
+                          {/* <span
                             className={`px-2.5 py-1 font-jakarta font-semibold text-xs rounded-full shrink-0 tabular-nums ${
                               isSelected
                                 ? "bg-bramasta-accent text-bramasta-accent-on"
@@ -859,7 +859,7 @@ export function RegistrationWizardModal({
                             }`}
                           >
                             {remaining} slot
-                          </span>
+                          </span> */}
                         </button>
                       );
                     })}
